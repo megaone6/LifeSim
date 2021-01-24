@@ -15,6 +15,7 @@ namespace LifeSim.View
         #region Fields
 
         private LifeSimModel model;
+        List<Panel> panelList;
 
         #endregion
 
@@ -23,6 +24,10 @@ namespace LifeSim.View
         public MainGameWindow()
         {
             InitializeComponent();
+
+            panelList = new List<Panel>();
+            panelList.Add(mainPanel);
+            mainPanel.BringToFront();
 
             model = new LifeSimModel();
             model.newGame();
@@ -65,6 +70,20 @@ namespace LifeSim.View
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
             appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+        }
+
+        private void testPanelButton_Click(object sender, EventArgs e)
+        {
+            testPanel.BringToFront();
+            testPanelButton.Enabled = false;
+            mainPanelButton.Enabled = true;
+        }
+
+        private void mainPanelButton_Click(object sender, EventArgs e)
+        {
+            mainPanel.BringToFront();
+            mainPanelButton.Enabled = false;
+            testPanelButton.Enabled = true;
         }
     }
 }
