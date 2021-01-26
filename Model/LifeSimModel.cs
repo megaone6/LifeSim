@@ -19,11 +19,17 @@ namespace LifeSim.Model
 
         public List<Person> Parents { get; private set; }
 
+        public List<Job> Jobs { get; private set; }
+
+        public Job Job { get; set; }
+
         #endregion
 
         #region Events
 
         public event EventHandler<LifeSimEventArgs> DeathEvent;
+
+        public event EventHandler<EventArgs> JobChangedEvent;
 
         #endregion
 
@@ -32,6 +38,7 @@ namespace LifeSim.Model
         public LifeSimModel()
         {
             rnd = new Random();
+            Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000), new Job("Járőr", 2040000), new Job("Fogorvos", 3780000) };
         }
 
         #endregion
@@ -65,6 +72,7 @@ namespace LifeSim.Model
                 name = femaleNames[rnd.Next(femaleNames.Length)];
 
             You = new Person(familyName, name, 0, gender, 100, parentIntAvg + randomIntelligence, parentAppAvg + randomAppearance);
+            Job = new Job("Munkanélküli", 0);
         }
         public void age()
         {
@@ -102,7 +110,12 @@ namespace LifeSim.Model
                 You.Health = 0;
                 OnDeathEvent();
             }
+            You.Money += Job.Salary;
+        }
 
+        public void jobRefresh()
+        {
+            OnJobChangedEvent();
         }
         #endregion
 
@@ -111,6 +124,11 @@ namespace LifeSim.Model
         private void OnDeathEvent()
         {
             DeathEvent?.Invoke(this, new LifeSimEventArgs(You.Age));
+        }
+
+        private void OnJobChangedEvent()
+        {
+            JobChangedEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

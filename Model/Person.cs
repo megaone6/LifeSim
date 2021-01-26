@@ -18,6 +18,8 @@ namespace LifeSim.Model
 
         public int Appearance { get; set; }
 
+        public int Money { get; set; }
+
         public bool IsDead { get; set; }
 
         public Person(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance)
@@ -29,6 +31,7 @@ namespace LifeSim.Model
             this.Health = Health;
             this.Intelligence = Intelligence;
             this.Appearance = Appearance;
+            this.Money = 0;
             IsDead = false;
         }
     }

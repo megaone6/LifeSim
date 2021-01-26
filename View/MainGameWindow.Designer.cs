@@ -36,12 +36,15 @@
             this.intelligenceLabel = new System.Windows.Forms.Label();
             this.appearanceLabel = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.testPanel = new System.Windows.Forms.Panel();
-            this.testPanelButton = new System.Windows.Forms.Button();
+            this.moneyLabel = new System.Windows.Forms.Label();
+            this.jobPanel = new System.Windows.Forms.Panel();
+            this.tryJobButton = new System.Windows.Forms.Button();
+            this.jobComboBox = new System.Windows.Forms.ComboBox();
+            this.jobLabel = new System.Windows.Forms.Label();
+            this.jobPanelButton = new System.Windows.Forms.Button();
             this.mainPanelButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
-            this.testPanel.SuspendLayout();
+            this.jobPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -110,6 +113,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.moneyLabel);
             this.mainPanel.Controls.Add(this.nameLabel);
             this.mainPanel.Controls.Add(this.appearanceLabel);
             this.mainPanel.Controls.Add(this.genderLabel);
@@ -121,23 +125,61 @@
             this.mainPanel.Size = new System.Drawing.Size(776, 346);
             this.mainPanel.TabIndex = 7;
             // 
-            // testPanel
+            // moneyLabel
             // 
-            this.testPanel.Controls.Add(this.label1);
-            this.testPanel.Location = new System.Drawing.Point(12, 12);
-            this.testPanel.Name = "testPanel";
-            this.testPanel.Size = new System.Drawing.Size(776, 346);
-            this.testPanel.TabIndex = 8;
+            this.moneyLabel.AutoSize = true;
+            this.moneyLabel.Location = new System.Drawing.Point(9, 97);
+            this.moneyLabel.Name = "moneyLabel";
+            this.moneyLabel.Size = new System.Drawing.Size(126, 15);
+            this.moneyLabel.TabIndex = 9;
+            this.moneyLabel.Text = "Jelenleg 0 forintod van";
             // 
-            // testPanelButton
+            // jobPanel
             // 
-            this.testPanelButton.Location = new System.Drawing.Point(20, 375);
-            this.testPanelButton.Name = "testPanelButton";
-            this.testPanelButton.Size = new System.Drawing.Size(75, 23);
-            this.testPanelButton.TabIndex = 0;
-            this.testPanelButton.Text = "Test Panel";
-            this.testPanelButton.UseVisualStyleBackColor = true;
-            this.testPanelButton.Click += new System.EventHandler(this.testPanelButton_Click);
+            this.jobPanel.Controls.Add(this.tryJobButton);
+            this.jobPanel.Controls.Add(this.jobComboBox);
+            this.jobPanel.Controls.Add(this.jobLabel);
+            this.jobPanel.Location = new System.Drawing.Point(12, 12);
+            this.jobPanel.Name = "jobPanel";
+            this.jobPanel.Size = new System.Drawing.Size(776, 346);
+            this.jobPanel.TabIndex = 8;
+            // 
+            // tryJobButton
+            // 
+            this.tryJobButton.Location = new System.Drawing.Point(344, 190);
+            this.tryJobButton.Name = "tryJobButton";
+            this.tryJobButton.Size = new System.Drawing.Size(75, 23);
+            this.tryJobButton.TabIndex = 8;
+            this.tryJobButton.Text = "Jelentkezés";
+            this.tryJobButton.UseVisualStyleBackColor = true;
+            this.tryJobButton.Click += new System.EventHandler(this.tryJobButton_Click);
+            // 
+            // jobComboBox
+            // 
+            this.jobComboBox.FormattingEnabled = true;
+            this.jobComboBox.Location = new System.Drawing.Point(323, 159);
+            this.jobComboBox.Name = "jobComboBox";
+            this.jobComboBox.Size = new System.Drawing.Size(121, 23);
+            this.jobComboBox.TabIndex = 1;
+            // 
+            // jobLabel
+            // 
+            this.jobLabel.AutoSize = true;
+            this.jobLabel.Location = new System.Drawing.Point(8, 16);
+            this.jobLabel.Name = "jobLabel";
+            this.jobLabel.Size = new System.Drawing.Size(0, 15);
+            this.jobLabel.TabIndex = 0;
+            // 
+            // jobPanelButton
+            // 
+            this.jobPanelButton.Enabled = false;
+            this.jobPanelButton.Location = new System.Drawing.Point(20, 375);
+            this.jobPanelButton.Name = "jobPanelButton";
+            this.jobPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.jobPanelButton.TabIndex = 0;
+            this.jobPanelButton.Text = "Munka";
+            this.jobPanelButton.UseVisualStyleBackColor = true;
+            this.jobPanelButton.Click += new System.EventHandler(this.jobPanelButton_Click);
             // 
             // mainPanelButton
             // 
@@ -150,32 +192,23 @@
             this.mainPanelButton.UseVisualStyleBackColor = true;
             this.mainPanelButton.Click += new System.EventHandler(this.mainPanelButton_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "panel teszt";
-            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanelButton);
-            this.Controls.Add(this.testPanelButton);
-            this.Controls.Add(this.testPanel);
+            this.Controls.Add(this.jobPanelButton);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.ageButton);
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGameWindow_FormClosing);
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();
-            this.testPanel.ResumeLayout(false);
-            this.testPanel.PerformLayout();
+            this.jobPanel.ResumeLayout(false);
+            this.jobPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -190,9 +223,12 @@
         private System.Windows.Forms.Label intelligenceLabel;
         private System.Windows.Forms.Label appearanceLabel;
         private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.Panel testPanel;
-        private System.Windows.Forms.Button testPanelButton;
+        private System.Windows.Forms.Panel jobPanel;
+        private System.Windows.Forms.Button jobPanelButton;
         private System.Windows.Forms.Button mainPanelButton;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label jobLabel;
+        private System.Windows.Forms.Label moneyLabel;
+        private System.Windows.Forms.ComboBox jobComboBox;
+        private System.Windows.Forms.Button tryJobButton;
     }
 }
