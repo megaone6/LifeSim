@@ -10,21 +10,18 @@ namespace LifeSim.View
         #region Fields
 
         private LifeSimModel model;
-        List<Panel> panelList;
 
         #endregion
 
         #region Constructor
 
-        public MainGameWindow()
+        public MainGameWindow(LifeSimModel model)
         {
             InitializeComponent();
 
-            panelList = new List<Panel>();
-            panelList.Add(mainPanel);
             mainPanel.BringToFront();
 
-            model = new LifeSimModel();
+            this.model = model;
             model.newGame();
 
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);

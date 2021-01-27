@@ -5,11 +5,13 @@ using System.IO;
 namespace LifeSim.Model
 {
     public enum Gender { Male, Female }
-    class LifeSimModel
+    public class LifeSimModel
     {
         #region Fields
 
         private Random rnd;
+        private String yourName;
+        private bool maleOrFemale;
 
         #endregion
 
@@ -39,6 +41,15 @@ namespace LifeSim.Model
         {
             rnd = new Random();
             Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000), new Job("Járőr", 2040000), new Job("Fogorvos", 3780000) };
+            yourName = "";
+        }
+
+        public LifeSimModel(String yourName, bool maleOrFemale)
+        {
+            rnd = new Random();
+            Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000), new Job("Járőr", 2040000), new Job("Fogorvos", 3780000) };
+            this.yourName = yourName;
+            this.maleOrFemale = maleOrFemale;
         }
 
         #endregion
@@ -47,12 +58,30 @@ namespace LifeSim.Model
 
         public void newGame()
         {
-            String[] familyNames = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "/FamilyNames.name");
             String[] maleNames = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "/NamesMale.name");
             String[] femaleNames = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "/NamesFemale.name");
-            String familyName = familyNames[rnd.Next(familyNames.Length)];
+            String[] familyNames = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "/FamilyNames.name");
+            String familyName;
             String name;
-            Gender gender = (Gender)rnd.Next(2);
+            Gender gender;
+            if (yourName == "")
+            {
+                familyName = familyNames[rnd.Next(familyNames.Length)];
+                gender = (Gender)rnd.Next(2);
+                if (gender == 0)
+                    name = maleNames[rnd.Next(maleNames.Length)];
+                else
+                    name = femaleNames[rnd.Next(femaleNames.Length)];
+            }
+            else
+            {
+                familyName = yourName.Split(' ')[0];
+                name = yourName.Split(' ')[1];
+                if (maleOrFemale)
+                    gender = Gender.Male;
+                else
+                    gender = Gender.Female;
+            }
             Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Length)], rnd.Next(18,55), Gender.Male, rnd.Next(1,101), rnd.Next(101), rnd.Next(101)),
                                             new Person(familyNames[rnd.Next(familyNames.Length)], femaleNames[rnd.Next(femaleNames.Length)], rnd.Next(18,55), Gender.Female, rnd.Next(1,101), rnd.Next(101), rnd.Next(101))};
             int randomAppearance;
@@ -66,10 +95,7 @@ namespace LifeSim.Model
                 randomIntelligence = rnd.Next(-10, 11);
             } while (parentIntAvg + randomIntelligence < 0 && parentIntAvg + randomIntelligence > 100 && parentAppAvg + randomAppearance < 0 && parentAppAvg + randomAppearance > 100);
 
-            if (gender == 0)
-                name = maleNames[rnd.Next(maleNames.Length)];
-            else
-                name = femaleNames[rnd.Next(femaleNames.Length)];
+
 
             You = new Person(familyName, name, 0, gender, 100, parentIntAvg + randomIntelligence, parentAppAvg + randomAppearance);
             Job = new Job("Munkanélküli", 0);
