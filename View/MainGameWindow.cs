@@ -26,6 +26,7 @@ namespace LifeSim.View
 
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);
             model.JobChangedEvent += new EventHandler<EventArgs>(Model_JobChangedEvent);
+            model.HomeChangedEvent += new EventHandler<EventArgs>(Model_HomeChangedEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -38,6 +39,11 @@ namespace LifeSim.View
             foreach (Job job in model.Jobs)
             {
                 jobComboBox.Items.Add(job.Name);
+            }
+
+            foreach (Home home in model.Homes)
+            {
+                homeComboBox.Items.Add(home.Type);
             }
 
             MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
@@ -84,6 +90,15 @@ namespace LifeSim.View
                 jobLabel.Text = job;
         }
 
+        private void Model_HomeChangedEvent(object sender, EventArgs e)
+        {
+            String home = model.Home.Type;
+            if (jobLabel.InvokeRequired)
+                jobLabel.Invoke(new MethodInvoker(delegate { homeLabel.Text = home; }));
+            else
+                homeLabel.Text = home;
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -98,6 +113,8 @@ namespace LifeSim.View
             {
                 jobPanelButton.Enabled = true;
                 jobLabel.Text = model.Job.Name;
+                homePanelButton.Enabled = true;
+                homeLabel.Text = model.Home.Type;
             }
             ageLabel.Text = model.You.Age.ToString() + " éves vagy";
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
@@ -110,22 +127,47 @@ namespace LifeSim.View
         {
             jobPanel.BringToFront();
             jobPanelButton.Enabled = false;
+            ageButton.Enabled = false;
             mainPanelButton.Enabled = true;
+            homePanelButton.Enabled = true;
         }
 
         private void mainPanelButton_Click(object sender, EventArgs e)
         {
             mainPanel.BringToFront();
             mainPanelButton.Enabled = false;
+            ageButton.Enabled = true;
             jobPanelButton.Enabled = true;
+            homePanelButton.Enabled = true;
         }
 
         private void tryJobButton_Click(object sender, EventArgs e)
         {
-            model.Job = model.Jobs[jobComboBox.SelectedIndex];
-            model.jobRefresh();
+            model.jobRefresh(model.Jobs[jobComboBox.SelectedIndex]);
             jobComboBox.Visible = false;
             tryJobButton.Visible = false;
+        }
+
+        private void homePanelButton_Click(object sender, EventArgs e)
+        {
+            homePanel.BringToFront();
+            homePanelButton.Enabled = false;
+            ageButton.Enabled = false;
+            mainPanelButton.Enabled = true;
+            jobPanelButton.Enabled = true;
+        }
+
+        private void buyHomeButton_Click(object sender, EventArgs e)
+        {
+            Home home = model.Homes[homeComboBox.SelectedIndex];
+            if (model.You.Money < home.Price)
+            {
+                MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még egy kicsit rá!");
+                return;
+            }
+            model.homeRefresh(home);
+            homeComboBox.Visible = false;
+            buyHomeButton.Visible = false;
         }
     }
 }

@@ -43,8 +43,14 @@
             this.jobLabel = new System.Windows.Forms.Label();
             this.jobPanelButton = new System.Windows.Forms.Button();
             this.mainPanelButton = new System.Windows.Forms.Button();
+            this.homePanelButton = new System.Windows.Forms.Button();
+            this.homePanel = new System.Windows.Forms.Panel();
+            this.homeComboBox = new System.Windows.Forms.ComboBox();
+            this.buyHomeButton = new System.Windows.Forms.Button();
+            this.homeLabel = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
+            this.homePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -188,15 +194,64 @@
             this.mainPanelButton.Name = "mainPanelButton";
             this.mainPanelButton.Size = new System.Drawing.Size(75, 23);
             this.mainPanelButton.TabIndex = 9;
-            this.mainPanelButton.Text = "Fő panel";
+            this.mainPanelButton.Text = "Fő menü";
             this.mainPanelButton.UseVisualStyleBackColor = true;
             this.mainPanelButton.Click += new System.EventHandler(this.mainPanelButton_Click);
+            // 
+            // homePanelButton
+            // 
+            this.homePanelButton.Enabled = false;
+            this.homePanelButton.Location = new System.Drawing.Point(213, 375);
+            this.homePanelButton.Name = "homePanelButton";
+            this.homePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.homePanelButton.TabIndex = 10;
+            this.homePanelButton.Text = "Lakás";
+            this.homePanelButton.UseVisualStyleBackColor = true;
+            this.homePanelButton.Click += new System.EventHandler(this.homePanelButton_Click);
+            // 
+            // homePanel
+            // 
+            this.homePanel.Controls.Add(this.homeLabel);
+            this.homePanel.Controls.Add(this.buyHomeButton);
+            this.homePanel.Controls.Add(this.homeComboBox);
+            this.homePanel.Location = new System.Drawing.Point(12, 12);
+            this.homePanel.Name = "homePanel";
+            this.homePanel.Size = new System.Drawing.Size(776, 346);
+            this.homePanel.TabIndex = 11;
+            // 
+            // homeComboBox
+            // 
+            this.homeComboBox.FormattingEnabled = true;
+            this.homeComboBox.Location = new System.Drawing.Point(323, 158);
+            this.homeComboBox.Name = "homeComboBox";
+            this.homeComboBox.Size = new System.Drawing.Size(121, 23);
+            this.homeComboBox.TabIndex = 0;
+            // 
+            // buyHomeButton
+            // 
+            this.buyHomeButton.Location = new System.Drawing.Point(344, 190);
+            this.buyHomeButton.Name = "buyHomeButton";
+            this.buyHomeButton.Size = new System.Drawing.Size(75, 23);
+            this.buyHomeButton.TabIndex = 1;
+            this.buyHomeButton.Text = "Vásárlás";
+            this.buyHomeButton.UseVisualStyleBackColor = true;
+            this.buyHomeButton.Click += new System.EventHandler(this.buyHomeButton_Click);
+            // 
+            // homeLabel
+            // 
+            this.homeLabel.AutoSize = true;
+            this.homeLabel.Location = new System.Drawing.Point(15, 16);
+            this.homeLabel.Name = "homeLabel";
+            this.homeLabel.Size = new System.Drawing.Size(0, 15);
+            this.homeLabel.TabIndex = 2;
             // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.homePanel);
+            this.Controls.Add(this.homePanelButton);
             this.Controls.Add(this.mainPanelButton);
             this.Controls.Add(this.jobPanelButton);
             this.Controls.Add(this.mainPanel);
@@ -209,6 +264,8 @@
             this.mainPanel.PerformLayout();
             this.jobPanel.ResumeLayout(false);
             this.jobPanel.PerformLayout();
+            this.homePanel.ResumeLayout(false);
+            this.homePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -230,5 +287,10 @@
         private System.Windows.Forms.Label moneyLabel;
         private System.Windows.Forms.ComboBox jobComboBox;
         private System.Windows.Forms.Button tryJobButton;
+        private System.Windows.Forms.Button homePanelButton;
+        private System.Windows.Forms.Panel homePanel;
+        private System.Windows.Forms.ComboBox homeComboBox;
+        private System.Windows.Forms.Label homeLabel;
+        private System.Windows.Forms.Button buyHomeButton;
     }
 }

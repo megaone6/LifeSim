@@ -26,7 +26,11 @@ namespace LifeSim.Model
 
         public List<Job> Jobs { get; private set; }
 
+        public List<Home> Homes { get; private set; }
+
         public Job Job { get; set; }
+
+        public Home Home { get; set; }
 
         #endregion
 
@@ -36,6 +40,8 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> JobChangedEvent;
 
+        public event EventHandler<EventArgs> HomeChangedEvent;
+
         #endregion
 
         #region Constructor
@@ -44,6 +50,7 @@ namespace LifeSim.Model
         {
             rnd = new Random();
             Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000), new Job("Járőr", 2040000), new Job("Fogorvos", 3780000) };
+            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             yourName = "";
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
             maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
@@ -103,6 +110,7 @@ namespace LifeSim.Model
 
             You = new Person(familyName, name, 0, gender, 100, parentIntAvg + randomIntelligence, parentAppAvg + randomAppearance);
             Job = new Job("Munkanélküli", 0);
+            Home = new Home("Szülői lakás", 0, 0);
         }
         public void age()
         {
@@ -140,12 +148,19 @@ namespace LifeSim.Model
                 You.Health = 0;
                 OnDeathEvent();
             }
-            You.Money += Job.Salary;
+            You.Money += Job.Salary - Home.YearlyExpenses;
         }
 
-        public void jobRefresh()
+        public void jobRefresh(Job job)
         {
+            Job = job;
             OnJobChangedEvent();
+        }
+
+        public void homeRefresh(Home home)
+        {
+            Home = home;
+            OnHomeChangedEvent();
         }
         #endregion
 
@@ -159,6 +174,11 @@ namespace LifeSim.Model
         private void OnJobChangedEvent()
         {
             JobChangedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnHomeChangedEvent()
+        {
+            HomeChangedEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion
