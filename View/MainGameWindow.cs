@@ -27,6 +27,8 @@ namespace LifeSim.View
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);
             model.JobChangedEvent += new EventHandler<EventArgs>(Model_JobChangedEvent);
             model.HomeChangedEvent += new EventHandler<EventArgs>(Model_HomeChangedEvent);
+            model.HealthRefreshEvent += new EventHandler<EventArgs>(Model_HealthRefreshEvent);
+            model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -99,6 +101,24 @@ namespace LifeSim.View
                 homeLabel.Text = home;
         }
 
+        private void Model_HealthRefreshEvent(object sender, EventArgs e)
+        {
+            String health = "Egészség: " + model.You.Health.ToString();
+            if (healthLabel.InvokeRequired)
+                healthLabel.Invoke(new MethodInvoker(delegate { healthLabel.Text = health; }));
+            else
+                healthLabel.Text = health;
+        }
+
+        private void Model_IntelligenceRefreshEvent(object sender, EventArgs e)
+        {
+            String intelligence = "Intelligencia: " + model.You.Intelligence.ToString();
+            if (healthLabel.InvokeRequired)
+                intelligenceLabel.Invoke(new MethodInvoker(delegate { intelligenceLabel.Text = intelligence; }));
+            else
+                intelligenceLabel.Text = intelligence;
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -109,7 +129,15 @@ namespace LifeSim.View
         private void ageButton_Click(object sender, EventArgs e)
         {
             model.age();
-            if(model.You.Age == 18)
+            if(model.You.Age == 12)
+            {
+                leisurePanelButton.Enabled = true;
+            }
+            if (model.You.Age > 12)
+            {
+                workOutButton.Enabled = true;
+            }
+            if (model.You.Age == 18)
             {
                 jobPanelButton.Enabled = true;
                 jobLabel.Text = model.Job.Name;
@@ -130,6 +158,7 @@ namespace LifeSim.View
             ageButton.Enabled = false;
             mainPanelButton.Enabled = true;
             homePanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
         }
 
         private void mainPanelButton_Click(object sender, EventArgs e)
@@ -137,8 +166,12 @@ namespace LifeSim.View
             mainPanel.BringToFront();
             mainPanelButton.Enabled = false;
             ageButton.Enabled = true;
-            jobPanelButton.Enabled = true;
-            homePanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
+            if(model.You.Age >= 18)
+            {
+                jobPanelButton.Enabled = true;
+                homePanelButton.Enabled = true;
+            }
         }
 
         private void tryJobButton_Click(object sender, EventArgs e)
@@ -155,12 +188,13 @@ namespace LifeSim.View
             ageButton.Enabled = false;
             mainPanelButton.Enabled = true;
             jobPanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
         }
 
         private void buyHomeButton_Click(object sender, EventArgs e)
         {
             Home home = model.Homes[homeComboBox.SelectedIndex];
-            if (model.You.Money < home.Price)
+            if(model.You.Money < home.Price)
             {
                 MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még egy kicsit rá!");
                 return;
@@ -168,6 +202,35 @@ namespace LifeSim.View
             model.homeRefresh(home);
             homeComboBox.Visible = false;
             buyHomeButton.Visible = false;
+        }
+
+        private void leisurePanelButton_Click(object sender, EventArgs e)
+        {
+            leisurePanel.BringToFront();
+            mainPanelButton.Enabled = true;
+            ageButton.Enabled = false;
+            leisurePanelButton.Enabled = false;
+            if (model.You.Age >= 18)
+            {
+                jobPanelButton.Enabled = true;
+                homePanelButton.Enabled = true;
+            }
+        }
+
+        private void workOutButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Egészség edzés előtt: " + model.You.Health);
+            model.workOut();
+            MessageBox.Show("Egészség edzés után: " + model.You.Health);
+            workOutButton.Enabled = false;
+        }
+
+        private void readButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Intelligencia olvasás előtt: " + model.You.Intelligence);
+            model.read();
+            MessageBox.Show("Intelligencia olvasás után: " + model.You.Intelligence);
+            readButton.Enabled = false;
         }
     }
 }

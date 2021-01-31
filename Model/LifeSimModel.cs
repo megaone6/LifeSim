@@ -42,6 +42,10 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> HomeChangedEvent;
 
+        public event EventHandler<EventArgs> HealthRefreshEvent;
+
+        public event EventHandler<EventArgs> IntelligenceRefreshEvent;
+
         #endregion
 
         #region Constructor
@@ -151,6 +155,30 @@ namespace LifeSim.Model
             You.Money += Job.Salary - Home.YearlyExpenses;
         }
 
+        public void workOut()
+        {
+            int randomGain = rnd.Next(1, 6);
+            if (You.Health + randomGain <= 100)
+                You.Health += randomGain;
+            else
+            {
+                You.Health = 100;
+            }
+            OnHealthRefreshEvent();
+        }
+
+        public void read()
+        {
+            int randomGain = rnd.Next(1, 6);
+            if (You.Intelligence + randomGain <= 100)
+                You.Intelligence += randomGain;
+            else
+            {
+                You.Intelligence = 100;
+            }
+            OnIntelligenceRefreshEvent();
+        }
+
         public void jobRefresh(Job job)
         {
             Job = job;
@@ -179,6 +207,16 @@ namespace LifeSim.Model
         private void OnHomeChangedEvent()
         {
             HomeChangedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnHealthRefreshEvent()
+        {
+            HealthRefreshEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnIntelligenceRefreshEvent()
+        {
+            IntelligenceRefreshEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

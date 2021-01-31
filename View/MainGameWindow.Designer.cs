@@ -45,12 +45,17 @@
             this.mainPanelButton = new System.Windows.Forms.Button();
             this.homePanelButton = new System.Windows.Forms.Button();
             this.homePanel = new System.Windows.Forms.Panel();
-            this.homeComboBox = new System.Windows.Forms.ComboBox();
-            this.buyHomeButton = new System.Windows.Forms.Button();
             this.homeLabel = new System.Windows.Forms.Label();
+            this.buyHomeButton = new System.Windows.Forms.Button();
+            this.homeComboBox = new System.Windows.Forms.ComboBox();
+            this.leisurePanelButton = new System.Windows.Forms.Button();
+            this.leisurePanel = new System.Windows.Forms.Panel();
+            this.workOutButton = new System.Windows.Forms.Button();
+            this.readButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
+            this.leisurePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -219,13 +224,13 @@
             this.homePanel.Size = new System.Drawing.Size(776, 346);
             this.homePanel.TabIndex = 11;
             // 
-            // homeComboBox
+            // homeLabel
             // 
-            this.homeComboBox.FormattingEnabled = true;
-            this.homeComboBox.Location = new System.Drawing.Point(323, 158);
-            this.homeComboBox.Name = "homeComboBox";
-            this.homeComboBox.Size = new System.Drawing.Size(121, 23);
-            this.homeComboBox.TabIndex = 0;
+            this.homeLabel.AutoSize = true;
+            this.homeLabel.Location = new System.Drawing.Point(15, 16);
+            this.homeLabel.Name = "homeLabel";
+            this.homeLabel.Size = new System.Drawing.Size(0, 15);
+            this.homeLabel.TabIndex = 2;
             // 
             // buyHomeButton
             // 
@@ -237,19 +242,61 @@
             this.buyHomeButton.UseVisualStyleBackColor = true;
             this.buyHomeButton.Click += new System.EventHandler(this.buyHomeButton_Click);
             // 
-            // homeLabel
+            // homeComboBox
             // 
-            this.homeLabel.AutoSize = true;
-            this.homeLabel.Location = new System.Drawing.Point(15, 16);
-            this.homeLabel.Name = "homeLabel";
-            this.homeLabel.Size = new System.Drawing.Size(0, 15);
-            this.homeLabel.TabIndex = 2;
+            this.homeComboBox.FormattingEnabled = true;
+            this.homeComboBox.Location = new System.Drawing.Point(323, 158);
+            this.homeComboBox.Name = "homeComboBox";
+            this.homeComboBox.Size = new System.Drawing.Size(121, 23);
+            this.homeComboBox.TabIndex = 0;
+            // 
+            // leisurePanelButton
+            // 
+            this.leisurePanelButton.Enabled = false;
+            this.leisurePanelButton.Location = new System.Drawing.Point(310, 375);
+            this.leisurePanelButton.Name = "leisurePanelButton";
+            this.leisurePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.leisurePanelButton.TabIndex = 12;
+            this.leisurePanelButton.Text = "Szabadidő";
+            this.leisurePanelButton.UseVisualStyleBackColor = true;
+            this.leisurePanelButton.Click += new System.EventHandler(this.leisurePanelButton_Click);
+            // 
+            // leisurePanel
+            // 
+            this.leisurePanel.Controls.Add(this.readButton);
+            this.leisurePanel.Controls.Add(this.workOutButton);
+            this.leisurePanel.Location = new System.Drawing.Point(12, 12);
+            this.leisurePanel.Name = "leisurePanel";
+            this.leisurePanel.Size = new System.Drawing.Size(776, 346);
+            this.leisurePanel.TabIndex = 13;
+            // 
+            // workOutButton
+            // 
+            this.workOutButton.Location = new System.Drawing.Point(14, 18);
+            this.workOutButton.Name = "workOutButton";
+            this.workOutButton.Size = new System.Drawing.Size(75, 23);
+            this.workOutButton.TabIndex = 14;
+            this.workOutButton.Text = "Edzés";
+            this.workOutButton.UseVisualStyleBackColor = true;
+            this.workOutButton.Click += new System.EventHandler(this.workOutButton_Click);
+            // 
+            // readButton
+            // 
+            this.readButton.Location = new System.Drawing.Point(14, 63);
+            this.readButton.Name = "readButton";
+            this.readButton.Size = new System.Drawing.Size(75, 23);
+            this.readButton.TabIndex = 15;
+            this.readButton.Text = "Olvasás";
+            this.readButton.UseVisualStyleBackColor = true;
+            this.readButton.Click += new System.EventHandler(this.readButton_Click);
             // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.leisurePanel);
+            this.Controls.Add(this.leisurePanelButton);
             this.Controls.Add(this.homePanel);
             this.Controls.Add(this.homePanelButton);
             this.Controls.Add(this.mainPanelButton);
@@ -266,6 +313,7 @@
             this.jobPanel.PerformLayout();
             this.homePanel.ResumeLayout(false);
             this.homePanel.PerformLayout();
+            this.leisurePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -292,5 +340,9 @@
         private System.Windows.Forms.ComboBox homeComboBox;
         private System.Windows.Forms.Label homeLabel;
         private System.Windows.Forms.Button buyHomeButton;
+        private System.Windows.Forms.Button leisurePanelButton;
+        private System.Windows.Forms.Panel leisurePanel;
+        private System.Windows.Forms.Button workOutButton;
+        private System.Windows.Forms.Button readButton;
     }
 }
