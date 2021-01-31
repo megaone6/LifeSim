@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainGameWindow));
             this.nameLabel = new System.Windows.Forms.Label();
             this.genderLabel = new System.Windows.Forms.Label();
             this.ageLabel = new System.Windows.Forms.Label();
@@ -50,8 +51,8 @@
             this.homeComboBox = new System.Windows.Forms.ComboBox();
             this.leisurePanelButton = new System.Windows.Forms.Button();
             this.leisurePanel = new System.Windows.Forms.Panel();
-            this.workOutButton = new System.Windows.Forms.Button();
             this.readButton = new System.Windows.Forms.Button();
+            this.workOutButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -270,25 +271,25 @@
             this.leisurePanel.Size = new System.Drawing.Size(776, 346);
             this.leisurePanel.TabIndex = 13;
             // 
-            // workOutButton
-            // 
-            this.workOutButton.Location = new System.Drawing.Point(14, 18);
-            this.workOutButton.Name = "workOutButton";
-            this.workOutButton.Size = new System.Drawing.Size(75, 23);
-            this.workOutButton.TabIndex = 14;
-            this.workOutButton.Text = "Edzés";
-            this.workOutButton.UseVisualStyleBackColor = true;
-            this.workOutButton.Click += new System.EventHandler(this.workOutButton_Click);
-            // 
             // readButton
             // 
-            this.readButton.Location = new System.Drawing.Point(14, 63);
+            this.readButton.Image = ((System.Drawing.Image)(resources.GetObject("readButton.Image")));
+            this.readButton.Location = new System.Drawing.Point(14, 115);
             this.readButton.Name = "readButton";
-            this.readButton.Size = new System.Drawing.Size(75, 23);
+            this.readButton.Size = new System.Drawing.Size(163, 85);
             this.readButton.TabIndex = 15;
-            this.readButton.Text = "Olvasás";
             this.readButton.UseVisualStyleBackColor = true;
             this.readButton.Click += new System.EventHandler(this.readButton_Click);
+            // 
+            // workOutButton
+            // 
+            this.workOutButton.Image = ((System.Drawing.Image)(resources.GetObject("workOutButton.Image")));
+            this.workOutButton.Location = new System.Drawing.Point(14, 16);
+            this.workOutButton.Name = "workOutButton";
+            this.workOutButton.Size = new System.Drawing.Size(163, 85);
+            this.workOutButton.TabIndex = 14;
+            this.workOutButton.UseVisualStyleBackColor = true;
+            this.workOutButton.Click += new System.EventHandler(this.workOutButton_Click);
             // 
             // MainGameWindow
             // 
