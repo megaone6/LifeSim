@@ -53,10 +53,16 @@
             this.leisurePanel = new System.Windows.Forms.Panel();
             this.readButton = new System.Windows.Forms.Button();
             this.workOutButton = new System.Windows.Forms.Button();
+            this.universityPanel = new System.Windows.Forms.Panel();
+            this.universityComboBox = new System.Windows.Forms.ComboBox();
+            this.universityLabel = new System.Windows.Forms.Label();
+            this.universityPanelButton = new System.Windows.Forms.Button();
+            this.applyToUniButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
             this.leisurePanel.SuspendLayout();
+            this.universityPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -291,11 +297,61 @@
             this.workOutButton.UseVisualStyleBackColor = true;
             this.workOutButton.Click += new System.EventHandler(this.workOutButton_Click);
             // 
+            // universityPanel
+            // 
+            this.universityPanel.Controls.Add(this.applyToUniButton);
+            this.universityPanel.Controls.Add(this.universityComboBox);
+            this.universityPanel.Controls.Add(this.universityLabel);
+            this.universityPanel.Location = new System.Drawing.Point(12, 12);
+            this.universityPanel.Name = "universityPanel";
+            this.universityPanel.Size = new System.Drawing.Size(776, 346);
+            this.universityPanel.TabIndex = 16;
+            // 
+            // universityComboBox
+            // 
+            this.universityComboBox.FormattingEnabled = true;
+            this.universityComboBox.Location = new System.Drawing.Point(323, 158);
+            this.universityComboBox.Name = "universityComboBox";
+            this.universityComboBox.Size = new System.Drawing.Size(121, 23);
+            this.universityComboBox.TabIndex = 1;
+            // 
+            // universityLabel
+            // 
+            this.universityLabel.AutoSize = true;
+            this.universityLabel.Location = new System.Drawing.Point(14, 16);
+            this.universityLabel.Name = "universityLabel";
+            this.universityLabel.Size = new System.Drawing.Size(240, 15);
+            this.universityLabel.TabIndex = 0;
+            this.universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
+            // 
+            // universityPanelButton
+            // 
+            this.universityPanelButton.Enabled = false;
+            this.universityPanelButton.Location = new System.Drawing.Point(403, 374);
+            this.universityPanelButton.Name = "universityPanelButton";
+            this.universityPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.universityPanelButton.TabIndex = 14;
+            this.universityPanelButton.Text = "Egyetem";
+            this.universityPanelButton.UseVisualStyleBackColor = true;
+            this.universityPanelButton.Click += new System.EventHandler(this.universityPanelButton_Click);
+            // 
+            // applyToUniButton
+            // 
+            this.applyToUniButton.Location = new System.Drawing.Point(344, 189);
+            this.applyToUniButton.Name = "applyToUniButton";
+            this.applyToUniButton.Size = new System.Drawing.Size(75, 23);
+            this.applyToUniButton.TabIndex = 2;
+            this.applyToUniButton.Text = "Jelentkezés";
+            this.applyToUniButton.UseVisualStyleBackColor = true;
+            this.applyToUniButton.Click += new System.EventHandler(this.applyToUniButton_Click);
+            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.universityPanel);
+            this.Controls.Add(this.universityPanelButton);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.leisurePanelButton);
             this.Controls.Add(this.homePanel);
@@ -315,6 +371,8 @@
             this.homePanel.ResumeLayout(false);
             this.homePanel.PerformLayout();
             this.leisurePanel.ResumeLayout(false);
+            this.universityPanel.ResumeLayout(false);
+            this.universityPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -345,5 +403,10 @@
         private System.Windows.Forms.Panel leisurePanel;
         private System.Windows.Forms.Button workOutButton;
         private System.Windows.Forms.Button readButton;
+        private System.Windows.Forms.Button universityPanelButton;
+        private System.Windows.Forms.Panel universityPanel;
+        private System.Windows.Forms.ComboBox universityComboBox;
+        private System.Windows.Forms.Label universityLabel;
+        private System.Windows.Forms.Button applyToUniButton;
     }
 }

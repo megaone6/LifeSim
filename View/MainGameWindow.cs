@@ -27,6 +27,8 @@ namespace LifeSim.View
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);
             model.JobChangedEvent += new EventHandler<EventArgs>(Model_JobChangedEvent);
             model.HomeChangedEvent += new EventHandler<EventArgs>(Model_HomeChangedEvent);
+            model.UniChangedEvent += new EventHandler<EventArgs>(Model_UniChangedEvent);
+            model.GraduateEvent += new EventHandler<EventArgs>(Model_GraduateEvent);
             model.HealthRefreshEvent += new EventHandler<EventArgs>(Model_HealthRefreshEvent);
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
 
@@ -46,6 +48,11 @@ namespace LifeSim.View
             foreach (Home home in model.Homes)
             {
                 homeComboBox.Items.Add(home.Type);
+            }
+
+            foreach (University uni in model.Universities)
+            {
+                universityComboBox.Items.Add(uni.Type);
             }
 
             MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
@@ -100,6 +107,20 @@ namespace LifeSim.View
             else
                 homeLabel.Text = home;
         }
+        private void Model_UniChangedEvent(object sender, EventArgs e)
+        {
+            String uni = model.University.Type;
+            if (jobLabel.InvokeRequired)
+                jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
+            else
+                universityLabel.Text = uni;
+        }
+
+        private void Model_GraduateEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.University.Type + " képzést!");
+            universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
+        }
 
         private void Model_HealthRefreshEvent(object sender, EventArgs e)
         {
@@ -143,6 +164,8 @@ namespace LifeSim.View
                 jobLabel.Text = model.Job.Name;
                 homePanelButton.Enabled = true;
                 homeLabel.Text = model.Home.Type;
+                universityPanelButton.Enabled = true;
+                universityLabel.Text = model.University.Type;
             }
             ageLabel.Text = model.You.Age.ToString() + " éves vagy";
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
@@ -159,6 +182,7 @@ namespace LifeSim.View
             mainPanelButton.Enabled = true;
             homePanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
+            universityPanelButton.Enabled = true;
         }
 
         private void mainPanelButton_Click(object sender, EventArgs e)
@@ -171,12 +195,19 @@ namespace LifeSim.View
             {
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
+                universityPanelButton.Enabled = true;
             }
         }
 
         private void tryJobButton_Click(object sender, EventArgs e)
         {
-            model.jobRefresh(model.Jobs[jobComboBox.SelectedIndex]);
+            Job job = model.Jobs[jobComboBox.SelectedIndex];
+            if ((!model.Degrees.Contains(job.DegreeNeeded)) && !(job.DegreeNeeded is null))
+            {
+                MessageBox.Show("Nincs meg a szükséges képzésed ehhez a munkához!");
+                return;
+            }
+            model.jobRefresh(job);
             jobComboBox.Visible = false;
             tryJobButton.Visible = false;
         }
@@ -189,6 +220,7 @@ namespace LifeSim.View
             mainPanelButton.Enabled = true;
             jobPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
+            universityPanelButton.Enabled = true;
         }
 
         private void buyHomeButton_Click(object sender, EventArgs e)
@@ -214,6 +246,7 @@ namespace LifeSim.View
             {
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
+                universityPanelButton.Enabled = true;
             }
         }
 
@@ -231,6 +264,25 @@ namespace LifeSim.View
             model.read();
             MessageBox.Show("Intelligencia olvasás után: " + model.You.Intelligence);
             readButton.Enabled = false;
+        }
+
+        private void universityPanelButton_Click(object sender, EventArgs e)
+        {
+            universityPanel.BringToFront();
+            ageButton.Enabled = false;
+            universityPanelButton.Enabled = false;
+            homePanelButton.Enabled = true;
+            mainPanelButton.Enabled = true;
+            jobPanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
+        }
+
+        private void applyToUniButton_Click(object sender, EventArgs e)
+        {
+            University uni = model.Universities[universityComboBox.SelectedIndex];
+            model.uniRefresh(uni);
+            universityComboBox.Visible = false;
+            applyToUniButton.Visible = false;
         }
     }
 }

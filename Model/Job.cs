@@ -9,13 +9,13 @@ namespace LifeSim.Model
 
         public int Salary { get; set; }
 
-        //public String DegreeNeeded { get; set; }
+        public University DegreeNeeded { get; set; }
 
-        public Job(String Name, int Salary)
+        public Job(String Name, int Salary, University DegreeNeeded)
         {
             this.Name = Name;
             this.Salary = Salary;
-            //this.DegreeNeeded = DegreeNeeded;
+            this.DegreeNeeded = DegreeNeeded;
         }
     }
 }
