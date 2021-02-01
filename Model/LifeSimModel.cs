@@ -77,8 +77,8 @@ namespace LifeSim.Model
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
             rnd = new Random();
-            Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000, Universities[0]), new Job("Járőr", 2040000, null), new Job("Fogorvos", 3780000, Universities[1]) };
             Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
+            Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000, Universities[0]), new Job("Járőr", 2040000, null), new Job("Fogorvos", 3780000, Universities[1]) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
@@ -123,7 +123,7 @@ namespace LifeSim.Model
             {
                 randomAppearance = rnd.Next(-10, 11);
                 randomIntelligence = rnd.Next(-10, 11);
-            } while (parentIntAvg + randomIntelligence < 0 && parentIntAvg + randomIntelligence > 100 && parentAppAvg + randomAppearance < 0 && parentAppAvg + randomAppearance > 100);
+            } while ((parentIntAvg + randomIntelligence < 0 || parentIntAvg + randomIntelligence > 100) && (parentAppAvg + randomAppearance < 0 || parentAppAvg + randomAppearance > 100));
 
 
 
