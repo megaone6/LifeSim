@@ -24,6 +24,10 @@ namespace LifeSim.Model
 
         public Person You { get; set; }
 
+        public Tuple<Person,int> PotentialPartner { get; set; }
+
+        public Person Partner { get; set; }
+
         public List<Person> Parents { get; private set; }
 
         public List<Job> Jobs { get; private set; }
@@ -57,6 +61,12 @@ namespace LifeSim.Model
         public event EventHandler<EventArgs> HealthRefreshEvent;
 
         public event EventHandler<EventArgs> IntelligenceRefreshEvent;
+
+        public event EventHandler<EventArgs> RelationshipFailEvent;
+
+        public event EventHandler<EventArgs> RelationshipSuccessEvent;
+
+        public event EventHandler<EventArgs> BreakUpEvent;
 
         #endregion
 
@@ -114,25 +124,27 @@ namespace LifeSim.Model
             }
             Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,55), Gender.Male, rnd.Next(1,101), rnd.Next(101), rnd.Next(101)),
                                             new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,55), Gender.Female, rnd.Next(1,101), rnd.Next(101), rnd.Next(101))};
-            int randomAppearance;
-            int randomIntelligence;
-            int parentIntAvg = (Parents[0].Intelligence + Parents[1].Intelligence) / 2;
-            int parentAppAvg = (Parents[0].Appearance + Parents[1].Appearance) / 2;
 
-            do
-            {
-                randomAppearance = rnd.Next(-10, 11);
-                randomIntelligence = rnd.Next(-10, 11);
-            } while ((parentIntAvg + randomIntelligence < 0 || parentIntAvg + randomIntelligence > 100) && (parentAppAvg + randomAppearance < 0 || parentAppAvg + randomAppearance > 100));
+            int appearance = (Parents[0].Intelligence + Parents[1].Intelligence) / 2 + rnd.Next(-10, 11);
+            int intelligence = (Parents[0].Appearance + Parents[1].Appearance) / 2 + rnd.Next(-10, 11);
 
+            if (appearance < 0)
+                appearance = 0;
+            if (intelligence < 0)
+                intelligence = 0;
 
+            if (appearance > 100)
+                appearance = 100;
+            if (intelligence > 100)
+                intelligence = 100;
 
-            You = new Person(familyName, name, 0, gender, 100, parentIntAvg + randomIntelligence, parentAppAvg + randomAppearance);
+            You = new Person(familyName, name, 0, gender, 100, intelligence, appearance);
             Job = new Job("Munkanélküli", 0, null);
             Home = new Home("Szülői lakás", 0, 0);
             University = new University("Jelenleg nem végzel egyetemi képzést", 0);
             Degrees = new List<University>();
             inUni = false;
+            Partner = null;
         }
         public void age()
         {
@@ -229,6 +241,102 @@ namespace LifeSim.Model
             University = uni;
             OnUniChangedEvent();
         }
+
+        public Tuple<Person,int> newLove()
+        {
+            String randomName;
+            Gender loveGender;
+            if (You.Gender == Gender.Male)
+            {
+                randomName = femaleNames[rnd.Next(0, femaleNames.Count)];
+                loveGender = Gender.Female;
+            }
+            else
+            {
+                randomName = maleNames[rnd.Next(0, maleNames.Count)];
+                loveGender = Gender.Male;
+            }
+            int randomAge = rnd.Next(-2, 3);
+            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101));
+            int chanceOfLove = chanceOfMutualLove(crush);
+            PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
+            return PotentialPartner;
+        }
+
+        public void tryRelationship()
+        {
+            int randomNum = rnd.Next(0, 5);
+            bool fail = false;
+            switch (PotentialPartner.Item2)
+            {
+                case 0:
+                    fail = true;
+                    OnRelationshipFailEvent();
+                    break;
+                case 20:
+                    if (randomNum > 0)
+                    {
+                        fail = true;
+                        OnRelationshipFailEvent();
+                    } 
+                    break;
+                case 40:
+                    if (randomNum > 1)
+                    {
+                        fail = true;
+                        OnRelationshipFailEvent();
+                    }
+                    break;
+                case 60:
+                    if (randomNum > 2)
+                    {
+                        fail = true;
+                        OnRelationshipFailEvent();
+                    }
+                    break;
+                case 80:
+                    if (randomNum > 3)
+                    {
+                        fail = true;
+                        OnRelationshipFailEvent();
+                    }
+                    break;
+            }
+            if (!fail)
+            {
+                Partner = PotentialPartner.Item1;
+                PotentialPartner = null;
+                OnRelationshipSuccessEvent();
+            }
+        }
+
+        public void breakUp()
+        {
+            Partner = null;
+            OnBreakUpEvent();
+        }
+        #endregion
+
+        #region Private methods
+
+        private int chanceOfMutualLove(Person crush)
+        {
+            int appearanceDifference = You.Appearance - crush.Appearance;
+            int intelligenceDifference = You.Intelligence - crush.Intelligence;
+            if (appearanceDifference < -40 || intelligenceDifference < -40)
+                return 0;
+            else if (appearanceDifference < -30 || intelligenceDifference < -30)
+                return 20;
+            else if (appearanceDifference < -20 || intelligenceDifference < -20)
+                return 40;
+            else if (appearanceDifference < 0 || intelligenceDifference < 0)
+                return 60;
+            else if (appearanceDifference < 10 || intelligenceDifference < 10)
+                return 80;
+            else
+                return 100;
+        }
+
         #endregion
 
         #region Private event methods
@@ -255,6 +363,7 @@ namespace LifeSim.Model
 
         private void OnGraduateEvent()
         {
+            inUni = false;
             GraduateEvent?.Invoke(this, new EventArgs());
         }
 
@@ -266,6 +375,21 @@ namespace LifeSim.Model
         private void OnIntelligenceRefreshEvent()
         {
             IntelligenceRefreshEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnRelationshipFailEvent()
+        {
+            RelationshipFailEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnRelationshipSuccessEvent()
+        {
+            RelationshipSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnBreakUpEvent()
+        {
+            BreakUpEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

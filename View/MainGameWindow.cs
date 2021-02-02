@@ -31,6 +31,9 @@ namespace LifeSim.View
             model.GraduateEvent += new EventHandler<EventArgs>(Model_GraduateEvent);
             model.HealthRefreshEvent += new EventHandler<EventArgs>(Model_HealthRefreshEvent);
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
+            model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
+            model.RelationshipSuccessEvent += new EventHandler<EventArgs>(Model_RelationshipSuccessEvent);
+            model.BreakUpEvent += new EventHandler<EventArgs>(Model_BreakUpEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -140,6 +143,32 @@ namespace LifeSim.View
                 intelligenceLabel.Text = intelligence;
         }
 
+        private void Model_RelationshipFailEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nem volt meg köztetek a kémia.");
+            tryRelationshipButton.Enabled = false;
+        }
+
+        private void Model_RelationshipSuccessEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Gratulálok! Mostantól " + model.Partner.FirstName + " " + model.Partner.LastName + " a párod!");
+            currentLoveLabel.Text = "Párod: " + Environment.NewLine
+                + "Név: " + model.Partner.FirstName + " " + model.Partner.LastName;
+            newLoveLabel.Visible = false;
+            newLoveLabel.Text = "";
+            newLoveButton.Visible = false;
+            tryRelationshipButton.Visible = false;
+            breakUpButton.Visible = true;
+        }
+
+        private void Model_BreakUpEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Szakítottál a pároddal!");
+            currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
+            breakUpButton.Visible = false;
+            newLoveButton.Visible = true;
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -154,9 +183,14 @@ namespace LifeSim.View
             {
                 leisurePanelButton.Enabled = true;
             }
+            if (model.You.Age == 14)
+            {
+                lovePanelButton.Enabled = true;
+            }
             if (model.You.Age > 12)
             {
                 workOutButton.Enabled = true;
+                readButton.Enabled = true;
             }
             if (model.You.Age == 18)
             {
@@ -183,6 +217,7 @@ namespace LifeSim.View
             homePanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
             universityPanelButton.Enabled = true;
+            lovePanelButton.Enabled = true;
         }
 
         private void mainPanelButton_Click(object sender, EventArgs e)
@@ -191,7 +226,9 @@ namespace LifeSim.View
             mainPanelButton.Enabled = false;
             ageButton.Enabled = true;
             leisurePanelButton.Enabled = true;
-            if(model.You.Age >= 18)
+            if (model.You.Age >= 14)
+                lovePanelButton.Enabled = true;
+            if (model.You.Age >= 18)
             {
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
@@ -221,6 +258,7 @@ namespace LifeSim.View
             jobPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
             universityPanelButton.Enabled = true;
+            lovePanelButton.Enabled = true;
         }
 
         private void buyHomeButton_Click(object sender, EventArgs e)
@@ -242,6 +280,8 @@ namespace LifeSim.View
             mainPanelButton.Enabled = true;
             ageButton.Enabled = false;
             leisurePanelButton.Enabled = false;
+            if (model.You.Age >= 14)
+                lovePanelButton.Enabled = true;
             if (model.You.Age >= 18)
             {
                 jobPanelButton.Enabled = true;
@@ -275,6 +315,7 @@ namespace LifeSim.View
             mainPanelButton.Enabled = true;
             jobPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
+            lovePanelButton.Enabled = true;
         }
 
         private void applyToUniButton_Click(object sender, EventArgs e)
@@ -283,6 +324,48 @@ namespace LifeSim.View
             model.uniRefresh(uni);
             universityComboBox.Visible = false;
             applyToUniButton.Visible = false;
+        }
+
+        private void lovePanelButton_Click(object sender, EventArgs e)
+        {
+            lovePanel.BringToFront();
+            ageButton.Enabled = false;
+            lovePanelButton.Enabled = false;
+            mainPanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
+            if (model.You.Age >= 18)
+            {
+                jobPanelButton.Enabled = true;
+                homePanelButton.Enabled = true;
+                universityPanelButton.Enabled = true;
+            }
+        }
+
+        private void newLoveButton_Click(object sender, EventArgs e)
+        {
+            tryRelationshipButton.Visible = true;
+            tryRelationshipButton.Enabled = true;
+            newLoveLabel.Visible = true;
+            Tuple<Person,int> newLove = model.newLove();
+            newLoveLabel.Text = "Név: " + newLove.Item1.FirstName + " " + newLove.Item1.LastName + Environment.NewLine
+                + "Kor: " + newLove.Item1.Age + Environment.NewLine
+                + "Kinézet: " + newLove.Item1.Appearance.ToString() + Environment.NewLine
+                + "Intelligencia: " + newLove.Item1.Intelligence + Environment.NewLine
+                + "Esélyed: " + newLove.Item2.ToString();
+        }
+
+        private void tryRelationshipButton_Click(object sender, EventArgs e)
+        {
+            model.tryRelationship();
+        }
+
+        private void breakUpButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy szakítani akarsz a pároddal?",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+                model.breakUp();
         }
     }
 }

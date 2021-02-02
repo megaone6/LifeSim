@@ -54,15 +54,23 @@
             this.readButton = new System.Windows.Forms.Button();
             this.workOutButton = new System.Windows.Forms.Button();
             this.universityPanel = new System.Windows.Forms.Panel();
+            this.applyToUniButton = new System.Windows.Forms.Button();
             this.universityComboBox = new System.Windows.Forms.ComboBox();
             this.universityLabel = new System.Windows.Forms.Label();
+            this.lovePanel = new System.Windows.Forms.Panel();
+            this.breakUpButton = new System.Windows.Forms.Button();
+            this.tryRelationshipButton = new System.Windows.Forms.Button();
+            this.newLoveButton = new System.Windows.Forms.Button();
+            this.newLoveLabel = new System.Windows.Forms.Label();
+            this.currentLoveLabel = new System.Windows.Forms.Label();
             this.universityPanelButton = new System.Windows.Forms.Button();
-            this.applyToUniButton = new System.Windows.Forms.Button();
+            this.lovePanelButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
             this.leisurePanel.SuspendLayout();
             this.universityPanel.SuspendLayout();
+            this.lovePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -307,6 +315,16 @@
             this.universityPanel.Size = new System.Drawing.Size(776, 346);
             this.universityPanel.TabIndex = 16;
             // 
+            // applyToUniButton
+            // 
+            this.applyToUniButton.Location = new System.Drawing.Point(344, 189);
+            this.applyToUniButton.Name = "applyToUniButton";
+            this.applyToUniButton.Size = new System.Drawing.Size(75, 23);
+            this.applyToUniButton.TabIndex = 2;
+            this.applyToUniButton.Text = "Jelentkezés";
+            this.applyToUniButton.UseVisualStyleBackColor = true;
+            this.applyToUniButton.Click += new System.EventHandler(this.applyToUniButton_Click);
+            // 
             // universityComboBox
             // 
             this.universityComboBox.FormattingEnabled = true;
@@ -324,6 +342,67 @@
             this.universityLabel.TabIndex = 0;
             this.universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
             // 
+            // lovePanel
+            // 
+            this.lovePanel.Controls.Add(this.breakUpButton);
+            this.lovePanel.Controls.Add(this.tryRelationshipButton);
+            this.lovePanel.Controls.Add(this.newLoveButton);
+            this.lovePanel.Controls.Add(this.newLoveLabel);
+            this.lovePanel.Controls.Add(this.currentLoveLabel);
+            this.lovePanel.Location = new System.Drawing.Point(12, 12);
+            this.lovePanel.Name = "lovePanel";
+            this.lovePanel.Size = new System.Drawing.Size(776, 345);
+            this.lovePanel.TabIndex = 18;
+            // 
+            // breakUpButton
+            // 
+            this.breakUpButton.Location = new System.Drawing.Point(15, 71);
+            this.breakUpButton.Name = "breakUpButton";
+            this.breakUpButton.Size = new System.Drawing.Size(75, 23);
+            this.breakUpButton.TabIndex = 4;
+            this.breakUpButton.Text = "Szakítás";
+            this.breakUpButton.UseVisualStyleBackColor = true;
+            this.breakUpButton.Visible = false;
+            this.breakUpButton.Click += new System.EventHandler(this.breakUpButton_Click);
+            // 
+            // tryRelationshipButton
+            // 
+            this.tryRelationshipButton.Location = new System.Drawing.Point(323, 282);
+            this.tryRelationshipButton.Name = "tryRelationshipButton";
+            this.tryRelationshipButton.Size = new System.Drawing.Size(108, 44);
+            this.tryRelationshipButton.TabIndex = 3;
+            this.tryRelationshipButton.Text = "Kapcsolat megpróbálása";
+            this.tryRelationshipButton.UseVisualStyleBackColor = true;
+            this.tryRelationshipButton.Visible = false;
+            this.tryRelationshipButton.Click += new System.EventHandler(this.tryRelationshipButton_Click);
+            // 
+            // newLoveButton
+            // 
+            this.newLoveButton.Location = new System.Drawing.Point(323, 252);
+            this.newLoveButton.Name = "newLoveButton";
+            this.newLoveButton.Size = new System.Drawing.Size(108, 23);
+            this.newLoveButton.TabIndex = 2;
+            this.newLoveButton.Text = "Partner keresése";
+            this.newLoveButton.UseVisualStyleBackColor = true;
+            this.newLoveButton.Click += new System.EventHandler(this.newLoveButton_Click);
+            // 
+            // newLoveLabel
+            // 
+            this.newLoveLabel.AutoSize = true;
+            this.newLoveLabel.Location = new System.Drawing.Point(323, 158);
+            this.newLoveLabel.Name = "newLoveLabel";
+            this.newLoveLabel.Size = new System.Drawing.Size(0, 15);
+            this.newLoveLabel.TabIndex = 1;
+            // 
+            // currentLoveLabel
+            // 
+            this.currentLoveLabel.AutoSize = true;
+            this.currentLoveLabel.Location = new System.Drawing.Point(14, 15);
+            this.currentLoveLabel.Name = "currentLoveLabel";
+            this.currentLoveLabel.Size = new System.Drawing.Size(141, 15);
+            this.currentLoveLabel.TabIndex = 0;
+            this.currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
+            // 
             // universityPanelButton
             // 
             this.universityPanelButton.Enabled = false;
@@ -335,21 +414,24 @@
             this.universityPanelButton.UseVisualStyleBackColor = true;
             this.universityPanelButton.Click += new System.EventHandler(this.universityPanelButton_Click);
             // 
-            // applyToUniButton
+            // lovePanelButton
             // 
-            this.applyToUniButton.Location = new System.Drawing.Point(344, 189);
-            this.applyToUniButton.Name = "applyToUniButton";
-            this.applyToUniButton.Size = new System.Drawing.Size(75, 23);
-            this.applyToUniButton.TabIndex = 2;
-            this.applyToUniButton.Text = "Jelentkezés";
-            this.applyToUniButton.UseVisualStyleBackColor = true;
-            this.applyToUniButton.Click += new System.EventHandler(this.applyToUniButton_Click);
+            this.lovePanelButton.Enabled = false;
+            this.lovePanelButton.Location = new System.Drawing.Point(499, 374);
+            this.lovePanelButton.Name = "lovePanelButton";
+            this.lovePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.lovePanelButton.TabIndex = 17;
+            this.lovePanelButton.Text = "Szerelem";
+            this.lovePanelButton.UseVisualStyleBackColor = true;
+            this.lovePanelButton.Click += new System.EventHandler(this.lovePanelButton_Click);
             // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lovePanel);
+            this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
             this.Controls.Add(this.universityPanelButton);
             this.Controls.Add(this.leisurePanel);
@@ -373,6 +455,8 @@
             this.leisurePanel.ResumeLayout(false);
             this.universityPanel.ResumeLayout(false);
             this.universityPanel.PerformLayout();
+            this.lovePanel.ResumeLayout(false);
+            this.lovePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -408,5 +492,12 @@
         private System.Windows.Forms.ComboBox universityComboBox;
         private System.Windows.Forms.Label universityLabel;
         private System.Windows.Forms.Button applyToUniButton;
+        private System.Windows.Forms.Button lovePanelButton;
+        private System.Windows.Forms.Panel lovePanel;
+        private System.Windows.Forms.Label currentLoveLabel;
+        private System.Windows.Forms.Label newLoveLabel;
+        private System.Windows.Forms.Button newLoveButton;
+        private System.Windows.Forms.Button tryRelationshipButton;
+        private System.Windows.Forms.Button breakUpButton;
     }
 }
