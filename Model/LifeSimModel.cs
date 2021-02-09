@@ -17,6 +17,7 @@ namespace LifeSim.Model
         private bool maleOrFemale;
         private int yearsInUni;
         private bool inUni;
+        private bool childOnWay;
 
         #endregion
 
@@ -44,6 +45,8 @@ namespace LifeSim.Model
 
         public Home Home { get; set; }
 
+        public List<Person> Children { get; private set; }
+
         #endregion
 
         #region Events
@@ -67,6 +70,10 @@ namespace LifeSim.Model
         public event EventHandler<EventArgs> RelationshipSuccessEvent;
 
         public event EventHandler<EventArgs> BreakUpEvent;
+
+        public event EventHandler<EventArgs> ChildFailEvent;
+
+        public event EventHandler<EventArgs> ChildSuccessEvent;
 
         #endregion
 
@@ -143,7 +150,9 @@ namespace LifeSim.Model
             Home = new Home("Szülői lakás", 0, 0);
             University = new University("Jelenleg nem végzel egyetemi képzést", 0);
             Degrees = new List<University>();
+            Children = new List<Person>();
             inUni = false;
+            childOnWay = false;
             Partner = null;
         }
         public void age()
@@ -315,6 +324,21 @@ namespace LifeSim.Model
             Partner = null;
             OnBreakUpEvent();
         }
+
+        public void tryForChild()
+        {
+            int childSuccess = rnd.Next(0, 2);
+            switch (childSuccess)
+            {
+                case 0:
+                    OnChildFailEvent();
+                    break;
+                case 1:
+                    childOnWay = true;
+                    OnChildSuccessEvent();
+                    break;
+            }
+        }
         #endregion
 
         #region Private methods
@@ -390,6 +414,16 @@ namespace LifeSim.Model
         private void OnBreakUpEvent()
         {
             BreakUpEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnChildFailEvent()
+        {
+            ChildFailEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnChildSuccessEvent()
+        {
+            ChildSuccessEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

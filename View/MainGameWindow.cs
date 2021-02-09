@@ -34,6 +34,8 @@ namespace LifeSim.View
             model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
             model.RelationshipSuccessEvent += new EventHandler<EventArgs>(Model_RelationshipSuccessEvent);
             model.BreakUpEvent += new EventHandler<EventArgs>(Model_BreakUpEvent);
+            model.ChildFailEvent += new EventHandler<EventArgs>(Model_ChildFailEvent);
+            model.ChildSuccessEvent += new EventHandler<EventArgs>(Model_ChildSuccessEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -159,6 +161,7 @@ namespace LifeSim.View
             newLoveButton.Visible = false;
             tryRelationshipButton.Visible = false;
             breakUpButton.Visible = true;
+            tryForChildButton.Visible = true;
         }
 
         private void Model_BreakUpEvent(object sender, EventArgs e)
@@ -166,7 +169,22 @@ namespace LifeSim.View
             MessageBox.Show("Szakítottál a pároddal!");
             currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
             breakUpButton.Visible = false;
+            tryForChildButton.Visible = false;
             newLoveButton.Visible = true;
+        }
+
+        private void Model_ChildFailEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra.");
+        }
+
+        private void Model_ChildSuccessEvent(object sender, EventArgs e)
+        {
+            tryForChildButton.Enabled = false;
+            if (model.You.Gender == Gender.Male)
+                MessageBox.Show("Gratulálok! Párod várandós.");
+            else
+                MessageBox.Show("Gratulálok! Várandós vagy.");
         }
 
         #endregion
@@ -179,19 +197,18 @@ namespace LifeSim.View
         private void ageButton_Click(object sender, EventArgs e)
         {
             model.age();
-            if(model.You.Age == 12)
-            {
+            if (model.You.Age == 12)
                 leisurePanelButton.Enabled = true;
-            }
-            if (model.You.Age == 14)
-            {
-                lovePanelButton.Enabled = true;
-            }
+
             if (model.You.Age > 12)
             {
                 workOutButton.Enabled = true;
                 readButton.Enabled = true;
             }
+
+            if (model.You.Age == 14)
+                lovePanelButton.Enabled = true;
+
             if (model.You.Age == 18)
             {
                 jobPanelButton.Enabled = true;
@@ -201,6 +218,10 @@ namespace LifeSim.View
                 universityPanelButton.Enabled = true;
                 universityLabel.Text = model.University.Type;
             }
+
+            if (model.You.Age >= 18)
+                tryForChildButton.Enabled = true;
+
             ageLabel.Text = model.You.Age.ToString() + " éves vagy";
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -366,6 +387,11 @@ namespace LifeSim.View
                                       MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
                 model.breakUp();
+        }
+
+        private void tryForChildButton_Click(object sender, EventArgs e)
+        {
+            model.tryForChild();
         }
     }
 }

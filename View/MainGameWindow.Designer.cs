@@ -58,6 +58,7 @@
             this.universityComboBox = new System.Windows.Forms.ComboBox();
             this.universityLabel = new System.Windows.Forms.Label();
             this.lovePanel = new System.Windows.Forms.Panel();
+            this.tryForChildButton = new System.Windows.Forms.Button();
             this.breakUpButton = new System.Windows.Forms.Button();
             this.tryRelationshipButton = new System.Windows.Forms.Button();
             this.newLoveButton = new System.Windows.Forms.Button();
@@ -344,6 +345,7 @@
             // 
             // lovePanel
             // 
+            this.lovePanel.Controls.Add(this.tryForChildButton);
             this.lovePanel.Controls.Add(this.breakUpButton);
             this.lovePanel.Controls.Add(this.tryRelationshipButton);
             this.lovePanel.Controls.Add(this.newLoveButton);
@@ -354,11 +356,23 @@
             this.lovePanel.Size = new System.Drawing.Size(776, 345);
             this.lovePanel.TabIndex = 18;
             // 
+            // tryForChildButton
+            // 
+            this.tryForChildButton.Enabled = false;
+            this.tryForChildButton.Location = new System.Drawing.Point(15, 100);
+            this.tryForChildButton.Name = "tryForChildButton";
+            this.tryForChildButton.Size = new System.Drawing.Size(162, 23);
+            this.tryForChildButton.TabIndex = 5;
+            this.tryForChildButton.Text = "Próbálkozás gyermekkel";
+            this.tryForChildButton.UseVisualStyleBackColor = true;
+            this.tryForChildButton.Visible = false;
+            this.tryForChildButton.Click += new System.EventHandler(this.tryForChildButton_Click);
+            // 
             // breakUpButton
             // 
             this.breakUpButton.Location = new System.Drawing.Point(15, 71);
             this.breakUpButton.Name = "breakUpButton";
-            this.breakUpButton.Size = new System.Drawing.Size(75, 23);
+            this.breakUpButton.Size = new System.Drawing.Size(162, 23);
             this.breakUpButton.TabIndex = 4;
             this.breakUpButton.Text = "Szakítás";
             this.breakUpButton.UseVisualStyleBackColor = true;
@@ -499,5 +513,6 @@
         private System.Windows.Forms.Button newLoveButton;
         private System.Windows.Forms.Button tryRelationshipButton;
         private System.Windows.Forms.Button breakUpButton;
+        private System.Windows.Forms.Button tryForChildButton;
     }
 }
