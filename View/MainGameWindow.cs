@@ -36,6 +36,7 @@ namespace LifeSim.View
             model.BreakUpEvent += new EventHandler<EventArgs>(Model_BreakUpEvent);
             model.ChildFailEvent += new EventHandler<EventArgs>(Model_ChildFailEvent);
             model.ChildSuccessEvent += new EventHandler<EventArgs>(Model_ChildSuccessEvent);
+            model.QuitJobEvent += new EventHandler<EventArgs>(Model_QuitJobEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -49,16 +50,19 @@ namespace LifeSim.View
             {
                 jobComboBox.Items.Add(job.Name);
             }
+            jobComboBox.SelectedIndex = 0;
 
             foreach (Home home in model.Homes)
             {
                 homeComboBox.Items.Add(home.Type);
             }
+            homeComboBox.SelectedIndex = 0;
 
             foreach (University uni in model.Universities)
             {
                 universityComboBox.Items.Add(uni.Type);
             }
+            universityComboBox.SelectedIndex = 0;
 
             MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
                 + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
@@ -187,6 +191,15 @@ namespace LifeSim.View
                 MessageBox.Show("Gratulálok! Várandós vagy.");
         }
 
+        private void Model_QuitJobEvent(object sender, EventArgs e)
+        {
+            quitJobButton.Visible = false;
+            jobComboBox.Visible = true;
+            tryJobButton.Visible = true;
+            MessageBox.Show("Kiléptél a munkahelyedről.");
+            jobLabel.Text = model.Job.Name;
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -268,6 +281,7 @@ namespace LifeSim.View
             model.jobRefresh(job);
             jobComboBox.Visible = false;
             tryJobButton.Visible = false;
+            quitJobButton.Visible = true;
         }
 
         private void homePanelButton_Click(object sender, EventArgs e)
@@ -392,6 +406,15 @@ namespace LifeSim.View
         private void tryForChildButton_Click(object sender, EventArgs e)
         {
             model.tryForChild();
+        }
+
+        private void quitJobButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy fel akarsz mondani a munkahelyeden?",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+                model.quitJob();
         }
     }
 }

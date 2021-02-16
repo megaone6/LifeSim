@@ -18,6 +18,9 @@ namespace LifeSim.Model
         private int yearsInUni;
         private bool inUni;
         private bool childOnWay;
+        private Job defaultJob;
+        private Home defaultHome;
+        private University defaultUniversity;
 
         #endregion
 
@@ -75,6 +78,8 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> ChildSuccessEvent;
 
+        public event EventHandler<EventArgs> QuitJobEvent;
+
         #endregion
 
         #region Constructor
@@ -89,14 +94,21 @@ namespace LifeSim.Model
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
             maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
             femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
-    }
+            defaultJob = new Job("Munkanélküli", 0, null);
+            defaultHome = new Home("Szülői lakás", 0, 0);
+            defaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
+        }
 
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
+            
             rnd = new Random();
             Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
             Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000, Universities[0]), new Job("Járőr", 2040000, null), new Job("Fogorvos", 3780000, Universities[1]) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            defaultJob = new Job("Munkanélküli", 0, null);
+            defaultHome = new Home("Szülői lakás", 0, 0);
+            defaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
         }
@@ -146,9 +158,9 @@ namespace LifeSim.Model
                 intelligence = 100;
 
             You = new Person(familyName, name, 0, gender, 100, intelligence, appearance);
-            Job = new Job("Munkanélküli", 0, null);
-            Home = new Home("Szülői lakás", 0, 0);
-            University = new University("Jelenleg nem végzel egyetemi képzést", 0);
+            Job = defaultJob;
+            Home = defaultHome;
+            University = defaultUniversity;
             Degrees = new List<University>();
             Children = new List<Person>();
             inUni = false;
@@ -200,7 +212,7 @@ namespace LifeSim.Model
                     OnGraduateEvent();
                     yearsInUni = 0;
                     Degrees.Add(University);
-                    University = new University("Jelenleg nem végzel egyetemi képzést", 0);
+                    University = defaultUniversity;
                 }
             }
 
@@ -325,6 +337,12 @@ namespace LifeSim.Model
             OnBreakUpEvent();
         }
 
+        public void quitJob()
+        {
+            Job = defaultJob;
+            OnQuitJobEvent();
+        }
+
         public void tryForChild()
         {
             int childSuccess = rnd.Next(0, 2);
@@ -424,6 +442,11 @@ namespace LifeSim.Model
         private void OnChildSuccessEvent()
         {
             ChildSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnQuitJobEvent()
+        {
+            QuitJobEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

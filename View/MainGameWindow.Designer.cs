@@ -39,6 +39,7 @@
             this.mainPanel = new System.Windows.Forms.Panel();
             this.moneyLabel = new System.Windows.Forms.Label();
             this.jobPanel = new System.Windows.Forms.Panel();
+            this.quitJobButton = new System.Windows.Forms.Button();
             this.tryJobButton = new System.Windows.Forms.Button();
             this.jobComboBox = new System.Windows.Forms.ComboBox();
             this.jobLabel = new System.Windows.Forms.Label();
@@ -163,6 +164,7 @@
             // 
             // jobPanel
             // 
+            this.jobPanel.Controls.Add(this.quitJobButton);
             this.jobPanel.Controls.Add(this.tryJobButton);
             this.jobPanel.Controls.Add(this.jobComboBox);
             this.jobPanel.Controls.Add(this.jobLabel);
@@ -170,6 +172,17 @@
             this.jobPanel.Name = "jobPanel";
             this.jobPanel.Size = new System.Drawing.Size(776, 346);
             this.jobPanel.TabIndex = 8;
+            // 
+            // quitJobButton
+            // 
+            this.quitJobButton.Location = new System.Drawing.Point(15, 62);
+            this.quitJobButton.Name = "quitJobButton";
+            this.quitJobButton.Size = new System.Drawing.Size(75, 23);
+            this.quitJobButton.TabIndex = 9;
+            this.quitJobButton.Text = "Felmondás";
+            this.quitJobButton.UseVisualStyleBackColor = true;
+            this.quitJobButton.Visible = false;
+            this.quitJobButton.Click += new System.EventHandler(this.quitJobButton_Click);
             // 
             // tryJobButton
             // 
@@ -183,6 +196,7 @@
             // 
             // jobComboBox
             // 
+            this.jobComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.jobComboBox.FormattingEnabled = true;
             this.jobComboBox.Location = new System.Drawing.Point(323, 159);
             this.jobComboBox.Name = "jobComboBox";
@@ -260,6 +274,7 @@
             // 
             // homeComboBox
             // 
+            this.homeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.homeComboBox.FormattingEnabled = true;
             this.homeComboBox.Location = new System.Drawing.Point(323, 158);
             this.homeComboBox.Name = "homeComboBox";
@@ -328,6 +343,7 @@
             // 
             // universityComboBox
             // 
+            this.universityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.universityComboBox.FormattingEnabled = true;
             this.universityComboBox.Location = new System.Drawing.Point(323, 158);
             this.universityComboBox.Name = "universityComboBox";
@@ -444,6 +460,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
@@ -455,7 +472,6 @@
             this.Controls.Add(this.mainPanelButton);
             this.Controls.Add(this.jobPanelButton);
             this.Controls.Add(this.mainPanel);
-            this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.ageButton);
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
@@ -514,5 +530,6 @@
         private System.Windows.Forms.Button tryRelationshipButton;
         private System.Windows.Forms.Button breakUpButton;
         private System.Windows.Forms.Button tryForChildButton;
+        private System.Windows.Forms.Button quitJobButton;
     }
 }
