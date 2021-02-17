@@ -101,7 +101,7 @@ namespace LifeSim.View
 
         private void Model_JobChangedEvent(object sender, EventArgs e)
         {
-            String job = model.Job.Name;
+            String job = model.You.Job.Name;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { jobLabel.Text = job; }));
             else
@@ -110,7 +110,7 @@ namespace LifeSim.View
 
         private void Model_HomeChangedEvent(object sender, EventArgs e)
         {
-            String home = model.Home.Type;
+            String home = model.You.Home.Type;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { homeLabel.Text = home; }));
             else
@@ -118,7 +118,7 @@ namespace LifeSim.View
         }
         private void Model_UniChangedEvent(object sender, EventArgs e)
         {
-            String uni = model.University.Type;
+            String uni = model.You.University.Type;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
             else
@@ -127,7 +127,7 @@ namespace LifeSim.View
 
         private void Model_GraduateEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.University.Type + " képzést!");
+            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!");
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
         }
 
@@ -157,9 +157,9 @@ namespace LifeSim.View
 
         private void Model_RelationshipSuccessEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Gratulálok! Mostantól " + model.Partner.FirstName + " " + model.Partner.LastName + " a párod!");
+            MessageBox.Show("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!");
             currentLoveLabel.Text = "Párod: " + Environment.NewLine
-                + "Név: " + model.Partner.FirstName + " " + model.Partner.LastName;
+                + "Név: " + model.You.Partner.FirstName + " " + model.You.Partner.LastName;
             newLoveLabel.Visible = false;
             newLoveLabel.Text = "";
             newLoveButton.Visible = false;
@@ -197,7 +197,7 @@ namespace LifeSim.View
             jobComboBox.Visible = true;
             tryJobButton.Visible = true;
             MessageBox.Show("Kiléptél a munkahelyedről.");
-            jobLabel.Text = model.Job.Name;
+            jobLabel.Text = model.You.Job.Name;
         }
 
         #endregion
@@ -225,11 +225,11 @@ namespace LifeSim.View
             if (model.You.Age == 18)
             {
                 jobPanelButton.Enabled = true;
-                jobLabel.Text = model.Job.Name;
+                jobLabel.Text = model.You.Job.Name;
                 homePanelButton.Enabled = true;
-                homeLabel.Text = model.Home.Type;
+                homeLabel.Text = model.You.Home.Type;
                 universityPanelButton.Enabled = true;
-                universityLabel.Text = model.University.Type;
+                universityLabel.Text = model.You.University.Type;
             }
 
             if (model.You.Age >= 18)

@@ -18,19 +18,14 @@ namespace LifeSim.Model
         private int yearsInUni;
         private bool inUni;
         private bool childOnWay;
-        private Job defaultJob;
-        private Home defaultHome;
-        private University defaultUniversity;
 
         #endregion
 
         #region Properties
 
-        public Person You { get; set; }
+        public Player You { get; set; }
 
         public Tuple<Person,int> PotentialPartner { get; set; }
-
-        public Person Partner { get; set; }
 
         public List<Person> Parents { get; private set; }
 
@@ -42,13 +37,11 @@ namespace LifeSim.Model
 
         public List<Home> Homes { get; private set; }
 
-        public Job Job { get; set; }
+        public Job DefaultJob;
 
-        public University University { get; set; }
+        public University DefaultUniversity;
 
-        public Home Home { get; set; }
-
-        public List<Person> Children { get; private set; }
+        public Home DefaultHome;
 
         #endregion
 
@@ -94,10 +87,10 @@ namespace LifeSim.Model
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
             maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
             femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
-            defaultJob = new Job("Munkanélküli", 0, null);
-            defaultHome = new Home("Szülői lakás", 0, 0);
-            defaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
-        }
+            DefaultJob = new Job("Munkanélküli", 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
+    }
 
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
@@ -106,9 +99,6 @@ namespace LifeSim.Model
             Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
             Jobs = new List<Job>() { new Job("Pályakezdő programozó", 3180000, Universities[0]), new Job("Járőr", 2040000, null), new Job("Fogorvos", 3780000, Universities[1]) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
-            defaultJob = new Job("Munkanélküli", 0, null);
-            defaultHome = new Home("Szülői lakás", 0, 0);
-            defaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
         }
@@ -157,15 +147,10 @@ namespace LifeSim.Model
             if (intelligence > 100)
                 intelligence = 100;
 
-            You = new Person(familyName, name, 0, gender, 100, intelligence, appearance);
-            Job = defaultJob;
-            Home = defaultHome;
-            University = defaultUniversity;
+            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, DefaultJob, DefaultHome, DefaultUniversity);
             Degrees = new List<University>();
-            Children = new List<Person>();
             inUni = false;
             childOnWay = false;
-            Partner = null;
         }
         public void age()
         {
@@ -207,16 +192,16 @@ namespace LifeSim.Model
             if (inUni)
             {
                 yearsInUni++;
-                if (yearsInUni == University.YearsToFinish)
+                if (yearsInUni == You.University.YearsToFinish)
                 {
                     OnGraduateEvent();
                     yearsInUni = 0;
-                    Degrees.Add(University);
-                    University = defaultUniversity;
+                    Degrees.Add(You.University);
+                    You.University = DefaultUniversity;
                 }
             }
 
-            You.Money += Job.Salary - Home.YearlyExpenses;
+            You.Money += You.Job.Salary - You.Home.YearlyExpenses;
         }
 
         public void workOut()
@@ -245,13 +230,13 @@ namespace LifeSim.Model
 
         public void jobRefresh(Job job)
         {
-            Job = job;
+            You.Job = job;
             OnJobChangedEvent();
         }
 
         public void homeRefresh(Home home)
         {
-            Home = home;
+            You.Home = home;
             OnHomeChangedEvent();
         }
 
@@ -259,7 +244,7 @@ namespace LifeSim.Model
         {
             yearsInUni = 0;
             inUni = true;
-            University = uni;
+            You.University = uni;
             OnUniChangedEvent();
         }
 
@@ -325,7 +310,7 @@ namespace LifeSim.Model
             }
             if (!fail)
             {
-                Partner = PotentialPartner.Item1;
+                You.Partner = PotentialPartner.Item1;
                 PotentialPartner = null;
                 OnRelationshipSuccessEvent();
             }
@@ -333,13 +318,13 @@ namespace LifeSim.Model
 
         public void breakUp()
         {
-            Partner = null;
+            You.Partner = null;
             OnBreakUpEvent();
         }
 
         public void quitJob()
         {
-            Job = defaultJob;
+            You.Job = DefaultJob;
             OnQuitJobEvent();
         }
 
