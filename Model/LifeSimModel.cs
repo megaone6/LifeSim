@@ -4,7 +4,7 @@ using System.IO;
 
 namespace LifeSim.Model
 {
-    public enum Gender { Male, Female }
+    public enum Gender { Female, Male }
     public class LifeSimModel
     {
         #region Fields
@@ -18,6 +18,7 @@ namespace LifeSim.Model
         private int yearsInUni;
         private bool inUni;
         private bool childOnWay;
+        private Person otherParent;
 
         #endregion
 
@@ -37,11 +38,11 @@ namespace LifeSim.Model
 
         public List<Home> Homes { get; private set; }
 
-        public Job DefaultJob;
+        public Job DefaultJob { get; private set; }
 
-        public University DefaultUniversity;
+        public University DefaultUniversity { get; private set; }
 
-        public Home DefaultHome;
+        public Home DefaultHome { get; private set; }
 
         #endregion
 
@@ -70,6 +71,8 @@ namespace LifeSim.Model
         public event EventHandler<EventArgs> ChildFailEvent;
 
         public event EventHandler<EventArgs> ChildSuccessEvent;
+
+        public event EventHandler<EventArgs> ChildBornEvent;
 
         public event EventHandler<EventArgs> QuitJobEvent;
 
@@ -101,6 +104,9 @@ namespace LifeSim.Model
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
+            DefaultJob = new Job("Munkanélküli", 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
         }
 
         #endregion
@@ -109,7 +115,6 @@ namespace LifeSim.Model
 
         public void newGame()
         {
-            
             String familyName;
             String name;
             Gender gender;
@@ -118,9 +123,9 @@ namespace LifeSim.Model
                 familyName = familyNames[rnd.Next(familyNames.Count)];
                 gender = (Gender)rnd.Next(2);
                 if (gender == 0)
-                    name = maleNames[rnd.Next(maleNames.Count)];
-                else
                     name = femaleNames[rnd.Next(femaleNames.Count)];
+                else
+                    name = maleNames[rnd.Next(maleNames.Count)];
             }
             else
             {
@@ -134,8 +139,8 @@ namespace LifeSim.Model
             Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,55), Gender.Male, rnd.Next(1,101), rnd.Next(101), rnd.Next(101)),
                                             new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,55), Gender.Female, rnd.Next(1,101), rnd.Next(101), rnd.Next(101))};
 
-            int appearance = (Parents[0].Intelligence + Parents[1].Intelligence) / 2 + rnd.Next(-10, 11);
-            int intelligence = (Parents[0].Appearance + Parents[1].Appearance) / 2 + rnd.Next(-10, 11);
+            int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
+            int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
 
             if (appearance < 0)
                 appearance = 0;
@@ -199,6 +204,40 @@ namespace LifeSim.Model
                     Degrees.Add(You.University);
                     You.University = DefaultUniversity;
                 }
+            }
+
+            if (childOnWay)
+            {
+                Gender gender = (Gender)rnd.Next(2);
+                String name;
+
+                if (gender == 0)
+                    name = femaleNames[rnd.Next(femaleNames.Count)];
+                else
+                    name = maleNames[rnd.Next(maleNames.Count)];
+
+                String firstName;
+
+                if (You.Gender == Gender.Male)
+                    firstName = You.FirstName;
+                else
+                    firstName = otherParent.FirstName;
+
+                int appearance = calculateStartingStat(You.Appearance, otherParent.Appearance);
+                int intelligence = calculateStartingStat(You.Intelligence, otherParent.Intelligence);
+
+                if (appearance < 0)
+                    appearance = 0;
+                if (intelligence < 0)
+                    intelligence = 0;
+
+                if (appearance > 100)
+                    appearance = 100;
+                if (intelligence > 100)
+                    intelligence = 100;
+
+                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance));
+                OnChildBornEvent();
             }
 
             You.Money += You.Job.Salary - You.Home.YearlyExpenses;
@@ -338,6 +377,7 @@ namespace LifeSim.Model
                     break;
                 case 1:
                     childOnWay = true;
+                    otherParent = You.Partner;
                     OnChildSuccessEvent();
                     break;
             }
@@ -362,6 +402,11 @@ namespace LifeSim.Model
                 return 80;
             else
                 return 100;
+        }
+
+        private int calculateStartingStat(int stat1, int stat2)
+        {
+            return (stat1 + stat2) / 2 + rnd.Next(-10, 11);
         }
 
         #endregion
@@ -427,6 +472,11 @@ namespace LifeSim.Model
         private void OnChildSuccessEvent()
         {
             ChildSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnChildBornEvent()
+        {
+            ChildBornEvent?.Invoke(this, new EventArgs());
         }
 
         private void OnQuitJobEvent()

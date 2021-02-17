@@ -36,15 +36,16 @@ namespace LifeSim.View
             model.BreakUpEvent += new EventHandler<EventArgs>(Model_BreakUpEvent);
             model.ChildFailEvent += new EventHandler<EventArgs>(Model_ChildFailEvent);
             model.ChildSuccessEvent += new EventHandler<EventArgs>(Model_ChildSuccessEvent);
+            model.ChildBornEvent += new EventHandler<EventArgs>(Model_ChildBornEvent);
             model.QuitJobEvent += new EventHandler<EventArgs>(Model_QuitJobEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
             appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
             if (model.You.Gender == 0)
-                genderLabel.Text = "Férfi";
-            else
                 genderLabel.Text = "Nő";
+            else
+                genderLabel.Text = "Férfi";
 
             foreach (Job job in model.Jobs)
             {
@@ -191,6 +192,14 @@ namespace LifeSim.View
                 MessageBox.Show("Gratulálok! Várandós vagy.");
         }
 
+        private void Model_ChildBornEvent(object sender, EventArgs e)
+        {
+            tryForChildButton.Enabled = true;
+            String childName = model.You.Children[model.You.Children.Count - 1].FirstName + " " + model.You.Children[model.You.Children.Count - 1].LastName;
+            MessageBox.Show("Gratulálok, gyermeked született! Neve: " + childName);
+            childrenListBox.Items.Add(childName);
+        }
+
         private void Model_QuitJobEvent(object sender, EventArgs e)
         {
             quitJobButton.Visible = false;
@@ -230,6 +239,7 @@ namespace LifeSim.View
                 homeLabel.Text = model.You.Home.Type;
                 universityPanelButton.Enabled = true;
                 universityLabel.Text = model.You.University.Type;
+                childrenPanelButton.Enabled = true;
             }
 
             if (model.You.Age >= 18)
@@ -252,6 +262,7 @@ namespace LifeSim.View
             leisurePanelButton.Enabled = true;
             universityPanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
+            childrenPanelButton.Enabled = true;
         }
 
         private void mainPanelButton_Click(object sender, EventArgs e)
@@ -267,6 +278,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                childrenPanelButton.Enabled = true;
             }
         }
 
@@ -294,6 +306,7 @@ namespace LifeSim.View
             leisurePanelButton.Enabled = true;
             universityPanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
+            childrenPanelButton.Enabled = true;
         }
 
         private void buyHomeButton_Click(object sender, EventArgs e)
@@ -322,6 +335,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                childrenPanelButton.Enabled = true;
             }
         }
 
@@ -351,6 +365,7 @@ namespace LifeSim.View
             jobPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
+            childrenPanelButton.Enabled = true;
         }
 
         private void applyToUniButton_Click(object sender, EventArgs e)
@@ -373,6 +388,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                childrenPanelButton.Enabled = true;
             }
         }
 
@@ -415,6 +431,19 @@ namespace LifeSim.View
                                       MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
                 model.quitJob();
+        }
+
+        private void childrenPanelButton_Click(object sender, EventArgs e)
+        {
+            childrenPanel.BringToFront();
+            ageButton.Enabled = false;
+            childrenPanelButton.Enabled = false;
+            universityPanelButton.Enabled = true;
+            homePanelButton.Enabled = true;
+            mainPanelButton.Enabled = true;
+            jobPanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
+            lovePanelButton.Enabled = true;
         }
     }
 }
