@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LifeSim.Model
 {
@@ -25,6 +26,8 @@ namespace LifeSim.Model
         #region Properties
 
         public Player You { get; set; }
+
+        public List<Person> People { get; set; }
 
         public Tuple<Person,int> PotentialPartner { get; set; }
 
@@ -66,7 +69,7 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> RelationshipSuccessEvent;
 
-        public event EventHandler<EventArgs> BreakUpEvent;
+        public event EventHandler<LifeSimEventArgs> BreakUpEvent;
 
         public event EventHandler<EventArgs> ChildFailEvent;
 
@@ -115,6 +118,7 @@ namespace LifeSim.Model
 
         public void newGame()
         {
+            People = new List<Person>();
             String familyName;
             String name;
             Gender gender;
@@ -153,56 +157,67 @@ namespace LifeSim.Model
                 intelligence = 100;
 
             You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, DefaultJob, DefaultHome, DefaultUniversity);
+            People.Add(You);
+            People.Add(Parents[0]);
+            People.Add(Parents[1]);
             Degrees = new List<University>();
             inUni = false;
             childOnWay = false;
         }
         public void age()
         {
-            You.Age++;
-
-            You.Intelligence += rnd.Next(-3, 4);
-            if (You.Intelligence > 100)
-                You.Intelligence = 100;
-            else if (You.Intelligence < 0)
-                You.Intelligence = 0;
-
-            You.Appearance += rnd.Next(-3, 4);
-            if (You.Appearance > 100)
-                You.Appearance = 100;
-            else if (You.Appearance < 0)
-                You.Appearance = 0;
-
-            if (You.Age < 18)
-                You.Health += rnd.Next(-3, 8);
-
-            else if (You.Age >= 18 && You.Age < 36)
-                You.Health += rnd.Next(-5, 6);
-
-            else if (You.Age >= 36 && You.Age < 55)
-                You.Health += rnd.Next(-6, 3);
-
-            else
-                You.Health += rnd.Next(-8, 2);
-
-            if (You.Health > 100)
-                You.Health = 100;
-
-            if (You.Age == 110 || You.Health <= 0)
+            foreach (Person p in People.ToList())
             {
-                You.Health = 0;
-                OnDeathEvent();
-            }
+                p.Age++;
 
-            if (inUni)
-            {
-                yearsInUni++;
-                if (yearsInUni == You.University.YearsToFinish)
+                p.Intelligence += rnd.Next(-3, 4);
+                if (p.Intelligence > 100)
+                    p.Intelligence = 100;
+                else if (p.Intelligence < 0)
+                    p.Intelligence = 0;
+
+                p.Appearance += rnd.Next(-3, 4);
+                if (p.Appearance > 100)
+                    p.Appearance = 100;
+                else if (p.Appearance < 0)
+                    p.Appearance = 0;
+
+                if (p.Age < 18)
+                    p.Health += rnd.Next(-3, 8);
+
+                else if (p.Age >= 18 && p.Age < 36)
+                    p.Health += rnd.Next(-5, 6);
+
+                else if (p.Age >= 36 && p.Age < 55)
+                    p.Health += rnd.Next(-6, 3);
+
+                else
+                    p.Health += rnd.Next(-8, 2);
+
+                if (p.Health > 100)
+                    p.Health = 100;
+
+                if (p.Age == 110 || p.Health <= 0)
                 {
-                    OnGraduateEvent();
-                    yearsInUni = 0;
-                    Degrees.Add(You.University);
-                    You.University = DefaultUniversity;
+                    p.Health = 0;
+                    People.Remove(p);
+                    OnDeathEvent(p);
+                    if (p == You.Partner)
+                    {
+                        breakUp(true);
+                    }
+                }
+
+                if (inUni)
+                {
+                    yearsInUni++;
+                    if (yearsInUni == You.University.YearsToFinish)
+                    {
+                        OnGraduateEvent();
+                        yearsInUni = 0;
+                        Degrees.Add(You.University);
+                        You.University = DefaultUniversity;
+                    }
                 }
             }
 
@@ -237,6 +252,7 @@ namespace LifeSim.Model
                     intelligence = 100;
 
                 You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance));
+                People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
 
@@ -350,15 +366,16 @@ namespace LifeSim.Model
             if (!fail)
             {
                 You.Partner = PotentialPartner.Item1;
+                People.Add(PotentialPartner.Item1);
                 PotentialPartner = null;
                 OnRelationshipSuccessEvent();
             }
         }
 
-        public void breakUp()
+        public void breakUp(bool death)
         {
             You.Partner = null;
-            OnBreakUpEvent();
+            OnBreakUpEvent(death);
         }
 
         public void quitJob()
@@ -413,9 +430,9 @@ namespace LifeSim.Model
 
         #region Private event methods
 
-        private void OnDeathEvent()
+        private void OnDeathEvent(Person p)
         {
-            DeathEvent?.Invoke(this, new LifeSimEventArgs(You.Age));
+            DeathEvent?.Invoke(this, new LifeSimEventArgs(p));
         }
 
         private void OnJobChangedEvent()
@@ -459,9 +476,9 @@ namespace LifeSim.Model
             RelationshipSuccessEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnBreakUpEvent()
+        private void OnBreakUpEvent(bool death)
         {
-            BreakUpEvent?.Invoke(this, new EventArgs());
+            BreakUpEvent?.Invoke(this, new LifeSimEventArgs(death));
         }
 
         private void OnChildFailEvent()

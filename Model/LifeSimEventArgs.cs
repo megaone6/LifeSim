@@ -4,11 +4,18 @@ namespace LifeSim.Model
 {
     public class LifeSimEventArgs
     {
-        public int Age { get; }
+        public Person Person { get; }
 
-        public LifeSimEventArgs(int Age)
+        public bool Death { get; }
+
+        public LifeSimEventArgs(Person Person)
         {
-            this.Age = Age;
+            this.Person = Person;
+        }
+
+        public LifeSimEventArgs(bool Death)
+        {
+            this.Death = Death;
         }
     }
 }

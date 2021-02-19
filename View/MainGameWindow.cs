@@ -33,7 +33,7 @@ namespace LifeSim.View
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
             model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
             model.RelationshipSuccessEvent += new EventHandler<EventArgs>(Model_RelationshipSuccessEvent);
-            model.BreakUpEvent += new EventHandler<EventArgs>(Model_BreakUpEvent);
+            model.BreakUpEvent += new EventHandler<LifeSimEventArgs>(Model_BreakUpEvent);
             model.ChildFailEvent += new EventHandler<EventArgs>(Model_ChildFailEvent);
             model.ChildSuccessEvent += new EventHandler<EventArgs>(Model_ChildSuccessEvent);
             model.ChildBornEvent += new EventHandler<EventArgs>(Model_ChildBornEvent);
@@ -76,27 +76,34 @@ namespace LifeSim.View
 
         private void Model_DeathEvent(object sender, LifeSimEventArgs e)
         {
-            MessageBox.Show("Meghaltál!" + Environment.NewLine + model.You.Age.ToString() + " évig éltél.");
-            DialogResult result = MessageBox.Show("Szeretnél új játékot kezdeni?", "Új játék", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            if(e.Person.GetType() == typeof(Player))
             {
-                model.newGame();
+                MessageBox.Show("Meghaltál!" + Environment.NewLine + e.Person.Age.ToString() + " évig éltél.");
+                DialogResult result = MessageBox.Show("Szeretnél új játékot kezdeni?", "Új játék", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    model.newGame();
 
-                nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
-                intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
-                appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
-                if (model.You.Gender == 0)
-                    genderLabel.Text = "Férfi";
+                    nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
+                    intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
+                    appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+                    if (model.You.Gender == 0)
+                        genderLabel.Text = "Férfi";
+                    else
+                        genderLabel.Text = "Nő";
+
+                    MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
+                    + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
+                    + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+                }
                 else
-                    genderLabel.Text = "Nő";
-
-                MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
-                + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
-                + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+                {
+                    Application.Exit();
+                }
             }
             else
             {
-                Application.Exit();
+                MessageBox.Show("Meghalt " + e.Person.FirstName + " " + e.Person.LastName + "!" + Environment.NewLine + e.Person.Age.ToString() + " évig élt.");
             }
         }
 
@@ -169,9 +176,10 @@ namespace LifeSim.View
             tryForChildButton.Visible = true;
         }
 
-        private void Model_BreakUpEvent(object sender, EventArgs e)
+        private void Model_BreakUpEvent(object sender, LifeSimEventArgs e)
         {
-            MessageBox.Show("Szakítottál a pároddal!");
+            if(e.Death == false)
+                MessageBox.Show("Szakítottál a pároddal!");
             currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
             breakUpButton.Visible = false;
             tryForChildButton.Visible = false;
@@ -416,7 +424,7 @@ namespace LifeSim.View
                                       "Figyelmeztetés!",
                                       MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
-                model.breakUp();
+                model.breakUp(false);
         }
 
         private void tryForChildButton_Click(object sender, EventArgs e)
