@@ -1,6 +1,7 @@
 ﻿using LifeSim.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace LifeSim.View
@@ -38,6 +39,7 @@ namespace LifeSim.View
             model.ChildSuccessEvent += new EventHandler<EventArgs>(Model_ChildSuccessEvent);
             model.ChildBornEvent += new EventHandler<EventArgs>(Model_ChildBornEvent);
             model.QuitJobEvent += new EventHandler<EventArgs>(Model_QuitJobEvent);
+            model.PromotionEvent += new EventHandler<EventArgs>(Model_PromotionEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -49,7 +51,7 @@ namespace LifeSim.View
 
             foreach (Job job in model.Jobs)
             {
-                jobComboBox.Items.Add(job.Name);
+                jobComboBox.Items.Add(job.JobLevels.Keys.ElementAt(0));
             }
             jobComboBox.SelectedIndex = 0;
 
@@ -109,7 +111,7 @@ namespace LifeSim.View
 
         private void Model_JobChangedEvent(object sender, EventArgs e)
         {
-            String job = model.You.Job.Name;
+            String job = model.You.Job.JobLevels.Keys.ElementAt(0);
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { jobLabel.Text = job; }));
             else
@@ -215,6 +217,12 @@ namespace LifeSim.View
             tryJobButton.Visible = true;
             MessageBox.Show("Kiléptél a munkahelyedről.");
             jobLabel.Text = model.You.Job.Name;
+        }
+
+        private void Model_PromotionEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Gratulálok, előléptettek! Fizetésed magasabb lett.");
+            jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 
         #endregion

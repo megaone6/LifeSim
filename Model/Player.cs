@@ -16,6 +16,8 @@ namespace LifeSim.Model
 
         public Person Partner { get; set; }
 
+        public int CurrentJobLevel { get; set; }
+
         public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, Job Job, Home Home, University University): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance)
         {
             this.FirstName = FirstName;
@@ -31,6 +33,7 @@ namespace LifeSim.Model
             this.University = University;
             Children = new List<Person>();
             Partner = null;
+            CurrentJobLevel = 0;
         }
     }
 }

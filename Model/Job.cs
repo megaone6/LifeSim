@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LifeSim.Model
 {
@@ -9,13 +10,17 @@ namespace LifeSim.Model
 
         public int Salary { get; set; }
 
+        public Dictionary<String,int> JobLevels { get; set; }
+
         public University DegreeNeeded { get; set; }
 
-        public Job(String Name, int Salary, University DegreeNeeded)
+        public int MaxJobLevel { get; set; }
+
+        public Job(Dictionary<String,int> JobLevels, University DegreeNeeded, int MaxJobLevel)
         {
-            this.Name = Name;
-            this.Salary = Salary;
+            this.JobLevels = JobLevels;
             this.DegreeNeeded = DegreeNeeded;
+            this.MaxJobLevel = MaxJobLevel;
         }
     }
 }
