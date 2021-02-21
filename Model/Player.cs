@@ -12,7 +12,7 @@ namespace LifeSim.Model
 
         public Home Home { get; set; }
 
-        public List<Person> Children { get; private set; }
+        public List<Person> Children { get; set; }
 
         public Person Partner { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LifeSim.Model
 {
@@ -20,8 +21,6 @@ namespace LifeSim.Model
 
         public int Money { get; set; }
 
-        public bool IsDead { get; set; }
-
         public Person(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance)
         {
             this.FirstName = FirstName;
@@ -31,8 +30,16 @@ namespace LifeSim.Model
             this.Health = Health;
             this.Intelligence = Intelligence;
             this.Appearance = Appearance;
-            this.Money = 0;
-            IsDead = false;
+            Money = 0;
+        }
+
+        public Player changeToPlayer(Job Job, Home Home, University University)
+        {
+            Player player = new Player(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Job, Home, University);
+            player.Children = new List<Person>();
+            player.Partner = null;
+            player.CurrentJobLevel = 0;
+            return player;
         }
     }
 }

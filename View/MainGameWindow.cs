@@ -40,6 +40,7 @@ namespace LifeSim.View
             model.ChildBornEvent += new EventHandler<EventArgs>(Model_ChildBornEvent);
             model.QuitJobEvent += new EventHandler<EventArgs>(Model_QuitJobEvent);
             model.PromotionEvent += new EventHandler<EventArgs>(Model_PromotionEvent);
+            model.RetirementEvent += new EventHandler<EventArgs>(Model_RetirementEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -67,6 +68,8 @@ namespace LifeSim.View
             }
             universityComboBox.SelectedIndex = 0;
 
+            jobLabel.Text = "Munkanélküli";
+
             MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
                 + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
                 + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
@@ -84,19 +87,56 @@ namespace LifeSim.View
                 DialogResult result = MessageBox.Show("Szeretnél új játékot kezdeni?", "Új játék", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    model.newGame();
+                    if(model.You.Children.Count == 0)
+                    {
+                        model.newGame();
 
-                    nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
-                    intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
-                    appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
-                    if (model.You.Gender == 0)
-                        genderLabel.Text = "Férfi";
+                        nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
+                        intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
+                        appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+                        if (model.You.Gender == 0)
+                            genderLabel.Text = "Férfi";
+                        else
+                            genderLabel.Text = "Nő";
+
+                        MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
+                        + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
+                        + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+                    }
                     else
-                        genderLabel.Text = "Nő";
-
-                    MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
-                    + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
-                    + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+                    {
+                        MessageBox.Show("Átvetted az irányítást gyermeked felett.");
+                        model.takeControlOfChild();
+                        nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
+                        intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
+                        appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+                        if (model.You.Gender == 0)
+                            genderLabel.Text = "Nő";
+                        else
+                            genderLabel.Text = "Férfi";
+                        ageLabel.Text = model.You.Age.ToString() + " éves vagy";
+                        if(model.You.Age < 12)
+                        {
+                            leisurePanelButton.Enabled = false;
+                        }
+                        if (model.You.Age < 14)
+                        {
+                            lovePanelButton.Enabled = false;
+                        }
+                        if (model.You.Age < 18)
+                        {
+                            jobPanelButton.Enabled = false;
+                            homePanelButton.Enabled = false;
+                            universityPanelButton.Enabled = false;
+                            childrenPanelButton.Enabled = false;
+                        }
+                        jobComboBox.Visible = true;
+                        tryJobButton.Visible = true;
+                        quitJobButton.Visible = false;
+                        homeComboBox.Visible = true;
+                        buyHomeButton.Visible = true;
+                        childrenListBox.Items.Clear();
+                    }
                 }
                 else
                 {
@@ -222,6 +262,12 @@ namespace LifeSim.View
         private void Model_PromotionEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok, előléptettek! Fizetésed magasabb lett.");
+            jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
+        }
+
+        private void Model_RetirementEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nyugdíjba vonultál.");
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 

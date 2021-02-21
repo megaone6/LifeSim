@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -84,6 +85,8 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> PromotionEvent;
 
+        public event EventHandler<EventArgs> RetirementEvent;
+
         #endregion
 
         #region Constructor
@@ -105,10 +108,10 @@ namespace LifeSim.Model
 
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
-            
             rnd = new Random();
             Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0) }; Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0) };
+            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
@@ -145,8 +148,8 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,55), Gender.Male, rnd.Next(1,101), rnd.Next(101), rnd.Next(101)),
-                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,55), Gender.Female, rnd.Next(1,101), rnd.Next(101), rnd.Next(101))};
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(30,101), rnd.Next(101), rnd.Next(101)),
+                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(30,101), rnd.Next(101), rnd.Next(101))};
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
             int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
@@ -240,6 +243,7 @@ namespace LifeSim.Model
 
             if (childOnWay)
             {
+                childOnWay = false;
                 Gender gender = (Gender)rnd.Next(2);
                 String name;
 
@@ -273,6 +277,15 @@ namespace LifeSim.Model
                 OnChildBornEvent();
             }
 
+            if(You.Age == 65 && isWorking)
+            {
+                isWorking = false;
+                int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel)*0.67));
+                You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
+                You.CurrentJobLevel = 0;
+                OnRetirementEvent();
+            }
+
             You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses;
         }
 
@@ -302,7 +315,10 @@ namespace LifeSim.Model
 
         public void jobRefresh(Job job)
         {
-            isWorking = true;
+            if (job != DefaultJob)
+                isWorking = true;
+            else
+                isWorking = false;
             You.Job = job;
             OnJobChangedEvent();
         }
@@ -315,8 +331,11 @@ namespace LifeSim.Model
 
         public void uniRefresh(University uni)
         {
+            if (uni != DefaultUniversity)
+                inUni = true;
+            else
+                inUni = false;
             yearsInUni = 0;
-            inUni = true;
             You.University = uni;
             OnUniChangedEvent();
         }
@@ -417,6 +436,19 @@ namespace LifeSim.Model
                     OnChildSuccessEvent();
                     break;
             }
+        }
+
+        public void takeControlOfChild()
+        {
+            People.Remove(You.Children[0]);
+            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity);
+            People.Add(You);
+            breakUp(true);
+            jobRefresh(DefaultJob);
+            homeRefresh(DefaultHome);
+            uniRefresh(DefaultUniversity);
+            PromotionMeter = 0;
+            childOnWay = false;
         }
         #endregion
 
@@ -523,6 +555,11 @@ namespace LifeSim.Model
         private void OnPromotionEvent()
         {
             PromotionEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnRetirementEvent()
+        {
+            RetirementEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion
