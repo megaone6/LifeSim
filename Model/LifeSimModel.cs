@@ -17,11 +17,14 @@ namespace LifeSim.Model
         private List<string> femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
         private String yourName;
         private bool maleOrFemale;
+        private bool smartUni;
         private int yearsInUni;
         private bool inUni;
         private bool isWorking;
         private bool childOnWay;
         private Person otherParent;
+        private int universityCosts;
+        private int timeToPayBack;
 
         #endregion
 
@@ -61,9 +64,13 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> HomeChangedEvent;
 
-        public event EventHandler<EventArgs> UniChangedEvent;
+        public event EventHandler<EventArgs> SmartUniChangedEvent;
 
-        public event EventHandler<EventArgs> GraduateEvent;
+        public event EventHandler<LifeSimEventArgs> DumbUniChangedEvent;
+
+        public event EventHandler<EventArgs> SmartGraduateEvent;
+
+        public event EventHandler<LifeSimEventArgs> DumbGraduateEvent;
 
         public event EventHandler<EventArgs> HealthRefreshEvent;
 
@@ -94,7 +101,7 @@ namespace LifeSim.Model
         public LifeSimModel()
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000) };
             Jobs = new List<Job>() { new Job(new Dictionary<String, int> { {"Junior programozó", 3240000 }, {"Medior programozó", 6600000}, {"Senior programozó", 9600000} }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             yourName = "";
@@ -103,20 +110,20 @@ namespace LifeSim.Model
             femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
             DefaultHome = new Home("Szülői lakás", 0, 0);
-            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
     }
 
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3), new University("Orvosi", 6) };
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000) };
             Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
             DefaultHome = new Home("Szülői lakás", 0, 0);
-            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
         }
 
         #endregion
@@ -172,6 +179,8 @@ namespace LifeSim.Model
             inUni = false;
             childOnWay = false;
             isWorking = false;
+            universityCosts = 0;
+            timeToPayBack = 0;
         }
         public void age()
         {
@@ -218,12 +227,34 @@ namespace LifeSim.Model
                 }
             }
 
+            Debug.WriteLine(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel));
+            Debug.WriteLine(You.Home.YearlyExpenses);
+            Debug.WriteLine(universityCosts);
+            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts;
+            if (timeToPayBack > 0)
+                timeToPayBack--;
+            if (timeToPayBack == 0)
+            {
+                universityCosts = 0;
+            }
+
             if (inUni)
             {
                 yearsInUni++;
                 if (yearsInUni == You.University.YearsToFinish)
                 {
-                    OnGraduateEvent();
+                    if (!smartUni)
+                    {
+                        do
+                        {
+                            timeToPayBack = rnd.Next(4, 25);
+                            universityCosts = You.University.CostPerSemester * 2 * yearsInUni / timeToPayBack;
+                        } while (25000 * 12 > universityCosts || universityCosts > 60000 * 12);
+                        OnDumbGraduateEvent(universityCosts, timeToPayBack);
+                    }
+                    else
+                        OnSmartGraduateEvent();
+                    inUni = false;
                     yearsInUni = 0;
                     Degrees.Add(You.University);
                     You.University = DefaultUniversity;
@@ -285,8 +316,6 @@ namespace LifeSim.Model
                 You.CurrentJobLevel = 0;
                 OnRetirementEvent();
             }
-
-            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses;
         }
 
         public void workOut()
@@ -337,7 +366,16 @@ namespace LifeSim.Model
                 inUni = false;
             yearsInUni = 0;
             You.University = uni;
-            OnUniChangedEvent();
+            if (You.Intelligence >= 70)
+            {
+                smartUni = true;
+                OnSmartUniChangedEvent();
+            }
+            else
+            {
+                smartUni = false;
+                OnDumbUniChangedEvent(uni.CostPerSemester);
+            }
         }
 
         public Tuple<Person,int> newLove()
@@ -496,15 +534,24 @@ namespace LifeSim.Model
             HomeChangedEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnUniChangedEvent()
+        private void OnSmartUniChangedEvent()
         {
-            UniChangedEvent?.Invoke(this, new EventArgs());
+            SmartUniChangedEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnGraduateEvent()
+        private void OnDumbUniChangedEvent(int CostOfUni)
         {
-            inUni = false;
-            GraduateEvent?.Invoke(this, new EventArgs());
+            DumbUniChangedEvent?.Invoke(this, new LifeSimEventArgs(CostOfUni));
+        }
+
+        private void OnSmartGraduateEvent()
+        {
+            SmartGraduateEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnDumbGraduateEvent(int CostPerYear, int YearsToPayBack)
+        {
+            DumbGraduateEvent?.Invoke(this, new LifeSimEventArgs(CostPerYear, YearsToPayBack));
         }
 
         private void OnHealthRefreshEvent()

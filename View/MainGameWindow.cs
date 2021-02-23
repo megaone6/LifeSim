@@ -28,8 +28,10 @@ namespace LifeSim.View
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);
             model.JobChangedEvent += new EventHandler<EventArgs>(Model_JobChangedEvent);
             model.HomeChangedEvent += new EventHandler<EventArgs>(Model_HomeChangedEvent);
-            model.UniChangedEvent += new EventHandler<EventArgs>(Model_UniChangedEvent);
-            model.GraduateEvent += new EventHandler<EventArgs>(Model_GraduateEvent);
+            model.SmartUniChangedEvent += new EventHandler<EventArgs>(Model_SmartUniChangedEvent);
+            model.DumbUniChangedEvent += new EventHandler<LifeSimEventArgs>(Model_DumbUniChangedEvent);
+            model.SmartGraduateEvent += new EventHandler<EventArgs>(Model_SmartGraduateEvent);
+            model.DumbGraduateEvent += new EventHandler<LifeSimEventArgs>(Model_DumbGraduateEvent);
             model.HealthRefreshEvent += new EventHandler<EventArgs>(Model_HealthRefreshEvent);
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
             model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
@@ -166,8 +168,9 @@ namespace LifeSim.View
             else
                 homeLabel.Text = home;
         }
-        private void Model_UniChangedEvent(object sender, EventArgs e)
+        private void Model_SmartUniChangedEvent(object sender, EventArgs e)
         {
+            MessageBox.Show("Gratulálok! Bekerültél államilag finanszírozott képzésre!");
             String uni = model.You.University.Type;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
@@ -175,9 +178,25 @@ namespace LifeSim.View
                 universityLabel.Text = uni;
         }
 
-        private void Model_GraduateEvent(object sender, EventArgs e)
+        private void Model_DumbUniChangedEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Sajnos csak önköltséges képzésre sikerült bejutnod. A képzés befejezése után el kell kezdened fizetni a költségeket, ami " + e.UniversityCost + " forint/félév!");
+            String uni = model.You.University.Type;
+            if (jobLabel.InvokeRequired)
+                jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
+            else
+                universityLabel.Text = uni;
+        }
+
+        private void Model_SmartGraduateEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!");
+            universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
+        }
+
+        private void Model_DumbGraduateEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést! Sajnos viszont el kell kezdened törleszteni a Diákhitel 2-t. Ez " + e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni.");
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
         }
 

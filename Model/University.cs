@@ -8,10 +8,13 @@ namespace LifeSim.Model
 
         public int YearsToFinish { get; set; }
 
-        public University(String Type, int YearsToFinish)
+        public int CostPerSemester { get; set; }
+
+        public University(String Type, int YearsToFinish, int CostPerSemester)
         {
             this.Type = Type;
             this.YearsToFinish = YearsToFinish;
+            this.CostPerSemester = CostPerSemester;
         }
     }
 }
