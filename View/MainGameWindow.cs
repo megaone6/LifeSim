@@ -34,6 +34,8 @@ namespace LifeSim.View
             model.DumbGraduateEvent += new EventHandler<LifeSimEventArgs>(Model_DumbGraduateEvent);
             model.HealthRefreshEvent += new EventHandler<EventArgs>(Model_HealthRefreshEvent);
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
+            model.HappinessRefreshEvent += new EventHandler<EventArgs>(Model_HappinessRefreshEvent);
+            model.AppearanceRefreshEvent += new EventHandler<EventArgs>(Model_AppearanceRefreshEvent);
             model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
             model.RelationshipSuccessEvent += new EventHandler<EventArgs>(Model_RelationshipSuccessEvent);
             model.BreakUpEvent += new EventHandler<LifeSimEventArgs>(Model_BreakUpEvent);
@@ -47,6 +49,7 @@ namespace LifeSim.View
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
             appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+            happinessLabel.Text = "Boldogság: " + model.You.Happiness.ToString();
             if (model.You.Gender == 0)
                 genderLabel.Text = "Nő";
             else
@@ -218,6 +221,24 @@ namespace LifeSim.View
                 intelligenceLabel.Text = intelligence;
         }
 
+        private void Model_HappinessRefreshEvent(object sender, EventArgs e)
+        {
+            String happiness = "Boldogság: " + model.You.Happiness.ToString();
+            if (happinessLabel.InvokeRequired)
+                happinessLabel.Invoke(new MethodInvoker(delegate { happinessLabel.Text = happiness; }));
+            else
+                happinessLabel.Text = happiness;
+        }
+
+        private void Model_AppearanceRefreshEvent(object sender, EventArgs e)
+        {
+            String appearance = "Kinézet: " + model.You.Appearance.ToString();
+            if (appearanceLabel.InvokeRequired)
+                appearanceLabel.Invoke(new MethodInvoker(delegate { appearanceLabel.Text = appearance; }));
+            else
+                appearanceLabel.Text = appearance;
+        }
+
         private void Model_RelationshipFailEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Sajnos nem volt meg köztetek a kémia.");
@@ -330,6 +351,7 @@ namespace LifeSim.View
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
             appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+            happinessLabel.Text = "Boldogság: " + model.You.Happiness.ToString();
             moneyLabel.Text = "Jelenleg " + model.You.Money.ToString() + " forintod van";
         }
 

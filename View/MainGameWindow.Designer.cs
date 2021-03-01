@@ -70,6 +70,7 @@
             this.childrenPanelButton = new System.Windows.Forms.Button();
             this.childrenPanel = new System.Windows.Forms.Panel();
             this.childrenListBox = new System.Windows.Forms.ListBox();
+            this.happinessLabel = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -145,6 +146,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.happinessLabel);
             this.mainPanel.Controls.Add(this.moneyLabel);
             this.mainPanel.Controls.Add(this.nameLabel);
             this.mainPanel.Controls.Add(this.appearanceLabel);
@@ -152,9 +154,9 @@
             this.mainPanel.Controls.Add(this.intelligenceLabel);
             this.mainPanel.Controls.Add(this.ageLabel);
             this.mainPanel.Controls.Add(this.healthLabel);
-            this.mainPanel.Location = new System.Drawing.Point(12, 12);
+            this.mainPanel.Location = new System.Drawing.Point(12, 13);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(776, 346);
+            this.mainPanel.Size = new System.Drawing.Size(776, 345);
             this.mainPanel.TabIndex = 7;
             // 
             // moneyLabel
@@ -487,12 +489,22 @@
             this.childrenListBox.Size = new System.Drawing.Size(168, 109);
             this.childrenListBox.TabIndex = 0;
             // 
+            // happinessLabel
+            // 
+            this.happinessLabel.AutoSize = true;
+            this.happinessLabel.Location = new System.Drawing.Point(643, 97);
+            this.happinessLabel.Name = "happinessLabel";
+            this.happinessLabel.Size = new System.Drawing.Size(69, 15);
+            this.happinessLabel.TabIndex = 10;
+            this.happinessLabel.Text = "Boldogság: ";
+            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.childrenPanel);
+            this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.childrenPanelButton);
             this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.lovePanel);
@@ -505,7 +517,6 @@
             this.Controls.Add(this.homePanelButton);
             this.Controls.Add(this.mainPanelButton);
             this.Controls.Add(this.jobPanelButton);
-            this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.ageButton);
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
@@ -569,5 +580,6 @@
         private System.Windows.Forms.Button childrenPanelButton;
         private System.Windows.Forms.Panel childrenPanel;
         private System.Windows.Forms.ListBox childrenListBox;
+        private System.Windows.Forms.Label happinessLabel;
     }
 }

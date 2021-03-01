@@ -76,6 +76,10 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> IntelligenceRefreshEvent;
 
+        public event EventHandler<EventArgs> HappinessRefreshEvent;
+
+        public event EventHandler<EventArgs> AppearanceRefreshEvent;
+
         public event EventHandler<EventArgs> RelationshipFailEvent;
 
         public event EventHandler<EventArgs> RelationshipSuccessEvent;
@@ -155,8 +159,8 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(30,101), rnd.Next(101), rnd.Next(101)),
-                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(30,101), rnd.Next(101), rnd.Next(101))};
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(30,101), rnd.Next(101), rnd.Next(101), rnd.Next(10,101)),
+                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(30,101), rnd.Next(101), rnd.Next(101), rnd.Next(10,101))};
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
             int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
@@ -171,7 +175,7 @@ namespace LifeSim.Model
             if (intelligence > 100)
                 intelligence = 100;
 
-            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, DefaultJob, DefaultHome, DefaultUniversity);
+            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, DefaultJob, DefaultHome, DefaultUniversity);
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
@@ -200,20 +204,21 @@ namespace LifeSim.Model
                 else if (p.Appearance < 0)
                     p.Appearance = 0;
 
-                if (p.Age < 18)
-                    p.Health += rnd.Next(-3, 8);
-
-                else if (p.Age >= 18 && p.Age < 36)
-                    p.Health += rnd.Next(-5, 6);
-
-                else if (p.Age >= 36 && p.Age < 55)
-                    p.Health += rnd.Next(-6, 3);
-
-                else
-                    p.Health += rnd.Next(-8, 2);
+                p.Health += calculateHealth(p);
 
                 if (p.Health > 100)
                     p.Health = 100;
+
+                if (p.Age < 18)
+                    p.Happiness += rnd.Next(-2, 6);
+
+                else
+                    p.Happiness += rnd.Next(-4, 3);
+
+                if (p.Happiness > 100)
+                    p.Happiness = 100;
+                else if (p.Happiness < 0)
+                    p.Happiness = 0;
 
                 if (p.Age == 110 || p.Health <= 0)
                 {
@@ -227,9 +232,6 @@ namespace LifeSim.Model
                 }
             }
 
-            Debug.WriteLine(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel));
-            Debug.WriteLine(You.Home.YearlyExpenses);
-            Debug.WriteLine(universityCosts);
             You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts;
             if (timeToPayBack > 0)
                 timeToPayBack--;
@@ -268,7 +270,9 @@ namespace LifeSim.Model
                 {
                     You.CurrentJobLevel += 1;
                     PromotionMeter = 0;
+                    You.Happiness += rnd.Next(2, 5);
                     OnPromotionEvent();
+                    OnHappinessRefreshEvent();
                 }
             }
 
@@ -303,7 +307,7 @@ namespace LifeSim.Model
                 if (intelligence > 100)
                     intelligence = 100;
 
-                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance));
+                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100));
                 People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
@@ -320,14 +324,33 @@ namespace LifeSim.Model
 
         public void workOut()
         {
-            int randomGain = rnd.Next(1, 6);
-            if (You.Health + randomGain <= 100)
-                You.Health += randomGain;
+            int randomHealthGain = rnd.Next(1, 6);
+            if (You.Health + randomHealthGain <= 100)
+                You.Health += randomHealthGain;
             else
             {
                 You.Health = 100;
             }
+
+            int randomHappinessGain = rnd.Next(2, 5);
+            if (You.Happiness + randomHappinessGain <= 100)
+                You.Happiness += randomHappinessGain;
+            else
+            {
+                You.Happiness = 100;
+            }
+
+            int randomAppearanceGain = rnd.Next(1, 5);
+            if (You.Appearance + randomAppearanceGain <= 100)
+                You.Appearance += randomAppearanceGain;
+            else
+            {
+                You.Appearance = 100;
+            }
+
             OnHealthRefreshEvent();
+            OnHappinessRefreshEvent();
+            OnAppearanceRefreshEvent();
         }
 
         public void read()
@@ -339,7 +362,17 @@ namespace LifeSim.Model
             {
                 You.Intelligence = 100;
             }
+
+            int randomHappinessGain = rnd.Next(2, 5);
+            if (You.Happiness + randomHappinessGain <= 100)
+                You.Happiness += randomHappinessGain;
+            else
+            {
+                You.Happiness = 100;
+            }
+
             OnIntelligenceRefreshEvent();
+            OnHappinessRefreshEvent();
         }
 
         public void jobRefresh(Job job)
@@ -393,7 +426,7 @@ namespace LifeSim.Model
                 loveGender = Gender.Male;
             }
             int randomAge = rnd.Next(-2, 3);
-            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101));
+            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10,101));
             int chanceOfLove = chanceOfMutualLove(crush);
             PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
             return PotentialPartner;
@@ -515,6 +548,68 @@ namespace LifeSim.Model
             return (stat1 + stat2) / 2 + rnd.Next(-10, 11);
         }
 
+        private int calculateHealth(Person p)
+        {
+            int min;
+            int max;
+            
+            if (p.Happiness > 80 && p.Happiness <= 100)
+            {
+                min = -2;
+                max = 6;
+            }
+
+            else if (p.Happiness > 60 && p.Happiness <= 80)
+            {
+                min = -4;
+                max = 4;
+            }
+
+            else if (p.Happiness > 40 && p.Happiness <= 60)
+            {
+                min = -6;
+                max = 2;
+            }
+
+            else if (p.Happiness > 20 && p.Happiness <= 40)
+            {
+                min = -8;
+                max = 0;
+            }
+
+            else
+            {
+                min = -10;
+                max = -2;
+            }
+
+            if (p.Age < 18)
+            {
+                min += 2;
+                max += 2;
+            }
+
+            else if (p.Age >= 18 && p.Age < 36)
+            {
+                min += 1;
+                max += 1;
+            }
+
+            else if (p.Age >= 36 && p.Age < 55)
+            {
+                min -= 3;
+                max -= 3;
+            }
+
+            else
+            {
+                min -= 5;
+                max -= 6;
+            }
+
+            return rnd.Next(min, max);
+        }
+
         #endregion
 
         #region Private event methods
@@ -563,6 +658,16 @@ namespace LifeSim.Model
         {
             IntelligenceRefreshEvent?.Invoke(this, new EventArgs());
         }
+
+        private void OnHappinessRefreshEvent()
+        {
+            HappinessRefreshEvent?.Invoke(this, new EventArgs());
+        }
+        private void OnAppearanceRefreshEvent()
+        {
+            AppearanceRefreshEvent?.Invoke(this, new EventArgs());
+        }
+
 
         private void OnRelationshipFailEvent()
         {
