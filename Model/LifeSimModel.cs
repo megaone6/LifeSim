@@ -80,6 +80,8 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> AppearanceRefreshEvent;
 
+        public event EventHandler<EventArgs> MoneyRefreshEvent;
+
         public event EventHandler<EventArgs> RelationshipFailEvent;
 
         public event EventHandler<EventArgs> RelationshipSuccessEvent;
@@ -97,6 +99,10 @@ namespace LifeSim.Model
         public event EventHandler<EventArgs> PromotionEvent;
 
         public event EventHandler<EventArgs> RetirementEvent;
+
+        public event EventHandler<EventArgs> VacationFailedEvent;
+
+        public event EventHandler<EventArgs> VacationSuccessEvent;
 
         #endregion
 
@@ -521,6 +527,29 @@ namespace LifeSim.Model
             PromotionMeter = 0;
             childOnWay = false;
         }
+
+        public void vacation()
+        {
+            int familyCount = You.Children.Count + 1;
+            if (You.Partner != null)
+                familyCount += 1;
+
+            if (You.Money < 300000 * familyCount)
+                OnVacationFailedEvent();
+            else
+            {
+                OnVacationSuccessEvent();
+                You.Money -= 300000 * familyCount;
+                OnMoneyRefreshEvent();
+                int randomHappinessGain = rnd.Next(10, 21);
+                if (You.Happiness + randomHappinessGain <= 100)
+                    You.Happiness += randomHappinessGain;
+                else
+                    You.Happiness = 100;
+                OnHappinessRefreshEvent();
+            }
+        }
+
         #endregion
 
         #region Private methods
@@ -668,6 +697,10 @@ namespace LifeSim.Model
             AppearanceRefreshEvent?.Invoke(this, new EventArgs());
         }
 
+        private void OnMoneyRefreshEvent()
+        {
+            MoneyRefreshEvent?.Invoke(this, new EventArgs());
+        }
 
         private void OnRelationshipFailEvent()
         {
@@ -712,6 +745,16 @@ namespace LifeSim.Model
         private void OnRetirementEvent()
         {
             RetirementEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnVacationFailedEvent()
+        {
+            VacationFailedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnVacationSuccessEvent()
+        {
+            VacationSuccessEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

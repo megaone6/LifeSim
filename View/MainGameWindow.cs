@@ -36,6 +36,7 @@ namespace LifeSim.View
             model.IntelligenceRefreshEvent += new EventHandler<EventArgs>(Model_IntelligenceRefreshEvent);
             model.HappinessRefreshEvent += new EventHandler<EventArgs>(Model_HappinessRefreshEvent);
             model.AppearanceRefreshEvent += new EventHandler<EventArgs>(Model_AppearanceRefreshEvent);
+            model.MoneyRefreshEvent += new EventHandler<EventArgs>(Model_MoneyRefreshEvent);
             model.RelationshipFailEvent += new EventHandler<EventArgs>(Model_RelationshipFailEvent);
             model.RelationshipSuccessEvent += new EventHandler<EventArgs>(Model_RelationshipSuccessEvent);
             model.BreakUpEvent += new EventHandler<LifeSimEventArgs>(Model_BreakUpEvent);
@@ -45,6 +46,8 @@ namespace LifeSim.View
             model.QuitJobEvent += new EventHandler<EventArgs>(Model_QuitJobEvent);
             model.PromotionEvent += new EventHandler<EventArgs>(Model_PromotionEvent);
             model.RetirementEvent += new EventHandler<EventArgs>(Model_RetirementEvent);
+            model.VacationFailedEvent += new EventHandler<EventArgs>(Model_VacationFailedEvent);
+            model.VacationSuccessEvent += new EventHandler<EventArgs>(Model_VacationSuccessEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -239,6 +242,15 @@ namespace LifeSim.View
                 appearanceLabel.Text = appearance;
         }
 
+        private void Model_MoneyRefreshEvent(object sender, EventArgs e)
+        {
+            String money = "Jelenleg " + model.You.Money.ToString() + " forintod van";
+            if (moneyLabel.InvokeRequired)
+                moneyLabel.Invoke(new MethodInvoker(delegate { moneyLabel.Text = money; }));
+            else
+                moneyLabel.Text = money;
+        }
+
         private void Model_RelationshipFailEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Sajnos nem volt meg köztetek a kémia.");
@@ -311,6 +323,17 @@ namespace LifeSim.View
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 
+        private void Model_VacationFailedEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nincs elég pénzed elmenni nyaralni. Ehhez minden családtagod után (magadat is beleértve) 300000 forintot kéne fizetned.");
+        }
+
+        private void Model_VacationSuccessEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Elmentél nyaralni. Boldogságod megnőtt.");
+            vacationButton.Enabled = false;
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -345,7 +368,10 @@ namespace LifeSim.View
             }
 
             if (model.You.Age >= 18)
+            {
                 tryForChildButton.Enabled = true;
+                vacationButton.Enabled = true;
+            }
 
             ageLabel.Text = model.You.Age.ToString() + " éves vagy";
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
@@ -547,6 +573,11 @@ namespace LifeSim.View
             jobPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
+        }
+
+        private void vacationButton_Click(object sender, EventArgs e)
+        {
+            model.vacation();
         }
     }
 }

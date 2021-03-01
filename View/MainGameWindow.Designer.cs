@@ -37,6 +37,7 @@
             this.intelligenceLabel = new System.Windows.Forms.Label();
             this.appearanceLabel = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.happinessLabel = new System.Windows.Forms.Label();
             this.moneyLabel = new System.Windows.Forms.Label();
             this.jobPanel = new System.Windows.Forms.Panel();
             this.quitJobButton = new System.Windows.Forms.Button();
@@ -52,6 +53,7 @@
             this.homeComboBox = new System.Windows.Forms.ComboBox();
             this.leisurePanelButton = new System.Windows.Forms.Button();
             this.leisurePanel = new System.Windows.Forms.Panel();
+            this.vacationButton = new System.Windows.Forms.Button();
             this.readButton = new System.Windows.Forms.Button();
             this.workOutButton = new System.Windows.Forms.Button();
             this.universityPanel = new System.Windows.Forms.Panel();
@@ -70,7 +72,6 @@
             this.childrenPanelButton = new System.Windows.Forms.Button();
             this.childrenPanel = new System.Windows.Forms.Panel();
             this.childrenListBox = new System.Windows.Forms.ListBox();
-            this.happinessLabel = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -158,6 +159,15 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(776, 345);
             this.mainPanel.TabIndex = 7;
+            // 
+            // happinessLabel
+            // 
+            this.happinessLabel.AutoSize = true;
+            this.happinessLabel.Location = new System.Drawing.Point(643, 97);
+            this.happinessLabel.Name = "happinessLabel";
+            this.happinessLabel.Size = new System.Drawing.Size(69, 15);
+            this.happinessLabel.TabIndex = 10;
+            this.happinessLabel.Text = "Boldogság: ";
             // 
             // moneyLabel
             // 
@@ -300,17 +310,29 @@
             // 
             // leisurePanel
             // 
+            this.leisurePanel.Controls.Add(this.vacationButton);
             this.leisurePanel.Controls.Add(this.readButton);
             this.leisurePanel.Controls.Add(this.workOutButton);
-            this.leisurePanel.Location = new System.Drawing.Point(12, 12);
+            this.leisurePanel.Location = new System.Drawing.Point(12, 11);
             this.leisurePanel.Name = "leisurePanel";
             this.leisurePanel.Size = new System.Drawing.Size(776, 346);
             this.leisurePanel.TabIndex = 13;
             // 
+            // vacationButton
+            // 
+            this.vacationButton.Enabled = false;
+            this.vacationButton.Image = ((System.Drawing.Image)(resources.GetObject("vacationButton.Image")));
+            this.vacationButton.Location = new System.Drawing.Point(15, 199);
+            this.vacationButton.Name = "vacationButton";
+            this.vacationButton.Size = new System.Drawing.Size(163, 85);
+            this.vacationButton.TabIndex = 16;
+            this.vacationButton.UseVisualStyleBackColor = true;
+            this.vacationButton.Click += new System.EventHandler(this.vacationButton_Click);
+            // 
             // readButton
             // 
             this.readButton.Image = ((System.Drawing.Image)(resources.GetObject("readButton.Image")));
-            this.readButton.Location = new System.Drawing.Point(14, 115);
+            this.readButton.Location = new System.Drawing.Point(14, 107);
             this.readButton.Name = "readButton";
             this.readButton.Size = new System.Drawing.Size(163, 85);
             this.readButton.TabIndex = 15;
@@ -475,7 +497,7 @@
             // childrenPanel
             // 
             this.childrenPanel.Controls.Add(this.childrenListBox);
-            this.childrenPanel.Location = new System.Drawing.Point(12, 12);
+            this.childrenPanel.Location = new System.Drawing.Point(12, 11);
             this.childrenPanel.Name = "childrenPanel";
             this.childrenPanel.Size = new System.Drawing.Size(776, 346);
             this.childrenPanel.TabIndex = 10;
@@ -489,21 +511,13 @@
             this.childrenListBox.Size = new System.Drawing.Size(168, 109);
             this.childrenListBox.TabIndex = 0;
             // 
-            // happinessLabel
-            // 
-            this.happinessLabel.AutoSize = true;
-            this.happinessLabel.Location = new System.Drawing.Point(643, 97);
-            this.happinessLabel.Name = "happinessLabel";
-            this.happinessLabel.Size = new System.Drawing.Size(69, 15);
-            this.happinessLabel.TabIndex = 10;
-            this.happinessLabel.Text = "Boldogság: ";
-            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.childrenPanel);
+            this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.childrenPanelButton);
             this.Controls.Add(this.jobPanel);
@@ -511,7 +525,6 @@
             this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
             this.Controls.Add(this.universityPanelButton);
-            this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.leisurePanelButton);
             this.Controls.Add(this.homePanel);
             this.Controls.Add(this.homePanelButton);
@@ -581,5 +594,6 @@
         private System.Windows.Forms.Panel childrenPanel;
         private System.Windows.Forms.ListBox childrenListBox;
         private System.Windows.Forms.Label happinessLabel;
+        private System.Windows.Forms.Button vacationButton;
     }
 }
