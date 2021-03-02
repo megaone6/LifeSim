@@ -48,6 +48,10 @@ namespace LifeSim.View
             model.RetirementEvent += new EventHandler<EventArgs>(Model_RetirementEvent);
             model.VacationFailedEvent += new EventHandler<EventArgs>(Model_VacationFailedEvent);
             model.VacationSuccessEvent += new EventHandler<EventArgs>(Model_VacationSuccessEvent);
+            model.WorkOutSuccessEvent += new EventHandler<EventArgs>(Model_WorkOutSuccessEvent);
+            model.WorkOutFailedEvent += new EventHandler<EventArgs>(Model_WorkOutFailedEvent);
+            model.ReadSuccessEvent += new EventHandler<EventArgs>(Model_ReadSuccessEvent);
+            model.ReadFailedEvent += new EventHandler<EventArgs>(Model_ReadFailedEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -334,6 +338,28 @@ namespace LifeSim.View
             vacationButton.Enabled = false;
         }
 
+        private void Model_WorkOutSuccessEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt.");
+            workOutButton.Enabled = false;
+        }
+
+        private void Model_WorkOutFailedEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nem volt pénzed kondibérletre.");
+        }
+
+        private void Model_ReadSuccessEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt.");
+            readButton.Enabled = false;
+        }
+
+        private void Model_ReadFailedEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nem volt pénzed új könyvekre.");
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -470,18 +496,12 @@ namespace LifeSim.View
 
         private void workOutButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Egészség edzés előtt: " + model.You.Health);
             model.workOut();
-            MessageBox.Show("Egészség edzés után: " + model.You.Health);
-            workOutButton.Enabled = false;
         }
 
         private void readButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Intelligencia olvasás előtt: " + model.You.Intelligence);
             model.read();
-            MessageBox.Show("Intelligencia olvasás után: " + model.You.Intelligence);
-            readButton.Enabled = false;
         }
 
         private void universityPanelButton_Click(object sender, EventArgs e)

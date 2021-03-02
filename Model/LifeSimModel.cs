@@ -104,6 +104,14 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> VacationSuccessEvent;
 
+        public event EventHandler<EventArgs> WorkOutFailedEvent;
+
+        public event EventHandler<EventArgs> WorkOutSuccessEvent;
+
+        public event EventHandler<EventArgs> ReadFailedEvent;
+
+        public event EventHandler<EventArgs> ReadSuccessEvent;
+
         #endregion
 
         #region Constructor
@@ -165,8 +173,8 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(30,101), rnd.Next(101), rnd.Next(101), rnd.Next(10,101)),
-                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(30,101), rnd.Next(101), rnd.Next(101), rnd.Next(10,101))};
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101)),
+                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101))};
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
             int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
@@ -330,55 +338,79 @@ namespace LifeSim.Model
 
         public void workOut()
         {
-            int randomHealthGain = rnd.Next(1, 6);
-            if (You.Health + randomHealthGain <= 100)
-                You.Health += randomHealthGain;
+            if (You.Age < 18 || You.Money >= 120000)
+            {
+                int randomHealthGain = rnd.Next(1, 6);
+                if (You.Health + randomHealthGain <= 100)
+                    You.Health += randomHealthGain;
+                else
+                {
+                    You.Health = 100;
+                }
+
+                int randomHappinessGain = rnd.Next(2, 5);
+                if (You.Happiness + randomHappinessGain <= 100)
+                    You.Happiness += randomHappinessGain;
+                else
+                {
+                    You.Happiness = 100;
+                }
+
+                int randomAppearanceGain = rnd.Next(1, 5);
+                if (You.Appearance + randomAppearanceGain <= 100)
+                    You.Appearance += randomAppearanceGain;
+                else
+                {
+                    You.Appearance = 100;
+                }
+                OnWorkOutSuccessEvent();
+                OnHealthRefreshEvent();
+                OnHappinessRefreshEvent();
+                OnAppearanceRefreshEvent();
+                if (You.Age >= 18)
+                {
+                    You.Money -= 120000;
+                    OnMoneyRefreshEvent();
+                }
+            }
             else
             {
-                You.Health = 100;
+                OnWorkOutFailedEvent();
             }
-
-            int randomHappinessGain = rnd.Next(2, 5);
-            if (You.Happiness + randomHappinessGain <= 100)
-                You.Happiness += randomHappinessGain;
-            else
-            {
-                You.Happiness = 100;
-            }
-
-            int randomAppearanceGain = rnd.Next(1, 5);
-            if (You.Appearance + randomAppearanceGain <= 100)
-                You.Appearance += randomAppearanceGain;
-            else
-            {
-                You.Appearance = 100;
-            }
-
-            OnHealthRefreshEvent();
-            OnHappinessRefreshEvent();
-            OnAppearanceRefreshEvent();
         }
 
         public void read()
         {
-            int randomGain = rnd.Next(1, 6);
-            if (You.Intelligence + randomGain <= 100)
-                You.Intelligence += randomGain;
+            if (You.Age < 18 || You.Money >= 75000)
+            {
+                int randomIntelligenceGain = rnd.Next(1, 6);
+                if (You.Intelligence + randomIntelligenceGain <= 100)
+                    You.Intelligence += randomIntelligenceGain;
+                else
+                {
+                    You.Intelligence = 100;
+                }
+
+                int randomHappinessGain = rnd.Next(2, 5);
+                if (You.Happiness + randomHappinessGain <= 100)
+                    You.Happiness += randomHappinessGain;
+                else
+                {
+                    You.Happiness = 100;
+                }
+                OnReadSuccessEvent();
+                OnIntelligenceRefreshEvent();
+                OnHappinessRefreshEvent();
+                if (You.Age >= 18)
+                {
+                    You.Money -= 75000;
+                    OnMoneyRefreshEvent();
+                }
+            }
             else
             {
-                You.Intelligence = 100;
+                OnReadFailedEvent();
             }
-
-            int randomHappinessGain = rnd.Next(2, 5);
-            if (You.Happiness + randomHappinessGain <= 100)
-                You.Happiness += randomHappinessGain;
-            else
-            {
-                You.Happiness = 100;
-            }
-
-            OnIntelligenceRefreshEvent();
-            OnHappinessRefreshEvent();
         }
 
         public void jobRefresh(Job job)
@@ -755,6 +787,26 @@ namespace LifeSim.Model
         private void OnVacationSuccessEvent()
         {
             VacationSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnWorkOutSuccessEvent()
+        {
+            WorkOutSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnWorkOutFailedEvent()
+        {
+            WorkOutFailedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnReadSuccessEvent()
+        {
+            ReadSuccessEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnReadFailedEvent()
+        {
+            ReadFailedEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion
