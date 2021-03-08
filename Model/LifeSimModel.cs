@@ -173,8 +173,8 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101)),
-                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101))};
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101)),
+                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))};
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
             int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
@@ -189,7 +189,7 @@ namespace LifeSim.Model
             if (intelligence > 100)
                 intelligence = 100;
 
-            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, DefaultJob, DefaultHome, DefaultUniversity);
+            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, DefaultJob, DefaultHome, DefaultUniversity);
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
@@ -204,6 +204,8 @@ namespace LifeSim.Model
         {
             foreach (Person p in People.ToList())
             {
+                if(p != You)
+                    Debug.WriteLine(p.Relationship);
                 p.Age++;
 
                 p.Intelligence += rnd.Next(-3, 4);
@@ -321,7 +323,7 @@ namespace LifeSim.Model
                 if (intelligence > 100)
                     intelligence = 100;
 
-                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100));
+                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75,101)));
                 People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
@@ -431,10 +433,13 @@ namespace LifeSim.Model
 
         public void uniRefresh(University uni)
         {
-            if (uni != DefaultUniversity)
-                inUni = true;
-            else
+            if (uni == DefaultUniversity)
+            {
                 inUni = false;
+                return;
+            }
+            else
+                inUni = true;
             yearsInUni = 0;
             You.University = uni;
             if (You.Intelligence >= 70)
@@ -464,7 +469,7 @@ namespace LifeSim.Model
                 loveGender = Gender.Male;
             }
             int randomAge = rnd.Next(-2, 3);
-            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10,101));
+            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10,101), 100);
             int chanceOfLove = chanceOfMutualLove(crush);
             PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
             return PotentialPartner;

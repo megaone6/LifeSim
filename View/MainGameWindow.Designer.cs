@@ -69,16 +69,16 @@
             this.currentLoveLabel = new System.Windows.Forms.Label();
             this.universityPanelButton = new System.Windows.Forms.Button();
             this.lovePanelButton = new System.Windows.Forms.Button();
-            this.childrenPanelButton = new System.Windows.Forms.Button();
-            this.childrenPanel = new System.Windows.Forms.Panel();
-            this.childrenListBox = new System.Windows.Forms.ListBox();
+            this.acquaintancePanelButton = new System.Windows.Forms.Button();
+            this.acquaintancePanel = new System.Windows.Forms.Panel();
+            this.acquaintanceListBox = new System.Windows.Forms.ListBox();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
             this.leisurePanel.SuspendLayout();
             this.universityPanel.SuspendLayout();
             this.lovePanel.SuspendLayout();
-            this.childrenPanel.SuspendLayout();
+            this.acquaintancePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -483,43 +483,43 @@
             this.lovePanelButton.UseVisualStyleBackColor = true;
             this.lovePanelButton.Click += new System.EventHandler(this.lovePanelButton_Click);
             // 
-            // childrenPanelButton
+            // acquaintancePanelButton
             // 
-            this.childrenPanelButton.Enabled = false;
-            this.childrenPanelButton.Location = new System.Drawing.Point(594, 373);
-            this.childrenPanelButton.Name = "childrenPanelButton";
-            this.childrenPanelButton.Size = new System.Drawing.Size(81, 23);
-            this.childrenPanelButton.TabIndex = 19;
-            this.childrenPanelButton.Text = "Gyermekeid";
-            this.childrenPanelButton.UseVisualStyleBackColor = true;
-            this.childrenPanelButton.Click += new System.EventHandler(this.childrenPanelButton_Click);
+            this.acquaintancePanelButton.Enabled = false;
+            this.acquaintancePanelButton.Location = new System.Drawing.Point(594, 373);
+            this.acquaintancePanelButton.Name = "acquaintancePanelButton";
+            this.acquaintancePanelButton.Size = new System.Drawing.Size(81, 23);
+            this.acquaintancePanelButton.TabIndex = 19;
+            this.acquaintancePanelButton.Text = "Ismerősök";
+            this.acquaintancePanelButton.UseVisualStyleBackColor = true;
+            this.acquaintancePanelButton.Click += new System.EventHandler(this.acquaintancePanelButton_Click);
             // 
-            // childrenPanel
+            // acquaintancePanel
             // 
-            this.childrenPanel.Controls.Add(this.childrenListBox);
-            this.childrenPanel.Location = new System.Drawing.Point(12, 11);
-            this.childrenPanel.Name = "childrenPanel";
-            this.childrenPanel.Size = new System.Drawing.Size(776, 346);
-            this.childrenPanel.TabIndex = 10;
+            this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
+            this.acquaintancePanel.Location = new System.Drawing.Point(12, 11);
+            this.acquaintancePanel.Name = "acquaintancePanel";
+            this.acquaintancePanel.Size = new System.Drawing.Size(776, 346);
+            this.acquaintancePanel.TabIndex = 10;
             // 
-            // childrenListBox
+            // acquaintanceListBox
             // 
-            this.childrenListBox.FormattingEnabled = true;
-            this.childrenListBox.ItemHeight = 15;
-            this.childrenListBox.Location = new System.Drawing.Point(298, 116);
-            this.childrenListBox.Name = "childrenListBox";
-            this.childrenListBox.Size = new System.Drawing.Size(168, 109);
-            this.childrenListBox.TabIndex = 0;
+            this.acquaintanceListBox.FormattingEnabled = true;
+            this.acquaintanceListBox.ItemHeight = 15;
+            this.acquaintanceListBox.Location = new System.Drawing.Point(298, 116);
+            this.acquaintanceListBox.Name = "acquaintanceListBox";
+            this.acquaintanceListBox.Size = new System.Drawing.Size(168, 109);
+            this.acquaintanceListBox.TabIndex = 0;
             // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.childrenPanel);
+            this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.mainPanel);
-            this.Controls.Add(this.childrenPanelButton);
+            this.Controls.Add(this.acquaintancePanelButton);
             this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.lovePanelButton);
@@ -545,7 +545,7 @@
             this.universityPanel.PerformLayout();
             this.lovePanel.ResumeLayout(false);
             this.lovePanel.PerformLayout();
-            this.childrenPanel.ResumeLayout(false);
+            this.acquaintancePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -590,10 +590,10 @@
         private System.Windows.Forms.Button breakUpButton;
         private System.Windows.Forms.Button tryForChildButton;
         private System.Windows.Forms.Button quitJobButton;
-        private System.Windows.Forms.Button childrenPanelButton;
-        private System.Windows.Forms.Panel childrenPanel;
-        private System.Windows.Forms.ListBox childrenListBox;
+        private System.Windows.Forms.Panel acquaintancePanel;
+        private System.Windows.Forms.ListBox acquaintanceListBox;
         private System.Windows.Forms.Label happinessLabel;
         private System.Windows.Forms.Button vacationButton;
+        private System.Windows.Forms.Button acquaintancePanelButton;
     }
 }

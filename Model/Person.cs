@@ -23,7 +23,9 @@ namespace LifeSim.Model
 
         public int Money { get; set; }
 
-        public Person(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness)
+        public int Relationship { get; set; }
+
+        public Person(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -33,12 +35,13 @@ namespace LifeSim.Model
             this.Intelligence = Intelligence;
             this.Appearance = Appearance;
             this.Happiness = Happiness;
+            this.Relationship = Relationship;
             Money = 0;
         }
 
         public Player changeToPlayer(Job Job, Home Home, University University)
         {
-            Player player = new Player(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Job, Home, University);
+            Player player = new Player(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship, Job, Home, University);
             player.Children = new List<Person>();
             player.Partner = null;
             player.CurrentJobLevel = 0;

@@ -18,7 +18,7 @@ namespace LifeSim.Model
 
         public int CurrentJobLevel { get; set; }
 
-        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, Job Job, Home Home, University University): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness)
+        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, Job Job, Home Home, University University): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -28,7 +28,8 @@ namespace LifeSim.Model
             this.Intelligence = Intelligence;
             this.Appearance = Appearance;
             this.Happiness = Happiness;
-            this.Money = 0;
+            this.Relationship = Relationship;
+            Money = 0;
             this.Job = Job;
             this.Home = Home;
             this.University = University;
