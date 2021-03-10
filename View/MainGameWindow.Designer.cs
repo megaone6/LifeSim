@@ -71,7 +71,9 @@
             this.lovePanelButton = new System.Windows.Forms.Button();
             this.acquaintancePanelButton = new System.Windows.Forms.Button();
             this.acquaintancePanel = new System.Windows.Forms.Panel();
+            this.programWithAcquaintanceButton = new System.Windows.Forms.Button();
             this.acquaintanceListBox = new System.Windows.Forms.ListBox();
+            this.quarrelButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -496,11 +498,23 @@
             // 
             // acquaintancePanel
             // 
+            this.acquaintancePanel.Controls.Add(this.quarrelButton);
+            this.acquaintancePanel.Controls.Add(this.programWithAcquaintanceButton);
             this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
             this.acquaintancePanel.Location = new System.Drawing.Point(12, 11);
             this.acquaintancePanel.Name = "acquaintancePanel";
             this.acquaintancePanel.Size = new System.Drawing.Size(776, 346);
             this.acquaintancePanel.TabIndex = 10;
+            // 
+            // programWithAcquaintanceButton
+            // 
+            this.programWithAcquaintanceButton.Location = new System.Drawing.Point(298, 232);
+            this.programWithAcquaintanceButton.Name = "programWithAcquaintanceButton";
+            this.programWithAcquaintanceButton.Size = new System.Drawing.Size(168, 23);
+            this.programWithAcquaintanceButton.TabIndex = 1;
+            this.programWithAcquaintanceButton.Text = "Közös program";
+            this.programWithAcquaintanceButton.UseVisualStyleBackColor = true;
+            this.programWithAcquaintanceButton.Click += new System.EventHandler(this.programWithAcquaintanceButton_Click);
             // 
             // acquaintanceListBox
             // 
@@ -510,6 +524,16 @@
             this.acquaintanceListBox.Name = "acquaintanceListBox";
             this.acquaintanceListBox.Size = new System.Drawing.Size(168, 109);
             this.acquaintanceListBox.TabIndex = 0;
+            // 
+            // quarrelButton
+            // 
+            this.quarrelButton.Location = new System.Drawing.Point(298, 260);
+            this.quarrelButton.Name = "quarrelButton";
+            this.quarrelButton.Size = new System.Drawing.Size(168, 24);
+            this.quarrelButton.TabIndex = 2;
+            this.quarrelButton.Text = "Összeveszés";
+            this.quarrelButton.UseVisualStyleBackColor = true;
+            this.quarrelButton.Click += new System.EventHandler(this.quarrelButton_Click);
             // 
             // MainGameWindow
             // 
@@ -595,5 +619,7 @@
         private System.Windows.Forms.Label happinessLabel;
         private System.Windows.Forms.Button vacationButton;
         private System.Windows.Forms.Button acquaintancePanelButton;
+        private System.Windows.Forms.Button programWithAcquaintanceButton;
+        private System.Windows.Forms.Button quarrelButton;
     }
 }

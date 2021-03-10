@@ -12,9 +12,17 @@ namespace LifeSim.Model
 
         public int YearsToPayBack { get; }
 
+        public int PersonIndex { get; }
+
         public LifeSimEventArgs(Person Person)
         {
             this.Person = Person;
+        }
+
+        public LifeSimEventArgs(Person Person, int PersonIndex)
+        {
+            this.Person = Person;
+            this.PersonIndex = PersonIndex;
         }
 
         public LifeSimEventArgs(bool Death)
@@ -32,5 +40,6 @@ namespace LifeSim.Model
             this.UniversityCost = UniversityCost;
             this.YearsToPayBack = YearsToPayBack;
         }
+
     }
 }

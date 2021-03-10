@@ -52,6 +52,8 @@ namespace LifeSim.View
             model.WorkOutFailedEvent += new EventHandler<EventArgs>(Model_WorkOutFailedEvent);
             model.ReadSuccessEvent += new EventHandler<EventArgs>(Model_ReadSuccessEvent);
             model.ReadFailedEvent += new EventHandler<EventArgs>(Model_ReadFailedEvent);
+            model.ProgramWithAcquaintanceEvent += new EventHandler<LifeSimEventArgs>(Model_ProgramWithAcquaintanceEvent);
+            model.QuarrelWithAcquaintanceEvent += new EventHandler<LifeSimEventArgs>(Model_QuarrelWithAcquaintanceEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -363,6 +365,20 @@ namespace LifeSim.View
             MessageBox.Show("Sajnos nem volt pénzed új könyvekre.");
         }
 
+        private void Model_ProgramWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
+            acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
+            acquaintanceListBox.Update();
+        }
+
+        private void Model_QuarrelWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Összevesztél " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
+            acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
+            acquaintanceListBox.Update();
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -610,6 +626,26 @@ namespace LifeSim.View
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
             }
+        }
+
+        private void programWithAcquaintanceButton_Click(object sender, EventArgs e)
+        {
+            if (acquaintanceListBox.Text == "")
+            {
+                MessageBox.Show("Válassz ki valakit az ismerőseid közül!");
+                return;
+            }
+            model.programWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
+        }
+
+        private void quarrelButton_Click(object sender, EventArgs e)
+        {
+            if (acquaintanceListBox.Text == "")
+            {
+                MessageBox.Show("Válassz ki valakit az ismerőseid közül!");
+                return;
+            }
+            model.quarrelWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
         }
     }
 }

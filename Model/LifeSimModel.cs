@@ -112,6 +112,10 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> ReadSuccessEvent;
 
+        public event EventHandler<LifeSimEventArgs> ProgramWithAcquaintanceEvent;
+
+        public event EventHandler<LifeSimEventArgs> QuarrelWithAcquaintanceEvent;
+
         #endregion
 
         #region Constructor
@@ -676,6 +680,30 @@ namespace LifeSim.Model
             return rnd.Next(min, max);
         }
 
+        public void programWithAcquaintance(int index)
+        {
+            People[index].Relationship += rnd.Next(2, 8);
+
+            if (People[index].Relationship > 100)
+            {
+                People[index].Relationship = 100;
+            }
+
+            OnProgramWithAcquaintanceEvent(People[index], index - 1);
+        }
+
+        public void quarrelWithAcquaintance(int index)
+        {
+            People[index].Relationship -= rnd.Next(2, 8);
+
+            if (People[index].Relationship < 0)
+            {
+                People[index].Relationship = 0;
+            }
+
+            OnQuarrelWithAcquaintanceEvent(People[index], index - 1);
+        }
+
         #endregion
 
         #region Private event methods
@@ -812,6 +840,16 @@ namespace LifeSim.Model
         private void OnReadFailedEvent()
         {
             ReadFailedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnProgramWithAcquaintanceEvent(Person p, int persind)
+        {
+            ProgramWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
+        }
+
+        private void OnQuarrelWithAcquaintanceEvent(Person p, int persind)
+        {
+            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
         #endregion
