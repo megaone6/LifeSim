@@ -116,6 +116,12 @@ namespace LifeSim.Model
 
         public event EventHandler<LifeSimEventArgs> QuarrelWithAcquaintanceEvent;
 
+        public event EventHandler<EventArgs> NoMoneyForLotteryEvent;
+
+        public event EventHandler<EventArgs> LotteryWinEvent;
+
+        public event EventHandler<EventArgs> LotteryLoseEvent;
+
         #endregion
 
         #region Constructor
@@ -208,8 +214,6 @@ namespace LifeSim.Model
         {
             foreach (Person p in People.ToList())
             {
-                if(p != You)
-                    Debug.WriteLine(p.Relationship);
                 p.Age++;
 
                 p.Intelligence += rnd.Next(-3, 4);
@@ -230,7 +234,7 @@ namespace LifeSim.Model
                     p.Health = 100;
 
                 if (p.Age < 18)
-                    p.Happiness += rnd.Next(-2, 6);
+                    p.Happiness += calculateHappiness(p);
 
                 else
                     p.Happiness += rnd.Next(-4, 3);
@@ -591,6 +595,52 @@ namespace LifeSim.Model
             }
         }
 
+        public void programWithAcquaintance(int index)
+        {
+            People[index].Relationship += rnd.Next(2, 8);
+
+            if (People[index].Relationship > 100)
+            {
+                People[index].Relationship = 100;
+            }
+
+            OnProgramWithAcquaintanceEvent(People[index], index - 1);
+        }
+
+        public void quarrelWithAcquaintance(int index)
+        {
+            People[index].Relationship -= rnd.Next(2, 8);
+
+            if (People[index].Relationship < 0)
+            {
+                People[index].Relationship = 0;
+            }
+
+            OnQuarrelWithAcquaintanceEvent(People[index], index - 1);
+        }
+
+        public void lottery()
+        {
+            if (You.Money < 5000)
+            {
+                OnNoMoneyForLotteryEvent();
+                return;
+            }
+            You.Money -= 5000;
+            int asd = rnd.Next(0, 100);
+            Debug.Write(asd);
+            if (asd == 42)
+            {
+                OnLotteryWinEvent();
+                You.Money += rnd.Next(2000000, 250000000);
+            }
+            else
+            {
+                OnLotteryLoseEvent();
+            }
+            OnMoneyRefreshEvent();
+        }
+
         #endregion
 
         #region Private methods
@@ -680,28 +730,68 @@ namespace LifeSim.Model
             return rnd.Next(min, max);
         }
 
-        public void programWithAcquaintance(int index)
+        private int calculateHappiness(Person p)
         {
-            People[index].Relationship += rnd.Next(2, 8);
+            int min = -2;
+            int max = 6;
 
-            if (People[index].Relationship > 100)
+            if (p != You)
             {
-                People[index].Relationship = 100;
+                if (p.Age < 18)
+                    return rnd.Next(min, max);
+
+                else
+                    return rnd.Next(-4, 3);
             }
 
-            OnProgramWithAcquaintanceEvent(People[index], index - 1);
-        }
+            int averageRelationship = 0;
+            int count = People.Count();
 
-        public void quarrelWithAcquaintance(int index)
-        {
-            People[index].Relationship -= rnd.Next(2, 8);
-
-            if (People[index].Relationship < 0)
+            foreach (Person other in People)
             {
-                People[index].Relationship = 0;
+                averageRelationship += other.Relationship;
             }
 
-            OnQuarrelWithAcquaintanceEvent(People[index], index - 1);
+            if (count > 0)
+                averageRelationship /= count;
+
+            if (averageRelationship > 80 && averageRelationship <= 100)
+            {
+                min = 1;
+                max = 10;
+            }
+
+            else if (averageRelationship > 60 && averageRelationship <= 80)
+            {
+                min = -2;
+                max = 7;
+            }
+
+            else if (averageRelationship > 40 && averageRelationship <= 60)
+            {
+                min = -5;
+                max = 4;
+            }
+
+            else if (averageRelationship > 20 && averageRelationship <= 40)
+            {
+                min = -8;
+                max = 1;
+            }
+
+            else
+            {
+                min = -11;
+                max = -2;
+            }
+
+            if (p.Age < 18)
+            {
+                min += 2;
+                max += 2;
+            }
+
+            return rnd.Next(min, max);
         }
 
         #endregion
@@ -850,6 +940,21 @@ namespace LifeSim.Model
         private void OnQuarrelWithAcquaintanceEvent(Person p, int persind)
         {
             QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
+        }
+
+        private void OnNoMoneyForLotteryEvent()
+        {
+            NoMoneyForLotteryEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnLotteryWinEvent()
+        {
+            LotteryWinEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnLotteryLoseEvent()
+        {
+            LotteryLoseEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

@@ -54,6 +54,9 @@ namespace LifeSim.View
             model.ReadFailedEvent += new EventHandler<EventArgs>(Model_ReadFailedEvent);
             model.ProgramWithAcquaintanceEvent += new EventHandler<LifeSimEventArgs>(Model_ProgramWithAcquaintanceEvent);
             model.QuarrelWithAcquaintanceEvent += new EventHandler<LifeSimEventArgs>(Model_QuarrelWithAcquaintanceEvent);
+            model.NoMoneyForLotteryEvent += new EventHandler<EventArgs>(Model_NoMoneyForLotteryEvent);
+            model.LotteryWinEvent += new EventHandler<EventArgs>(Model_LotteryWinEvent);
+            model.LotteryLoseEvent += new EventHandler<EventArgs>(Model_LotteryLoseEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -379,6 +382,21 @@ namespace LifeSim.View
             acquaintanceListBox.Update();
         }
 
+        private void Model_NoMoneyForLotteryEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nincs elég pénzed lottójegyre. 5000 forintra van szükséged.");
+        }
+
+        private void Model_LotteryWinEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Gratulálok, nyertél a lottón!");
+        }
+
+        private void Model_LotteryLoseEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos nem nyertél a lottón.");
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -413,6 +431,7 @@ namespace LifeSim.View
                 universityPanelButton.Enabled = true;
                 universityLabel.Text = model.You.University.Type;
                 acquaintancePanelButton.Enabled = true;
+                lotteryButton.Enabled = true;
             }
 
             if (model.You.Age >= 18)
@@ -646,6 +665,11 @@ namespace LifeSim.View
                 return;
             }
             model.quarrelWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
+        }
+
+        private void lotteryButton_Click(object sender, EventArgs e)
+        {
+            model.lottery();
         }
     }
 }

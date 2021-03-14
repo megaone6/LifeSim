@@ -71,9 +71,10 @@
             this.lovePanelButton = new System.Windows.Forms.Button();
             this.acquaintancePanelButton = new System.Windows.Forms.Button();
             this.acquaintancePanel = new System.Windows.Forms.Panel();
+            this.quarrelButton = new System.Windows.Forms.Button();
             this.programWithAcquaintanceButton = new System.Windows.Forms.Button();
             this.acquaintanceListBox = new System.Windows.Forms.ListBox();
-            this.quarrelButton = new System.Windows.Forms.Button();
+            this.lotteryButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -506,6 +507,16 @@
             this.acquaintancePanel.Size = new System.Drawing.Size(776, 346);
             this.acquaintancePanel.TabIndex = 10;
             // 
+            // quarrelButton
+            // 
+            this.quarrelButton.Location = new System.Drawing.Point(298, 260);
+            this.quarrelButton.Name = "quarrelButton";
+            this.quarrelButton.Size = new System.Drawing.Size(168, 24);
+            this.quarrelButton.TabIndex = 2;
+            this.quarrelButton.Text = "Összeveszés";
+            this.quarrelButton.UseVisualStyleBackColor = true;
+            this.quarrelButton.Click += new System.EventHandler(this.quarrelButton_Click);
+            // 
             // programWithAcquaintanceButton
             // 
             this.programWithAcquaintanceButton.Location = new System.Drawing.Point(298, 232);
@@ -525,21 +536,23 @@
             this.acquaintanceListBox.Size = new System.Drawing.Size(168, 109);
             this.acquaintanceListBox.TabIndex = 0;
             // 
-            // quarrelButton
+            // lotteryButton
             // 
-            this.quarrelButton.Location = new System.Drawing.Point(298, 260);
-            this.quarrelButton.Name = "quarrelButton";
-            this.quarrelButton.Size = new System.Drawing.Size(168, 24);
-            this.quarrelButton.TabIndex = 2;
-            this.quarrelButton.Text = "Összeveszés";
-            this.quarrelButton.UseVisualStyleBackColor = true;
-            this.quarrelButton.Click += new System.EventHandler(this.quarrelButton_Click);
+            this.lotteryButton.Enabled = false;
+            this.lotteryButton.Location = new System.Drawing.Point(698, 373);
+            this.lotteryButton.Name = "lotteryButton";
+            this.lotteryButton.Size = new System.Drawing.Size(75, 23);
+            this.lotteryButton.TabIndex = 20;
+            this.lotteryButton.Text = "Lottó";
+            this.lotteryButton.UseVisualStyleBackColor = true;
+            this.lotteryButton.Click += new System.EventHandler(this.lotteryButton_Click);
             // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lotteryButton);
             this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.mainPanel);
@@ -621,5 +634,6 @@
         private System.Windows.Forms.Button acquaintancePanelButton;
         private System.Windows.Forms.Button programWithAcquaintanceButton;
         private System.Windows.Forms.Button quarrelButton;
+        private System.Windows.Forms.Button lotteryButton;
     }
 }
