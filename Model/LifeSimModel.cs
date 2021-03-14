@@ -237,7 +237,7 @@ namespace LifeSim.Model
                     p.Happiness += calculateHappiness(p);
 
                 else
-                    p.Happiness += rnd.Next(-4, 3);
+                    p.Happiness += calculateHappiness(p);
 
                 if (p.Happiness > 100)
                     p.Happiness = 100;
