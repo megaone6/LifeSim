@@ -183,7 +183,7 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101)),
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(60,101), rnd.Next(101), rnd.Next(101), rnd.Next(50,101), rnd.Next(75,101)),
                                             new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))};
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
@@ -233,11 +233,7 @@ namespace LifeSim.Model
                 if (p.Health > 100)
                     p.Health = 100;
 
-                if (p.Age < 18)
-                    p.Happiness += calculateHappiness(p);
-
-                else
-                    p.Happiness += calculateHappiness(p);
+                p.Happiness += calculateHappiness(p);
 
                 if (p.Happiness > 100)
                     p.Happiness = 100;
