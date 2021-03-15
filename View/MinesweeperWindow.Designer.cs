@@ -37,12 +37,12 @@
             // 
             this.minefieldPanel.Location = new System.Drawing.Point(13, 13);
             this.minefieldPanel.Name = "minefieldPanel";
-            this.minefieldPanel.Size = new System.Drawing.Size(319, 274);
+            this.minefieldPanel.Size = new System.Drawing.Size(403, 369);
             this.minefieldPanel.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(356, 33);
+            this.button1.Location = new System.Drawing.Point(473, 31);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -51,7 +51,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(356, 79);
+            this.button2.Location = new System.Drawing.Point(473, 71);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -62,7 +62,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 403);
+            this.ClientSize = new System.Drawing.Size(580, 429);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.minefieldPanel);
