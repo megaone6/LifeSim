@@ -12,11 +12,14 @@ namespace LifeSim.Model
 
         public int MinesInProximity { get; }
 
-        public Field(bool Revealed, bool Mine, int MinesInProximity)
+        public bool Marked { get; set; }
+
+        public Field(bool Revealed, bool Mine, int MinesInProximity, bool Marked)
         {
             this.Revealed = Revealed;
             this.Mine = Mine;
             this.MinesInProximity = MinesInProximity;
+            this.Marked = Marked;
         }
     }
 }

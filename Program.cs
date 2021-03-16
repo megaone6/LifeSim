@@ -17,8 +17,6 @@ namespace LifeSim
             Application.SetCompatibleTextRenderingDefault(false);
             GameStart gameStart = new GameStart();
             gameStart.Show();
-            MinesweeperWindow asd = new MinesweeperWindow();
-            asd.Show();
             Application.Run();
         }
     }

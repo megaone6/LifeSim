@@ -57,6 +57,7 @@ namespace LifeSim.View
             model.NoMoneyForLotteryEvent += new EventHandler<EventArgs>(Model_NoMoneyForLotteryEvent);
             model.LotteryWinEvent += new EventHandler<EventArgs>(Model_LotteryWinEvent);
             model.LotteryLoseEvent += new EventHandler<EventArgs>(Model_LotteryLoseEvent);
+            model.MilitaryMissionEvent += new EventHandler<EventArgs>(Model_MilitaryMissionEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -112,14 +113,6 @@ namespace LifeSim.View
                     {
                         model.newGame();
 
-                        nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
-                        intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
-                        appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
-                        if (model.You.Gender == 0)
-                            genderLabel.Text = "Férfi";
-                        else
-                            genderLabel.Text = "Nő";
-
                         MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
                         + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
                         + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
@@ -128,34 +121,37 @@ namespace LifeSim.View
                     {
                         MessageBox.Show("Átvetted az irányítást gyermeked felett.");
                         model.takeControlOfChild();
-                        nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
-                        intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
-                        appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
-                        if (model.You.Gender == 0)
-                            genderLabel.Text = "Nő";
-                        else
-                            genderLabel.Text = "Férfi";
-                        ageLabel.Text = model.You.Age.ToString() + " éves vagy";
-                        if (model.You.Age < 3)
-                            acquaintancePanelButton.Enabled = false;
-                        if (model.You.Age < 12)
-                            leisurePanelButton.Enabled = false;
-                        if (model.You.Age < 14)
-                            lovePanelButton.Enabled = false;
-                        if (model.You.Age < 18)
-                        {
-                            jobPanelButton.Enabled = false;
-                            homePanelButton.Enabled = false;
-                            universityPanelButton.Enabled = false;
-                            acquaintancePanelButton.Enabled = false;
-                        }
-                        jobComboBox.Visible = true;
-                        tryJobButton.Visible = true;
-                        quitJobButton.Visible = false;
-                        homeComboBox.Visible = true;
-                        buyHomeButton.Visible = true;
-                        acquaintanceListBox.Items.Clear();
                     }
+                    nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
+                    intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
+                    appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+                    if (model.You.Gender == Gender.Male)
+                        genderLabel.Text = "Férfi";
+                    else
+                        genderLabel.Text = "Nő";
+                    ageLabel.Text = model.You.Age.ToString() + " éves vagy";
+                    moneyLabel.Text = "Jelenleg " + model.You.Money + " forintod van";
+                    if (model.You.Age < 3)
+                        acquaintancePanelButton.Enabled = false;
+                    if (model.You.Age < 12)
+                        leisurePanelButton.Enabled = false;
+                    if (model.You.Age < 14)
+                        lovePanelButton.Enabled = false;
+                    if (model.You.Age < 18)
+                    {
+                        jobPanelButton.Enabled = false;
+                        homePanelButton.Enabled = false;
+                        universityPanelButton.Enabled = false;
+                        acquaintancePanelButton.Enabled = false;
+                        lotteryButton.Enabled = false;
+                    }
+                    jobComboBox.Visible = true;
+                    tryJobButton.Visible = true;
+                    quitJobButton.Visible = false;
+                    homeComboBox.Visible = true;
+                    buyHomeButton.Visible = true;
+                    acquaintanceListBox.Items.Add(model.People[1].FirstName + " " + model.People[1].LastName + " - " + model.People[1].Relationship.ToString());
+                    acquaintanceListBox.Items.Add(model.People[2].FirstName + " " + model.People[2].LastName + " - " + model.People[2].Relationship.ToString());
                 }
                 else
                 {
@@ -397,6 +393,13 @@ namespace LifeSim.View
             MessageBox.Show("Sajnos nem nyertél a lottón.");
         }
 
+        private void Model_MilitaryMissionEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Bevetésre hívtak egy háború sújtotta övezetbe. Keresd meg az aknákat az aknamezőn, és hatástalanítsd őket!");
+            MinesweeperWindow mine = new MinesweeperWindow(model);
+            mine.Show();
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -525,6 +528,7 @@ namespace LifeSim.View
             mainPanelButton.Enabled = true;
             ageButton.Enabled = false;
             leisurePanelButton.Enabled = false;
+            acquaintancePanelButton.Enabled = true;
             if (model.You.Age >= 14)
                 lovePanelButton.Enabled = true;
             if (model.You.Age >= 18)
@@ -532,7 +536,6 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
-                acquaintancePanelButton.Enabled = true;
             }
         }
 
@@ -574,12 +577,12 @@ namespace LifeSim.View
             lovePanelButton.Enabled = false;
             mainPanelButton.Enabled = true;
             leisurePanelButton.Enabled = true;
+            acquaintancePanelButton.Enabled = true;
             if (model.You.Age >= 18)
             {
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
-                acquaintancePanelButton.Enabled = true;
             }
         }
 

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.minefieldPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.reconButton = new System.Windows.Forms.Button();
+            this.markButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // minefieldPanel
@@ -40,31 +40,35 @@
             this.minefieldPanel.Size = new System.Drawing.Size(403, 369);
             this.minefieldPanel.TabIndex = 0;
             // 
-            // button1
+            // reconButton
             // 
-            this.button1.Location = new System.Drawing.Point(473, 31);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Felderítés";
-            this.button1.UseVisualStyleBackColor = true;
+            this.reconButton.Enabled = false;
+            this.reconButton.Location = new System.Drawing.Point(473, 31);
+            this.reconButton.Name = "reconButton";
+            this.reconButton.Size = new System.Drawing.Size(75, 23);
+            this.reconButton.TabIndex = 1;
+            this.reconButton.Text = "Felderítés";
+            this.reconButton.UseVisualStyleBackColor = true;
+            this.reconButton.Click += new System.EventHandler(this.reconButton_Click);
             // 
-            // button2
+            // markButton
             // 
-            this.button2.Location = new System.Drawing.Point(473, 71);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Megjelölés";
-            this.button2.UseVisualStyleBackColor = true;
+            this.markButton.Enabled = false;
+            this.markButton.Location = new System.Drawing.Point(473, 71);
+            this.markButton.Name = "markButton";
+            this.markButton.Size = new System.Drawing.Size(75, 23);
+            this.markButton.TabIndex = 2;
+            this.markButton.Text = "Megjelölés";
+            this.markButton.UseVisualStyleBackColor = true;
+            this.markButton.Click += new System.EventHandler(this.markButton_Click);
             // 
             // MinesweeperWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 429);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.markButton);
+            this.Controls.Add(this.reconButton);
             this.Controls.Add(this.minefieldPanel);
             this.Name = "MinesweeperWindow";
             this.Text = "Bevetés";
@@ -76,7 +80,7 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel minefieldPanel;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button reconButton;
+        private System.Windows.Forms.Button markButton;
     }
 }

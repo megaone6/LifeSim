@@ -1,11 +1,6 @@
 ﻿using LifeSim.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LifeSim.View
@@ -13,14 +8,37 @@ namespace LifeSim.View
     public partial class MinesweeperWindow : Form
     {
         bool newGame;
-        MinesweeperModel model;
+        MinesweeperModel msmodel;
+        LifeSimModel lsmodel;
 
-        public MinesweeperWindow()
+        public MinesweeperWindow(LifeSimModel lsmodel)
         {
             InitializeComponent();
 
-            model = new MinesweeperModel();
+            msmodel = new MinesweeperModel();
+            this.lsmodel = lsmodel;
+
+            msmodel.GameOverEvent += new EventHandler<EventArgs>(Model_GameOverEvent);
+            msmodel.GameWonEvent += new EventHandler<EventArgs>(Model_GameWonEvent);
         }
+
+        #region Model event handlers
+
+        private void Model_GameOverEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("A bevetés sikertelen volt.");
+            lsmodel.endOfMission(false);
+            this.Close();
+        }
+
+        private void Model_GameWonEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("A bevetés sikeres volt");
+            lsmodel.endOfMission(true);
+            this.Close();
+        }
+
+        #endregion
 
         private void MinesweeperWindow_Shown(object sender, EventArgs e)
         {
@@ -30,6 +48,7 @@ namespace LifeSim.View
                 btn.Name = "btn" + i.ToString();
                 btn.Size = new System.Drawing.Size(40, 40);
                 btn.UseVisualStyleBackColor = true;
+                btn.BackColor = Color.Gray;
 
                 btn.Click += btn_Click;
                 minefieldPanel.Controls.Add(btn);
@@ -43,21 +62,64 @@ namespace LifeSim.View
             int number = Int32.Parse(btn.Name.Replace("btn", ""));
             if (newGame)
             {
-                model.newGame(number);
-                for (int i = 0; i < 64; i++)
-                {
-                    if (model.MineField[i / 8, i % 8].Revealed)
-                    {
-                        minefieldPanel.Controls[i].BackColor = Color.White;
-                        if (model.MineField[i / 8, i % 8].MinesInProximity != 0)
-                            minefieldPanel.Controls[i].Text = model.MineField[i / 8, i % 8].MinesInProximity.ToString();
-                    }
-                }
+                msmodel.newGame(number);
+                panelRefresh();
                 newGame = false;
+                markButton.Enabled = true;
             }
             else
             {
+                if (msmodel.Recon)
+                {
+                    msmodel.recon(number);
+                    if(!msmodel.gameOver)
+                        panelRefresh();
+                }
+                else
+                {
+                    msmodel.mark(number);
+                    if (!msmodel.gameOver)
+                        panelRefresh();
+                }
+            }
+        }
 
+        private void reconButton_Click(object sender, EventArgs e)
+        {
+            msmodel.Recon = true;
+            reconButton.Enabled = false;
+            markButton.Enabled = true;
+        }
+
+        private void markButton_Click(object sender, EventArgs e)
+        {
+            msmodel.Recon = false;
+            reconButton.Enabled = true;
+            markButton.Enabled = false;
+        }
+
+        private void panelRefresh()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                if (msmodel.MineField[i / 8, i % 8].Revealed && !msmodel.MineField[i / 8, i % 8].Mine)
+                {
+                    minefieldPanel.Controls[i].BackColor = Color.White;
+                    if (msmodel.MineField[i / 8, i % 8].MinesInProximity != 0)
+                        minefieldPanel.Controls[i].Text = msmodel.MineField[i / 8, i % 8].MinesInProximity.ToString();
+                }
+                else if (msmodel.MineField[i / 8, i % 8].Revealed && msmodel.MineField[i / 8, i % 8].Mine)
+                {
+                    minefieldPanel.Controls[i].BackColor = Color.Red;
+                }
+                else if (msmodel.MineField[i / 8, i % 8].Marked)
+                {
+                    minefieldPanel.Controls[i].BackColor = Color.Yellow;
+                }
+                else
+                {
+                    minefieldPanel.Controls[i].BackColor = Color.Gray;
+                }
             }
         }
     }
