@@ -633,9 +633,8 @@ namespace LifeSim.Model
                 return;
             }
             You.Money -= 5000;
-            int asd = rnd.Next(0, 100);
-            Debug.Write(asd);
-            if (asd == 42)
+            int chance = rnd.Next(0, 100);
+            if (chance == 42)
             {
                 OnLotteryWinEvent();
                 You.Money += rnd.Next(2000000, 250000001);
