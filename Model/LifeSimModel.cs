@@ -34,7 +34,7 @@ namespace LifeSim.Model
 
         public List<Person> People { get; set; }
 
-        public Tuple<Person,int> PotentialPartner { get; set; }
+        public Tuple<Person, int> PotentialPartner { get; set; }
 
         public List<Person> Parents { get; private set; }
 
@@ -124,6 +124,10 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> MilitaryMissionEvent;
 
+        public event EventHandler<EventArgs> MakeFriendFailedEvent;
+
+        public event EventHandler<LifeSimEventArgs> MakeFriendSuccessEvent;
+
         #endregion
 
         #region Constructor
@@ -141,7 +145,7 @@ namespace LifeSim.Model
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
             DefaultHome = new Home("Szülői lakás", 0, 0);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
-    }
+        }
 
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
@@ -237,6 +241,13 @@ namespace LifeSim.Model
 
                 p.Happiness += calculateHappiness(p);
 
+                if (p != You && You.Age > 3)
+                {
+                    p.Relationship -= rnd.Next(2, 15);
+                    if (p.Relationship < 0)
+                        p.Relationship = 0;
+                }
+
                 if (p.Happiness > 100)
                     p.Happiness = 100;
                 else if (p.Happiness < 0)
@@ -329,7 +340,7 @@ namespace LifeSim.Model
                 if (intelligence > 100)
                     intelligence = 100;
 
-                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75,101)));
+                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
                 People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
@@ -337,7 +348,7 @@ namespace LifeSim.Model
             if (You.Age == 65 && isWorking)
             {
                 isWorking = false;
-                int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel)*0.67));
+                int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) * 0.67));
                 You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
                 You.CurrentJobLevel = 0;
                 OnRetirementEvent();
@@ -345,7 +356,7 @@ namespace LifeSim.Model
 
             if (You.Job == Jobs[3])
             {
-                if(rnd.Next(0,5) == 3)
+                if (rnd.Next(0, 5) == 3)
                 {
                     OnMilitaryMissionEvent();
                 }
@@ -468,7 +479,7 @@ namespace LifeSim.Model
             }
         }
 
-        public Tuple<Person,int> newLove()
+        public Tuple<Person, int> newLove()
         {
             String randomName;
             Gender loveGender;
@@ -483,7 +494,7 @@ namespace LifeSim.Model
                 loveGender = Gender.Male;
             }
             int randomAge = rnd.Next(-2, 3);
-            Person crush =  new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10,101), 100);
+            Person crush = new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10, 101), 100);
             int chanceOfLove = chanceOfMutualLove(crush);
             PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
             return PotentialPartner;
@@ -504,7 +515,7 @@ namespace LifeSim.Model
                     {
                         fail = true;
                         OnRelationshipFailEvent();
-                    } 
+                    }
                     break;
                 case 40:
                     if (randomNum > 1)
@@ -664,6 +675,28 @@ namespace LifeSim.Model
                 }
                 OnHealthRefreshEvent();
             }
+        }
+
+        public void makeFriend()
+        {
+            int chance = rnd.Next(2);
+            if (chance == 0)
+            {
+                OnMakeFriendFailedEvent();
+                return;
+            }
+
+            Gender gender = (Gender)rnd.Next(2);
+            String name;
+
+            if (gender == 0)
+                name = femaleNames[rnd.Next(femaleNames.Count)];
+            else
+                name = maleNames[rnd.Next(maleNames.Count)];
+
+            Person p = new Person(familyNames[rnd.Next(familyNames.Count)], name, rnd.Next(You.Age - 1, You.Age + 3), gender, rnd.Next(85, 101), rnd.Next(101), rnd.Next(101), rnd.Next(25, 101), rnd.Next(85, 101));
+            People.Add(p);
+            OnMakeFriendSuccessEvent(p,People.Count - 1);
         }
 
         #endregion
@@ -985,6 +1018,16 @@ namespace LifeSim.Model
         private void OnMilitaryMissionEvent()
         {
             MilitaryMissionEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnMakeFriendFailedEvent()
+        {
+            MakeFriendFailedEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnMakeFriendSuccessEvent(Person p, int persind)
+        {
+            MakeFriendSuccessEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
         #endregion

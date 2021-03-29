@@ -1,6 +1,7 @@
 ﻿using LifeSim.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -58,6 +59,8 @@ namespace LifeSim.View
             model.LotteryWinEvent += new EventHandler<EventArgs>(Model_LotteryWinEvent);
             model.LotteryLoseEvent += new EventHandler<EventArgs>(Model_LotteryLoseEvent);
             model.MilitaryMissionEvent += new EventHandler<EventArgs>(Model_MilitaryMissionEvent);
+            model.MakeFriendFailedEvent += new EventHandler<EventArgs>(Model_MakeFriendFailedEvent);
+            model.MakeFriendSuccessEvent += new EventHandler<LifeSimEventArgs>(Model_MakeFriendSuccessEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -400,6 +403,19 @@ namespace LifeSim.View
             mine.Show();
         }
 
+        private void Model_MakeFriendFailedEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos senki nem akart most barátkozni veled.");
+            makeFriendButton.Enabled = false;
+        }
+
+        private void Model_MakeFriendSuccessEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!");
+            makeFriendButton.Enabled = false;
+            acquaintanceListBox.Items.Add(e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString());
+        }
+
         #endregion
 
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -443,12 +459,21 @@ namespace LifeSim.View
                 vacationButton.Enabled = true;
             }
 
+            makeFriendButton.Enabled = true;
+
             ageLabel.Text = model.You.Age.ToString() + " éves vagy";
             healthLabel.Text = "Egészség: " + model.You.Health.ToString();
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
             appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
             happinessLabel.Text = "Boldogság: " + model.You.Happiness.ToString();
             moneyLabel.Text = "Jelenleg " + model.You.Money.ToString() + " forintod van";
+            acquaintanceListBox.Items.Clear();
+
+            foreach (Person p in model.People)
+            {
+                if (p != model.You)
+                    acquaintanceListBox.Items.Add(p.FirstName + " " + p.LastName + " - " + p.Relationship.ToString());
+            }
         }
 
         private void jobPanelButton_Click(object sender, EventArgs e)
@@ -673,6 +698,11 @@ namespace LifeSim.View
         private void lotteryButton_Click(object sender, EventArgs e)
         {
             model.lottery();
+        }
+
+        private void makeFriendButton_Click(object sender, EventArgs e)
+        {
+            model.makeFriend();
         }
     }
 }

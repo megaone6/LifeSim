@@ -75,6 +75,7 @@
             this.programWithAcquaintanceButton = new System.Windows.Forms.Button();
             this.acquaintanceListBox = new System.Windows.Forms.ListBox();
             this.lotteryButton = new System.Windows.Forms.Button();
+            this.makeFriendButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -499,6 +500,7 @@
             // 
             // acquaintancePanel
             // 
+            this.acquaintancePanel.Controls.Add(this.makeFriendButton);
             this.acquaintancePanel.Controls.Add(this.quarrelButton);
             this.acquaintancePanel.Controls.Add(this.programWithAcquaintanceButton);
             this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
@@ -546,6 +548,16 @@
             this.lotteryButton.Text = "Lottó";
             this.lotteryButton.UseVisualStyleBackColor = true;
             this.lotteryButton.Click += new System.EventHandler(this.lotteryButton_Click);
+            // 
+            // makeFriendButton
+            // 
+            this.makeFriendButton.Location = new System.Drawing.Point(298, 291);
+            this.makeFriendButton.Name = "makeFriendButton";
+            this.makeFriendButton.Size = new System.Drawing.Size(168, 23);
+            this.makeFriendButton.TabIndex = 3;
+            this.makeFriendButton.Text = "Új barát keresése";
+            this.makeFriendButton.UseVisualStyleBackColor = true;
+            this.makeFriendButton.Click += new System.EventHandler(this.makeFriendButton_Click);
             // 
             // MainGameWindow
             // 
@@ -635,5 +647,6 @@
         private System.Windows.Forms.Button programWithAcquaintanceButton;
         private System.Windows.Forms.Button quarrelButton;
         private System.Windows.Forms.Button lotteryButton;
+        private System.Windows.Forms.Button makeFriendButton;
     }
 }
