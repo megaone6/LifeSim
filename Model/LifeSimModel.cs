@@ -128,6 +128,8 @@ namespace LifeSim.Model
 
         public event EventHandler<LifeSimEventArgs> MakeFriendSuccessEvent;
 
+        public event EventHandler<EventArgs> MilitaryMissionCompleteEvent;
+
         #endregion
 
         #region Constructor
@@ -135,8 +137,8 @@ namespace LifeSim.Model
         public LifeSimModel()
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3) };
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
+            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3)};
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             yourName = "";
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
@@ -150,8 +152,8 @@ namespace LifeSim.Model
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3) };
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000) };
+            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3) };
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
@@ -243,7 +245,7 @@ namespace LifeSim.Model
 
                 if (p != You && You.Age > 3)
                 {
-                    p.Relationship -= rnd.Next(2, 15);
+                    p.Relationship -= rnd.Next(2, 5);
                     if (p.Relationship < 0)
                         p.Relationship = 0;
                 }
@@ -354,7 +356,7 @@ namespace LifeSim.Model
                 OnRetirementEvent();
             }
 
-            if (You.Job == Jobs[3])
+            if (You.Job == Jobs[3] || You.Job == Jobs[4])
             {
                 if (rnd.Next(0, 5) == 3)
                 {
@@ -557,6 +559,7 @@ namespace LifeSim.Model
         public void quitJob()
         {
             You.Job = DefaultJob;
+            You.CurrentJobLevel = 0;
             isWorking = false;
             OnQuitJobEvent();
         }
@@ -662,6 +665,15 @@ namespace LifeSim.Model
             if (success)
             {
                 You.Money += rnd.Next(1000000, 4000001);
+                PromotionMeter += 15;
+                if (PromotionMeter >= 100)
+                {
+                    You.CurrentJobLevel += 1;
+                    PromotionMeter = 0;
+                    You.Happiness += rnd.Next(2, 5);
+                    OnPromotionEvent();
+                    OnHappinessRefreshEvent();
+                }
                 OnMoneyRefreshEvent();
             }
             else
@@ -675,6 +687,7 @@ namespace LifeSim.Model
                 }
                 OnHealthRefreshEvent();
             }
+            OnMilitaryMissionCompleteEvent();
         }
 
         public void makeFriend()
@@ -1028,6 +1041,11 @@ namespace LifeSim.Model
         private void OnMakeFriendSuccessEvent(Person p, int persind)
         {
             MakeFriendSuccessEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
+        }
+
+        private void OnMilitaryMissionCompleteEvent()
+        {
+            MilitaryMissionCompleteEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

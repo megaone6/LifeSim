@@ -1,4 +1,5 @@
 ﻿using LifeSim.Model;
+using LifeSim.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,6 +62,7 @@ namespace LifeSim.View
             model.MilitaryMissionEvent += new EventHandler<EventArgs>(Model_MilitaryMissionEvent);
             model.MakeFriendFailedEvent += new EventHandler<EventArgs>(Model_MakeFriendFailedEvent);
             model.MakeFriendSuccessEvent += new EventHandler<LifeSimEventArgs>(Model_MakeFriendSuccessEvent);
+            model.MilitaryMissionCompleteEvent += new EventHandler<EventArgs>(Model_MilitaryMissionCompleteEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -399,6 +401,11 @@ namespace LifeSim.View
         private void Model_MilitaryMissionEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Bevetésre hívtak egy háború sújtotta övezetbe. Keresd meg az aknákat az aknamezőn, és hatástalanítsd őket!");
+            foreach (Control child in this.Controls)
+            {
+                if (child.GetType() == typeof(Button))
+                    child.Enabled = false;
+            }
             MinesweeperWindow mine = new MinesweeperWindow(model);
             mine.Show();
         }
@@ -421,6 +428,15 @@ namespace LifeSim.View
         private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void Model_MilitaryMissionCompleteEvent(object sender, EventArgs e)
+        {
+            foreach (Control child in this.Controls)
+            {
+                if (child.GetType() == typeof(Button) && child.Text != "Fő menü")
+                    child.Enabled = true;
+            }
         }
 
         private void ageButton_Click(object sender, EventArgs e)
@@ -468,6 +484,13 @@ namespace LifeSim.View
             happinessLabel.Text = "Boldogság: " + model.You.Happiness.ToString();
             moneyLabel.Text = "Jelenleg " + model.You.Money.ToString() + " forintod van";
             acquaintanceListBox.Items.Clear();
+
+            if (model.You.Partner is null)
+            {
+                tryRelationshipButton.Visible = false;
+                tryRelationshipButton.Enabled = false;
+                newLoveLabel.Visible = false;
+            }
 
             foreach (Person p in model.People)
             {

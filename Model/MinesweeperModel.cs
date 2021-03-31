@@ -67,7 +67,6 @@ namespace LifeSim.Model
                     randomX = rnd.Next(0, 8);
                     randomY = rnd.Next(0, 8);
                 } while (randomAdjacent(randomX, randomY, numberX, numberY) || mines.Contains((randomX,randomY)));
-                Debug.WriteLine(randomX + " " + randomY);
                 mines.Add((randomX,randomY));
             }
             for (int i = 0; i < 8; i++)
@@ -77,6 +76,7 @@ namespace LifeSim.Model
                     if (mines.Contains((i,j)))
                     {
                         MineField[i,j] = new Field(false, true, 0, false);
+                        Debug.WriteLine(i + " " + j);
                     }
                     else if (i == fieldNum)
                     {
@@ -111,15 +111,15 @@ namespace LifeSim.Model
             Debug.WriteLine("Before: " + marks);
             int numberX = fieldNum / 8;
             int numberY = fieldNum % 8;
-            if (MineField[numberX, numberY].Revealed || marks == 0)
-            {
-                Debug.WriteLine("After: " + marks);
-                return;
-            }
             if (MineField[numberX, numberY].Marked)
             {
                 MineField[numberX, numberY].Marked = false;
                 marks++;
+                Debug.WriteLine("After: " + marks);
+                return;
+            }
+            if (MineField[numberX, numberY].Revealed || marks == 0)
+            {
                 Debug.WriteLine("After: " + marks);
                 return;
             }
