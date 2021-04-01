@@ -63,6 +63,9 @@ namespace LifeSim.View
             model.MakeFriendFailedEvent += new EventHandler<EventArgs>(Model_MakeFriendFailedEvent);
             model.MakeFriendSuccessEvent += new EventHandler<LifeSimEventArgs>(Model_MakeFriendSuccessEvent);
             model.MilitaryMissionCompleteEvent += new EventHandler<EventArgs>(Model_MilitaryMissionCompleteEvent);
+            model.PlaneCrashEvent += new EventHandler<EventArgs>(Model_PlaneCrashEvent);
+            model.CaughtSicknessEvent += new EventHandler<LifeSimEventArgs>(Model_CaughtSicknessEvent);
+            model.DoctorsVisitEvent += new EventHandler<LifeSimEventArgs>(Model_DoctorsVisitEvent);
 
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
             intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
@@ -157,6 +160,16 @@ namespace LifeSim.View
                     buyHomeButton.Visible = true;
                     acquaintanceListBox.Items.Add(model.People[1].FirstName + " " + model.People[1].LastName + " - " + model.People[1].Relationship.ToString());
                     acquaintanceListBox.Items.Add(model.People[2].FirstName + " " + model.People[2].LastName + " - " + model.People[2].Relationship.ToString());
+                    vacationButton.Enabled = false;
+                    foreach (Control child in this.Controls)
+                    {
+                        if (child.GetType() == typeof(Button))
+                            child.Enabled = false;
+                    }
+                    ageButton.Enabled = true;
+                    visitDoctorButton.Enabled = true;
+                    universityComboBox.Visible = true;
+                    applyToUniButton.Visible = true;
                 }
                 else
                 {
@@ -423,13 +436,6 @@ namespace LifeSim.View
             acquaintanceListBox.Items.Add(e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString());
         }
 
-        #endregion
-
-        private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void Model_MilitaryMissionCompleteEvent(object sender, EventArgs e)
         {
             foreach (Control child in this.Controls)
@@ -437,6 +443,43 @@ namespace LifeSim.View
                 if (child.GetType() == typeof(Button) && child.Text != "Fő menü")
                     child.Enabled = true;
             }
+        }
+
+        private void Model_PlaneCrashEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sajnos a gép, amin utaztál repülőgép-szerencsétlenség áldozata lett.");
+            mainPanel.BringToFront();
+        }
+
+        private void Model_CaughtSicknessEvent(object sender, LifeSimEventArgs e)
+        {
+            if (!e.Sickness.NeedsMedicalAttention)
+            {
+                MessageBox.Show("Elkaptad a következő betegséget: " + e.Sickness.Name + ". Nincs okod az aggodalomra, egy pár nap lábadozás után meggyógyultál.");
+            }
+            else
+            {
+                MessageBox.Show("Nem érzed túl jól magad. Jobban teszed, ha minél előbb meglátogatsz egy orvost!");
+            }
+        }
+
+        private void Model_DoctorsVisitEvent(object sender, LifeSimEventArgs e)
+        {
+            if (e.Sicknesses.Length == 0)
+            {
+                MessageBox.Show("Az orvosod nem diagnosztizált nálad semmilyen betegséget.");
+            }
+            else
+            {
+                MessageBox.Show("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + ".");
+            }
+        }
+
+        #endregion
+
+        private void MainGameWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
 
         private void ageButton_Click(object sender, EventArgs e)
@@ -726,6 +769,11 @@ namespace LifeSim.View
         private void makeFriendButton_Click(object sender, EventArgs e)
         {
             model.makeFriend();
+        }
+
+        private void visitDoctorButton_Click(object sender, EventArgs e)
+        {
+            model.visitDoctor();
         }
     }
 }

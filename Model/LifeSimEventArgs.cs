@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LifeSim.Model
 {
@@ -13,6 +14,10 @@ namespace LifeSim.Model
         public int YearsToPayBack { get; }
 
         public int PersonIndex { get; }
+
+        public Sickness Sickness { get; }
+
+        public String Sicknesses { get; }
 
         public LifeSimEventArgs(Person Person)
         {
@@ -41,5 +46,14 @@ namespace LifeSim.Model
             this.YearsToPayBack = YearsToPayBack;
         }
 
+        public LifeSimEventArgs(Sickness Sickness)
+        {
+            this.Sickness = Sickness;
+        }
+
+        public LifeSimEventArgs(String Sicknesses)
+        {
+            this.Sicknesses = Sicknesses;
+        }
     }
 }

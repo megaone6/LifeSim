@@ -18,6 +18,8 @@ namespace LifeSim.Model
 
         public int CurrentJobLevel { get; set; }
 
+        public List<Sickness> YourSicknesses { get; set; }
+
         public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, Job Job, Home Home, University University): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
         {
             this.FirstName = FirstName;
@@ -36,6 +38,7 @@ namespace LifeSim.Model
             Children = new List<Person>();
             Partner = null;
             CurrentJobLevel = 0;
+            YourSicknesses = new List<Sickness>();
         }
     }
 }

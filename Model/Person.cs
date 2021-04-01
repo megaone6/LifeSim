@@ -45,6 +45,7 @@ namespace LifeSim.Model
             player.Children = new List<Person>();
             player.Partner = null;
             player.CurrentJobLevel = 0;
+            player.YourSicknesses = new List<Sickness>();
             return player;
         }
     }

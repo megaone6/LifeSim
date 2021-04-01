@@ -46,6 +46,8 @@ namespace LifeSim.Model
 
         public List<Home> Homes { get; private set; }
 
+        public List<Sickness> Sicknesses { get; private set; }
+
         public Job DefaultJob { get; private set; }
 
         public University DefaultUniversity { get; private set; }
@@ -130,6 +132,12 @@ namespace LifeSim.Model
 
         public event EventHandler<EventArgs> MilitaryMissionCompleteEvent;
 
+        public event EventHandler<EventArgs> PlaneCrashEvent;
+
+        public event EventHandler<LifeSimEventArgs> CaughtSicknessEvent;
+
+        public event EventHandler<LifeSimEventArgs> DoctorsVisitEvent;
+
         #endregion
 
         #region Constructor
@@ -140,6 +148,7 @@ namespace LifeSim.Model
             Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
             Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3)};
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 15), new Sickness("COVID-19", 25, 50) };
             yourName = "";
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
             maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
@@ -358,11 +367,22 @@ namespace LifeSim.Model
 
             if (You.Job == Jobs[3] || You.Job == Jobs[4])
             {
-                if (rnd.Next(0, 5) == 3)
+                if (rnd.Next(5) == 3)
                 {
                     OnMilitaryMissionEvent();
                 }
             }
+
+            if (You.Job == Jobs[6])
+            {
+                if (rnd.Next(100) == 50)
+                {
+                    You.Health -= 100;
+                    OnPlaneCrashEvent();
+                    OnDeathEvent(You);
+                }
+            }
+            randomSickness();
         }
 
         public void workOut()
@@ -487,16 +507,16 @@ namespace LifeSim.Model
             Gender loveGender;
             if (You.Gender == Gender.Male)
             {
-                randomName = femaleNames[rnd.Next(0, femaleNames.Count)];
+                randomName = femaleNames[rnd.Next(femaleNames.Count)];
                 loveGender = Gender.Female;
             }
             else
             {
-                randomName = maleNames[rnd.Next(0, maleNames.Count)];
+                randomName = maleNames[rnd.Next(maleNames.Count)];
                 loveGender = Gender.Male;
             }
             int randomAge = rnd.Next(-2, 3);
-            Person crush = new Person(familyNames[rnd.Next(0, familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(0, 101), rnd.Next(0, 101), rnd.Next(10, 101), 100);
+            Person crush = new Person(familyNames[rnd.Next(familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(101), rnd.Next(101), rnd.Next(10, 101), 100);
             int chanceOfLove = chanceOfMutualLove(crush);
             PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
             return PotentialPartner;
@@ -504,7 +524,7 @@ namespace LifeSim.Model
 
         public void tryRelationship()
         {
-            int randomNum = rnd.Next(0, 5);
+            int randomNum = rnd.Next(5);
             bool fail = false;
             switch (PotentialPartner.Item2)
             {
@@ -566,7 +586,7 @@ namespace LifeSim.Model
 
         public void tryForChild()
         {
-            int childSuccess = rnd.Next(0, 2);
+            int childSuccess = rnd.Next(2);
             switch (childSuccess)
             {
                 case 0:
@@ -603,6 +623,13 @@ namespace LifeSim.Model
                 OnVacationFailedEvent();
             else
             {
+                if (rnd.Next(100) == 50)
+                {
+                    You.Health -= 100;
+                    OnPlaneCrashEvent();
+                    OnDeathEvent(You);
+                    return;
+                }
                 OnVacationSuccessEvent();
                 You.Money -= 300000 * familyCount;
                 OnMoneyRefreshEvent();
@@ -647,7 +674,7 @@ namespace LifeSim.Model
                 return;
             }
             You.Money -= 5000;
-            int chance = rnd.Next(0, 100);
+            int chance = rnd.Next(100);
             if (chance == 42)
             {
                 OnLotteryWinEvent();
@@ -710,6 +737,22 @@ namespace LifeSim.Model
             Person p = new Person(familyNames[rnd.Next(familyNames.Count)], name, rnd.Next(You.Age - 1, You.Age + 3), gender, rnd.Next(85, 101), rnd.Next(101), rnd.Next(101), rnd.Next(25, 101), rnd.Next(85, 101));
             People.Add(p);
             OnMakeFriendSuccessEvent(p,People.Count - 1);
+        }
+
+        public void visitDoctor()
+        {
+            if(You.YourSicknesses.Count == 0)
+            {
+                OnDoctorsVisitEvent("");
+                return;
+            }
+            String sicknessString = "";
+            foreach (Sickness s in You.YourSicknesses)
+            {
+                sicknessString += s.Name + ", ";
+            }
+            sicknessString = sicknessString.Substring(0,sicknessString.Length - 2);
+            OnDoctorsVisitEvent(sicknessString);
         }
 
         #endregion
@@ -798,6 +841,15 @@ namespace LifeSim.Model
                 max -= 6;
             }
 
+            if (p == You)
+            {
+                foreach (Sickness s in You.YourSicknesses)
+                {
+                    min -= s.ApproximateEffectOnHealth + rnd.Next(-4,5);
+                    max -= s.ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                }
+            }
+
             return rnd.Next(min, max);
         }
 
@@ -863,6 +915,52 @@ namespace LifeSim.Model
             }
 
             return rnd.Next(min, max);
+        }
+
+        private void randomSickness()
+        {
+            if (rnd.Next(10) == 4)
+            {
+                You.Health -= Sicknesses[0].ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                OnCaughtSicknessEvent(Sicknesses[0]);
+                OnHealthRefreshEvent();
+                if (You.Health < 0)
+                    OnDeathEvent(You);
+                return;
+            }
+
+            if (rnd.Next(200) == 60 && !You.YourSicknesses.Contains(Sicknesses[1]))
+            {
+                You.Health -= Sicknesses[1].ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                OnCaughtSicknessEvent(Sicknesses[1]);
+                OnHealthRefreshEvent();
+                You.YourSicknesses.Add(Sicknesses[1]);
+                if (You.Health < 0)
+                    OnDeathEvent(You);
+                return;
+            }
+
+            if (rnd.Next(60) == 10 && !You.YourSicknesses.Contains(Sicknesses[2]))
+            {
+                You.Health -= Sicknesses[2].ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                OnCaughtSicknessEvent(Sicknesses[2]);
+                OnHealthRefreshEvent();
+                You.YourSicknesses.Add(Sicknesses[2]);
+                if (You.Health < 0)
+                    OnDeathEvent(You);
+                return;
+            }
+
+            if (rnd.Next(58) == 12 && !You.YourSicknesses.Contains(Sicknesses[3]))
+            {
+                You.Health -= Sicknesses[3].ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                OnCaughtSicknessEvent(Sicknesses[3]);
+                OnHealthRefreshEvent();
+                You.YourSicknesses.Add(Sicknesses[3]);
+                if (You.Health < 0)
+                    OnDeathEvent(You);
+                return;
+            }
         }
 
         #endregion
@@ -1046,6 +1144,21 @@ namespace LifeSim.Model
         private void OnMilitaryMissionCompleteEvent()
         {
             MilitaryMissionCompleteEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnPlaneCrashEvent()
+        {
+            PlaneCrashEvent?.Invoke(this, new EventArgs());
+        }
+
+        private void OnCaughtSicknessEvent(Sickness sickness)
+        {
+            CaughtSicknessEvent?.Invoke(this, new LifeSimEventArgs(sickness));
+        }
+
+        private void OnDoctorsVisitEvent(String sicknesses)
+        {
+            DoctorsVisitEvent?.Invoke(this, new LifeSimEventArgs(sicknesses));
         }
 
         #endregion
