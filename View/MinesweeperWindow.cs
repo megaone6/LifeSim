@@ -50,52 +50,40 @@ namespace LifeSim.View
                 btn.UseVisualStyleBackColor = true;
                 btn.BackColor = Color.Gray;
 
-                btn.Click += btn_Click;
+                btn.MouseDown += btn_MouseDown;
                 minefieldPanel.Controls.Add(btn);
             }
             newGame = true;
         }
 
-        private void btn_Click(object sender, EventArgs e)
+        private void btn_MouseDown(object sender, MouseEventArgs e)
         {
             Button btn = (Button)sender;
             int number = Int32.Parse(btn.Name.Replace("btn", ""));
-            if (newGame)
+            if (e.Button == MouseButtons.Left)
             {
-                msmodel.newGame(number);
-                panelRefresh();
-                newGame = false;
-                markButton.Enabled = true;
-            }
-            else
-            {
-                if (msmodel.Recon)
+                if (newGame)
                 {
-                    msmodel.recon(number);
-                    if(!msmodel.gameOver)
-                        panelRefresh();
+                    msmodel.newGame(number);
+                    panelRefresh();
+                    newGame = false;
                 }
                 else
+                {
+                    msmodel.recon(number);
+                    if (!msmodel.gameOver)
+                        panelRefresh();
+                }
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (!newGame)
                 {
                     msmodel.mark(number);
                     if (!msmodel.gameOver)
                         panelRefresh();
                 }
             }
-        }
-
-        private void reconButton_Click(object sender, EventArgs e)
-        {
-            msmodel.Recon = true;
-            reconButton.Enabled = false;
-            markButton.Enabled = true;
-        }
-
-        private void markButton_Click(object sender, EventArgs e)
-        {
-            msmodel.Recon = false;
-            reconButton.Enabled = true;
-            markButton.Enabled = false;
         }
 
         private void panelRefresh()

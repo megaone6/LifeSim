@@ -22,8 +22,6 @@ namespace LifeSim.Model
 
         public Field[,] MineField { get; private set; }
 
-        public bool Recon { get; set; }
-
         public bool gameOver { get; private set; }
 
         #endregion
@@ -44,7 +42,6 @@ namespace LifeSim.Model
             MineField = new Field[8,8];
             checkedFields = new List<(int,int)>();
             markedFields = new List<(int, int)>();
-            Recon = true;
             marks = 15;
             gameOver = false;
         }
