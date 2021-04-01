@@ -22,9 +22,9 @@ namespace LifeSim.Model
         private bool inUni;
         private bool isWorking;
         private bool childOnWay;
-        private Person otherParent;
         private int universityCosts;
         private int timeToPayBack;
+        private Dictionary<Person, Person> childParentPairs;
 
         #endregion
 
@@ -178,6 +178,7 @@ namespace LifeSim.Model
         public void newGame()
         {
             People = new List<Person>();
+            childParentPairs = new Dictionary<Person, Person>();
             PromotionMeter = 0;
             String familyName;
             String name;
@@ -323,35 +324,7 @@ namespace LifeSim.Model
             if (childOnWay)
             {
                 childOnWay = false;
-                Gender gender = (Gender)rnd.Next(2);
-                String name;
-
-                if (gender == 0)
-                    name = femaleNames[rnd.Next(femaleNames.Count)];
-                else
-                    name = maleNames[rnd.Next(maleNames.Count)];
-
-                String firstName;
-
-                if (You.Gender == Gender.Male)
-                    firstName = You.FirstName;
-                else
-                    firstName = otherParent.FirstName;
-
-                int appearance = calculateStartingStat(You.Appearance, otherParent.Appearance);
-                int intelligence = calculateStartingStat(You.Intelligence, otherParent.Intelligence);
-
-                if (appearance < 0)
-                    appearance = 0;
-                if (intelligence < 0)
-                    intelligence = 0;
-
-                if (appearance > 100)
-                    appearance = 100;
-                if (intelligence > 100)
-                    intelligence = 100;
-
-                You.Children.Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
+                You.Children.Add(childParentPairs.Values.Last());
                 People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
@@ -593,8 +566,35 @@ namespace LifeSim.Model
                     OnChildFailEvent();
                     break;
                 case 1:
+                    Gender gender = (Gender)rnd.Next(2);
+                    String name;
+
+                    if (gender == 0)
+                        name = femaleNames[rnd.Next(femaleNames.Count)];
+                    else
+                        name = maleNames[rnd.Next(maleNames.Count)];
+
+                    String firstName;
+
+                    if (You.Gender == Gender.Male)
+                        firstName = You.FirstName;
+                    else
+                        firstName = You.Partner.FirstName;
+
+                    int appearance = calculateStartingStat(You.Appearance, You.Partner.Appearance);
+                    int intelligence = calculateStartingStat(You.Intelligence, You.Partner.Intelligence);
+
+                    if (appearance < 0)
+                        appearance = 0;
+                    if (intelligence < 0)
+                        intelligence = 0;
+
+                    if (appearance > 100)
+                        appearance = 100;
+                    if (intelligence > 100)
+                        intelligence = 100;
                     childOnWay = true;
-                    otherParent = You.Partner;
+                    childParentPairs.Add(You.Partner, new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
                     OnChildSuccessEvent();
                     break;
             }
@@ -602,9 +602,20 @@ namespace LifeSim.Model
 
         public void takeControlOfChild()
         {
-            People.Remove(You.Children[0]);
+            Person otherParent = null;
+            foreach (KeyValuePair<Person, Person> p in childParentPairs)
+            {
+                if (People.Exists(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName))
+                    otherParent = People.Single(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName);
+            }
+            People.Clear();
             You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity);
             People.Add(You);
+            if (otherParent != null)
+            {
+                otherParent.Relationship = rnd.Next(75, 101);
+                People.Add(otherParent);
+            }
             breakUp(true);
             jobRefresh(DefaultJob);
             homeRefresh(DefaultHome);

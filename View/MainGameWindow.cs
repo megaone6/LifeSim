@@ -3,6 +3,7 @@ using LifeSim.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -13,6 +14,8 @@ namespace LifeSim.View
         #region Fields
 
         private LifeSimModel model;
+        private int textLength;
+        private String tmpText;
 
         #endregion
 
@@ -103,6 +106,12 @@ namespace LifeSim.View
             MessageBox.Show("Édesapád: " + model.Parents[0].FirstName + " " + model.Parents[0].LastName + ", kora: " + model.Parents[0].Age + ", kinézete: " + model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence
                 + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
                 + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+
+            tmpText = "0 éves" + Environment.NewLine + Environment.NewLine;
+            textLength = eventsRichTextBox.Text.Length;
+            eventsRichTextBox.AppendText(tmpText);
+            eventsRichTextBox.Select(textLength, tmpText.Length);
+            eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
         }
 
         #endregion
@@ -150,7 +159,6 @@ namespace LifeSim.View
                         jobPanelButton.Enabled = false;
                         homePanelButton.Enabled = false;
                         universityPanelButton.Enabled = false;
-                        acquaintancePanelButton.Enabled = false;
                         lotteryButton.Enabled = false;
                     }
                     jobComboBox.Visible = true;
@@ -158,18 +166,17 @@ namespace LifeSim.View
                     quitJobButton.Visible = false;
                     homeComboBox.Visible = true;
                     buyHomeButton.Visible = true;
-                    acquaintanceListBox.Items.Add(model.People[1].FirstName + " " + model.People[1].LastName + " - " + model.People[1].Relationship.ToString());
-                    acquaintanceListBox.Items.Add(model.People[2].FirstName + " " + model.People[2].LastName + " - " + model.People[2].Relationship.ToString());
                     vacationButton.Enabled = false;
-                    foreach (Control child in this.Controls)
-                    {
-                        if (child.GetType() == typeof(Button))
-                            child.Enabled = false;
-                    }
                     ageButton.Enabled = true;
                     visitDoctorButton.Enabled = true;
                     universityComboBox.Visible = true;
                     applyToUniButton.Visible = true;
+                    eventsRichTextBox.Clear();
+                    tmpText = model.You.Age.ToString() + " éves" + Environment.NewLine + Environment.NewLine;
+                    textLength = eventsRichTextBox.Text.Length;
+                    eventsRichTextBox.AppendText(tmpText);
+                    eventsRichTextBox.Select(textLength, tmpText.Length);
+                    eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
                 }
                 else
                 {
@@ -178,7 +185,7 @@ namespace LifeSim.View
             }
             else
             {
-                MessageBox.Show("Meghalt " + e.Person.FirstName + " " + e.Person.LastName + "!" + Environment.NewLine + e.Person.Age.ToString() + " évig élt.");
+                eventsRichTextBox.AppendText("Meghalt " + e.Person.FirstName + " " + e.Person.LastName + "!" + Environment.NewLine + e.Person.Age.ToString() + " évig élt." + Environment.NewLine + Environment.NewLine);
                 acquaintanceListBox.Items.Remove(e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString());
             }
         }
@@ -186,6 +193,7 @@ namespace LifeSim.View
         private void Model_JobChangedEvent(object sender, EventArgs e)
         {
             String job = model.You.Job.JobLevels.Keys.ElementAt(0);
+            eventsRichTextBox.AppendText("Elkezdtél dolgozni a következő pozícióban: " + job + Environment.NewLine + Environment.NewLine);
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { jobLabel.Text = job; }));
             else
@@ -203,6 +211,7 @@ namespace LifeSim.View
         private void Model_SmartUniChangedEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok! Bekerültél államilag finanszírozott képzésre!");
+            eventsRichTextBox.AppendText("Gratulálok! Bekerültél államilag finanszírozott képzésre!" + Environment.NewLine + Environment.NewLine);
             String uni = model.You.University.Type;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
@@ -213,6 +222,7 @@ namespace LifeSim.View
         private void Model_DumbUniChangedEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Sajnos csak önköltséges képzésre sikerült bejutnod. A képzés befejezése után el kell kezdened fizetni a költségeket, ami " + e.UniversityCost + " forint/félév!");
+            eventsRichTextBox.AppendText("Sajnos csak önköltséges képzésre sikerült bejutnod. A képzés befejezése után el kell kezdened fizetni a költségeket, ami " + e.UniversityCost + " forint/félév!" + Environment.NewLine + Environment.NewLine);
             String uni = model.You.University.Type;
             if (jobLabel.InvokeRequired)
                 jobLabel.Invoke(new MethodInvoker(delegate { universityLabel.Text = uni; }));
@@ -223,12 +233,14 @@ namespace LifeSim.View
         private void Model_SmartGraduateEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!");
+            eventsRichTextBox.AppendText("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!" + Environment.NewLine + Environment.NewLine);
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
         }
 
         private void Model_DumbGraduateEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést! Sajnos viszont el kell kezdened törleszteni a Diákhitel 2-t. Ez " + e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni.");
+            eventsRichTextBox.AppendText("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést! Sajnos viszont el kell kezdened törleszteni a Diákhitel 2-t. Ez " + e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni." + Environment.NewLine + Environment.NewLine);
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
         }
 
@@ -288,6 +300,8 @@ namespace LifeSim.View
             MessageBox.Show("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!");
             currentLoveLabel.Text = "Párod: " + Environment.NewLine
                 + "Név: " + model.You.Partner.FirstName + " " + model.You.Partner.LastName;
+            eventsRichTextBox.AppendText("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!" + Environment.NewLine + Environment.NewLine);
+            acquaintanceListBox.Items.Add(model.You.Partner.FirstName + " " + model.You.Partner.LastName +  " - " + model.You.Partner.Relationship.ToString());
             newLoveLabel.Visible = false;
             newLoveLabel.Text = "";
             newLoveButton.Visible = false;
@@ -299,7 +313,10 @@ namespace LifeSim.View
         private void Model_BreakUpEvent(object sender, LifeSimEventArgs e)
         {
             if(e.Death == false)
+            {
                 MessageBox.Show("Szakítottál a pároddal!");
+                eventsRichTextBox.AppendText("Szakítottál a pároddal!" + Environment.NewLine + Environment.NewLine);
+            }
             currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
             breakUpButton.Visible = false;
             tryForChildButton.Visible = false;
@@ -309,15 +326,23 @@ namespace LifeSim.View
         private void Model_ChildFailEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra.");
+            eventsRichTextBox.AppendText("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra." + Environment.NewLine + Environment.NewLine);
         }
 
         private void Model_ChildSuccessEvent(object sender, EventArgs e)
         {
             tryForChildButton.Enabled = false;
             if (model.You.Gender == Gender.Male)
+            {
                 MessageBox.Show("Gratulálok! Párod várandós.");
+                eventsRichTextBox.AppendText("Gratulálok! Párod várandós." + Environment.NewLine + Environment.NewLine);
+            }
+
             else
+            {
                 MessageBox.Show("Gratulálok! Várandós vagy.");
+                eventsRichTextBox.AppendText("Gratulálok! Várandós vagy." + Environment.NewLine + Environment.NewLine);
+            }    
         }
 
         private void Model_ChildBornEvent(object sender, EventArgs e)
@@ -325,6 +350,7 @@ namespace LifeSim.View
             tryForChildButton.Enabled = true;
             String childName = model.You.Children[model.You.Children.Count - 1].FirstName + " " + model.You.Children[model.You.Children.Count - 1].LastName;
             MessageBox.Show("Gratulálok, gyermeked született! Neve: " + childName);
+            eventsRichTextBox.AppendText("Gratulálok, gyermeked született! Neve: " + childName + Environment.NewLine + Environment.NewLine);
             acquaintanceListBox.Items.Add(childName + " - " + model.You.Children[model.You.Children.Count - 1].Relationship.ToString());
         }
 
@@ -334,18 +360,21 @@ namespace LifeSim.View
             jobComboBox.Visible = true;
             tryJobButton.Visible = true;
             MessageBox.Show("Kiléptél a munkahelyedről.");
+            eventsRichTextBox.AppendText("Kiléptél a munkahelyedről." + Environment.NewLine + Environment.NewLine);
             jobLabel.Text = model.You.Job.Name;
         }
 
         private void Model_PromotionEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok, előléptettek! Fizetésed magasabb lett.");
+            eventsRichTextBox.AppendText("Gratulálok, előléptettek! Fizetésed magasabb lett." + Environment.NewLine + Environment.NewLine);
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 
         private void Model_RetirementEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Nyugdíjba vonultál.");
+            eventsRichTextBox.AppendText("Nyugdíjba vonultál." + Environment.NewLine + Environment.NewLine);
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 
@@ -357,12 +386,14 @@ namespace LifeSim.View
         private void Model_VacationSuccessEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Elmentél nyaralni. Boldogságod megnőtt.");
+            eventsRichTextBox.AppendText("Elmentél nyaralni. Boldogságod megnőtt." + Environment.NewLine + Environment.NewLine);
             vacationButton.Enabled = false;
         }
 
         private void Model_WorkOutSuccessEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt.");
+            eventsRichTextBox.AppendText("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt." + Environment.NewLine + Environment.NewLine);
             workOutButton.Enabled = false;
         }
 
@@ -374,6 +405,7 @@ namespace LifeSim.View
         private void Model_ReadSuccessEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt.");
+            eventsRichTextBox.AppendText("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt." + Environment.NewLine + Environment.NewLine);
             readButton.Enabled = false;
         }
 
@@ -385,6 +417,7 @@ namespace LifeSim.View
         private void Model_ProgramWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
+            eventsRichTextBox.AppendText("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString() + Environment.NewLine + Environment.NewLine);
             acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
             acquaintanceListBox.Update();
         }
@@ -404,6 +437,7 @@ namespace LifeSim.View
         private void Model_LotteryWinEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Gratulálok, nyertél a lottón!");
+            eventsRichTextBox.AppendText("Gratulálok, nyertél a lottón!" + Environment.NewLine + Environment.NewLine);
         }
 
         private void Model_LotteryLoseEvent(object sender, EventArgs e)
@@ -414,6 +448,7 @@ namespace LifeSim.View
         private void Model_MilitaryMissionEvent(object sender, EventArgs e)
         {
             MessageBox.Show("Bevetésre hívtak egy háború sújtotta övezetbe. Keresd meg az aknákat az aknamezőn, és hatástalanítsd őket!");
+            eventsRichTextBox.AppendText("Bevetésre hívtak egy háború sújtotta övezetbe." + Environment.NewLine + Environment.NewLine);
             foreach (Control child in this.Controls)
             {
                 if (child.GetType() == typeof(Button))
@@ -432,6 +467,7 @@ namespace LifeSim.View
         private void Model_MakeFriendSuccessEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!");
+            eventsRichTextBox.AppendText("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!" + Environment.NewLine + Environment.NewLine);
             makeFriendButton.Enabled = false;
             acquaintanceListBox.Items.Add(e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString());
         }
@@ -455,11 +491,12 @@ namespace LifeSim.View
         {
             if (!e.Sickness.NeedsMedicalAttention)
             {
-                MessageBox.Show("Elkaptad a következő betegséget: " + e.Sickness.Name + ". Nincs okod az aggodalomra, egy pár nap lábadozás után meggyógyultál.");
+                eventsRichTextBox.AppendText("Elkaptad a következő betegséget: " + e.Sickness.Name + ". Nincs okod az aggodalomra, egy pár nap lábadozás után meggyógyultál." + Environment.NewLine + Environment.NewLine);
             }
             else
             {
-                MessageBox.Show("Nem érzed túl jól magad. Jobban teszed, ha minél előbb meglátogatsz egy orvost!");
+                eventsRichTextBox.AppendText("Nem érzed túl jól magad. Jobban teszed, ha minél előbb meglátogatsz egy orvost!" + Environment.NewLine + Environment.NewLine);
+
             }
         }
 
@@ -467,11 +504,11 @@ namespace LifeSim.View
         {
             if (e.Sicknesses.Length == 0)
             {
-                MessageBox.Show("Az orvosod nem diagnosztizált nálad semmilyen betegséget.");
+                eventsRichTextBox.AppendText("Az orvosod nem diagnosztizált nálad semmilyen betegséget." + Environment.NewLine + Environment.NewLine);
             }
             else
             {
-                MessageBox.Show("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + ".");
+                eventsRichTextBox.AppendText("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + "." + Environment.NewLine + Environment.NewLine);
             }
         }
 
@@ -484,7 +521,12 @@ namespace LifeSim.View
 
         private void ageButton_Click(object sender, EventArgs e)
         {
-            model.age();
+            tmpText = (model.You.Age+1).ToString() + " éves" + Environment.NewLine + Environment.NewLine;
+            textLength = eventsRichTextBox.Text.Length;
+            eventsRichTextBox.AppendText(tmpText);
+            eventsRichTextBox.Select(textLength, tmpText.Length);
+            eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
+            model.age();  
             if (model.You.Age == 3)
                 acquaintancePanelButton.Enabled = true;
 
@@ -774,6 +816,12 @@ namespace LifeSim.View
         private void visitDoctorButton_Click(object sender, EventArgs e)
         {
             model.visitDoctor();
+        }
+
+        private void eventsRichTextBox_TextChanged(object sender, EventArgs e)
+        {
+            eventsRichTextBox.SelectionStart = eventsRichTextBox.Text.Length;
+            eventsRichTextBox.ScrollToCaret();
         }
     }
 }

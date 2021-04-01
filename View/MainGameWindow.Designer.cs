@@ -37,6 +37,7 @@
             this.intelligenceLabel = new System.Windows.Forms.Label();
             this.appearanceLabel = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.eventsRichTextBox = new System.Windows.Forms.RichTextBox();
             this.happinessLabel = new System.Windows.Forms.Label();
             this.moneyLabel = new System.Windows.Forms.Label();
             this.jobPanel = new System.Windows.Forms.Panel();
@@ -152,6 +153,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.eventsRichTextBox);
             this.mainPanel.Controls.Add(this.happinessLabel);
             this.mainPanel.Controls.Add(this.moneyLabel);
             this.mainPanel.Controls.Add(this.nameLabel);
@@ -164,6 +166,16 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(776, 345);
             this.mainPanel.TabIndex = 7;
+            // 
+            // eventsRichTextBox
+            // 
+            this.eventsRichTextBox.Location = new System.Drawing.Point(201, 138);
+            this.eventsRichTextBox.Name = "eventsRichTextBox";
+            this.eventsRichTextBox.ReadOnly = true;
+            this.eventsRichTextBox.Size = new System.Drawing.Size(369, 174);
+            this.eventsRichTextBox.TabIndex = 11;
+            this.eventsRichTextBox.Text = "";
+            this.eventsRichTextBox.TextChanged += new System.EventHandler(this.eventsRichTextBox_TextChanged);
             // 
             // happinessLabel
             // 
@@ -575,11 +587,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.visitDoctorButton);
             this.Controls.Add(this.lotteryButton);
             this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.leisurePanel);
-            this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.acquaintancePanelButton);
             this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.lovePanel);
@@ -661,5 +673,6 @@
         private System.Windows.Forms.Button lotteryButton;
         private System.Windows.Forms.Button makeFriendButton;
         private System.Windows.Forms.Button visitDoctorButton;
+        private System.Windows.Forms.RichTextBox eventsRichTextBox;
     }
 }
