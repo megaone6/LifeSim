@@ -19,6 +19,8 @@ namespace LifeSim.Model
 
         public String Sicknesses { get; }
 
+        public String SicknessesHealed { get; }
+
         public LifeSimEventArgs(Person Person)
         {
             this.Person = Person;
@@ -51,9 +53,10 @@ namespace LifeSim.Model
             this.Sickness = Sickness;
         }
 
-        public LifeSimEventArgs(String Sicknesses)
+        public LifeSimEventArgs(String Sicknesses, String SicknessesHealed)
         {
             this.Sicknesses = Sicknesses;
+            this.SicknessesHealed = SicknessesHealed;
         }
     }
 }

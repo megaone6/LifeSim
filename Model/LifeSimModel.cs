@@ -148,7 +148,7 @@ namespace LifeSim.Model
             Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
             Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3)};
             Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
-            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 15), new Sickness("COVID-19", 25, 50) };
+            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 7), new Sickness("COVID-19", 25, 2) };
             yourName = "";
             familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
             maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
@@ -754,16 +754,35 @@ namespace LifeSim.Model
         {
             if(You.YourSicknesses.Count == 0)
             {
-                OnDoctorsVisitEvent("");
+                OnDoctorsVisitEvent("", "");
                 return;
             }
             String sicknessString = "";
-            foreach (Sickness s in You.YourSicknesses)
+            String sicknessesHealed = "";
+            int randomVariable;
+            foreach (Sickness s in You.YourSicknesses.ToList())
             {
                 sicknessString += s.Name + ", ";
+                randomVariable = rnd.Next(s.ChanceToHeal);
+                if (You.Age < 18 || You.Money >= 500000)
+                {
+                    if (rnd.Next(s.ChanceToHeal) == randomVariable)
+                    {
+                        sicknessesHealed += s.Name + ", ";
+                        You.YourSicknesses.Remove(s);
+                    }
+                    if (You.Age >= 18)
+                        You.Money -= 500000;
+                }
             }
-            sicknessString = sicknessString.Substring(0,sicknessString.Length - 2);
-            OnDoctorsVisitEvent(sicknessString);
+
+            sicknessString = sicknessString.Substring(0, sicknessString.Length - 2);
+
+            if (sicknessesHealed.Length > 0)
+                sicknessesHealed = sicknessesHealed.Substring(0, sicknessesHealed.Length - 2);
+
+            OnDoctorsVisitEvent(sicknessString, sicknessesHealed);
+            OnMoneyRefreshEvent();
         }
 
         #endregion
@@ -1162,14 +1181,14 @@ namespace LifeSim.Model
             PlaneCrashEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnCaughtSicknessEvent(Sickness sickness)
+        private void OnCaughtSicknessEvent(Sickness Sickness)
         {
-            CaughtSicknessEvent?.Invoke(this, new LifeSimEventArgs(sickness));
+            CaughtSicknessEvent?.Invoke(this, new LifeSimEventArgs(Sickness));
         }
 
-        private void OnDoctorsVisitEvent(String sicknesses)
+        private void OnDoctorsVisitEvent(String Sicknesses, String SicknessesHealed)
         {
-            DoctorsVisitEvent?.Invoke(this, new LifeSimEventArgs(sicknesses));
+            DoctorsVisitEvent?.Invoke(this, new LifeSimEventArgs(Sicknesses, SicknessesHealed));
         }
 
         #endregion

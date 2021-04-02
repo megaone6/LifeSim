@@ -502,14 +502,18 @@ namespace LifeSim.View
 
         private void Model_DoctorsVisitEvent(object sender, LifeSimEventArgs e)
         {
+            visitDoctorButton.Enabled = false;
             if (e.Sicknesses.Length == 0)
             {
                 eventsRichTextBox.AppendText("Az orvosod nem diagnosztizált nálad semmilyen betegséget." + Environment.NewLine + Environment.NewLine);
+                return;
             }
-            else
+            if (e.SicknessesHealed.Length == 0)
             {
-                eventsRichTextBox.AppendText("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + "." + Environment.NewLine + Environment.NewLine);
+                eventsRichTextBox.AppendText("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + "." + Environment.NewLine + "Sajnos egyiket sem tudta gyógyítani. Nincs elég pénzed/nem sikerült a kezelés." + Environment.NewLine + Environment.NewLine);
+                return;
             }
+            eventsRichTextBox.AppendText("Az orvosod a következő betegségeket diagnosztizálta: " + e.Sicknesses + "." + Environment.NewLine + "A következőket tudta gyógyítani: " + e.SicknessesHealed + Environment.NewLine + Environment.NewLine);
         }
 
         #endregion
@@ -526,7 +530,10 @@ namespace LifeSim.View
             eventsRichTextBox.AppendText(tmpText);
             eventsRichTextBox.Select(textLength, tmpText.Length);
             eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
-            model.age();  
+            model.age();
+
+            visitDoctorButton.Enabled = true;
+
             if (model.You.Age == 3)
                 acquaintancePanelButton.Enabled = true;
 
