@@ -1,8 +1,6 @@
 ﻿using LifeSim.Model;
-using LifeSim.Properties;
+using LifeSim.Persistence;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -120,13 +118,13 @@ namespace LifeSim.View
 
         private void Model_DeathEvent(object sender, LifeSimEventArgs e)
         {
-            if(e.Person.GetType() == typeof(Player))
+            if (e.Person.GetType() == typeof(Player))
             {
                 MessageBox.Show("Meghaltál!" + Environment.NewLine + e.Person.Age.ToString() + " évig éltél.");
                 DialogResult result = MessageBox.Show("Szeretnél új játékot kezdeni?", "Új játék", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    if(model.You.Children.Count == 0)
+                    if (model.You.Children.Count == 0)
                     {
                         model.newGame();
 
@@ -301,7 +299,7 @@ namespace LifeSim.View
             currentLoveLabel.Text = "Párod: " + Environment.NewLine
                 + "Név: " + model.You.Partner.FirstName + " " + model.You.Partner.LastName;
             eventsRichTextBox.AppendText("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!" + Environment.NewLine + Environment.NewLine);
-            acquaintanceListBox.Items.Add(model.You.Partner.FirstName + " " + model.You.Partner.LastName +  " - " + model.You.Partner.Relationship.ToString());
+            acquaintanceListBox.Items.Add(model.You.Partner.FirstName + " " + model.You.Partner.LastName + " - " + model.You.Partner.Relationship.ToString());
             newLoveLabel.Visible = false;
             newLoveLabel.Text = "";
             newLoveButton.Visible = false;
@@ -312,7 +310,7 @@ namespace LifeSim.View
 
         private void Model_BreakUpEvent(object sender, LifeSimEventArgs e)
         {
-            if(e.Death == false)
+            if (e.Death == false)
             {
                 MessageBox.Show("Szakítottál a pároddal!");
                 eventsRichTextBox.AppendText("Szakítottál a pároddal!" + Environment.NewLine + Environment.NewLine);
@@ -342,7 +340,7 @@ namespace LifeSim.View
             {
                 MessageBox.Show("Gratulálok! Várandós vagy.");
                 eventsRichTextBox.AppendText("Gratulálok! Várandós vagy." + Environment.NewLine + Environment.NewLine);
-            }    
+            }
         }
 
         private void Model_ChildBornEvent(object sender, EventArgs e)
@@ -525,7 +523,7 @@ namespace LifeSim.View
 
         private void ageButton_Click(object sender, EventArgs e)
         {
-            tmpText = (model.You.Age+1).ToString() + " éves" + Environment.NewLine + Environment.NewLine;
+            tmpText = (model.You.Age + 1).ToString() + " éves" + Environment.NewLine + Environment.NewLine;
             textLength = eventsRichTextBox.Text.Length;
             eventsRichTextBox.AppendText(tmpText);
             eventsRichTextBox.Select(textLength, tmpText.Length);
@@ -552,7 +550,7 @@ namespace LifeSim.View
             if (model.You.Age == 18)
             {
                 jobPanelButton.Enabled = true;
-                jobLabel.Text = model.You.Job.Name;
+                jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
                 homePanelButton.Enabled = true;
                 homeLabel.Text = model.You.Home.Type;
                 universityPanelButton.Enabled = true;
@@ -625,7 +623,7 @@ namespace LifeSim.View
         private void tryJobButton_Click(object sender, EventArgs e)
         {
             Job job = model.Jobs[jobComboBox.SelectedIndex];
-            if ((!model.Degrees.Contains(job.DegreeNeeded)) && !(job.DegreeNeeded is null))
+            if ((!model.You.Degrees.Contains(job.DegreeNeeded)) && !(job.DegreeNeeded is null))
             {
                 MessageBox.Show("Nincs meg a szükséges képzésed ehhez a munkához!");
                 return;
@@ -652,7 +650,7 @@ namespace LifeSim.View
         private void buyHomeButton_Click(object sender, EventArgs e)
         {
             Home home = model.Homes[homeComboBox.SelectedIndex];
-            if(model.You.Money < home.Price)
+            if (model.You.Money < home.Price)
             {
                 MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még egy kicsit rá!");
                 return;
@@ -731,7 +729,7 @@ namespace LifeSim.View
             tryRelationshipButton.Visible = true;
             tryRelationshipButton.Enabled = true;
             newLoveLabel.Visible = true;
-            Tuple<Person,int> newLove = model.newLove();
+            Tuple<Person, int> newLove = model.newLove();
             newLoveLabel.Text = "Név: " + newLove.Item1.FirstName + " " + newLove.Item1.LastName + Environment.NewLine
                 + "Kor: " + newLove.Item1.Age + Environment.NewLine
                 + "Kinézet: " + newLove.Item1.Appearance.ToString() + Environment.NewLine
@@ -825,10 +823,131 @@ namespace LifeSim.View
             model.visitDoctor();
         }
 
+        private void saveMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    model.saveGame(saveFileDialog.FileName);
+                }
+                catch (DataException)
+                {
+                    MessageBox.Show("Hiba történt a mentés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void loadMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    model.loadGame(openFileDialog.FileName);
+                }
+                catch (DataException)
+                {
+                    MessageBox.Show("Hiba történt a betöltés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            refreshData();
+        }
+
         private void eventsRichTextBox_TextChanged(object sender, EventArgs e)
         {
             eventsRichTextBox.SelectionStart = eventsRichTextBox.Text.Length;
             eventsRichTextBox.ScrollToCaret();
+        }
+
+        private void refreshData()
+        {
+            if (model.You.Age >= 3)
+                acquaintancePanelButton.Enabled = true;
+
+            if (model.You.Age >= 12)
+            {
+                leisurePanelButton.Enabled = true;
+                workOutButton.Enabled = true;
+                readButton.Enabled = true;
+            }
+
+            if (model.You.Age >= 14)
+                lovePanelButton.Enabled = true;
+
+            if (model.You.Age >= 18)
+            {
+                jobPanelButton.Enabled = true;
+                homePanelButton.Enabled = true;
+                homeLabel.Text = model.You.Home.Type;
+                universityPanelButton.Enabled = true;
+                universityLabel.Text = model.You.University.Type;
+                acquaintancePanelButton.Enabled = true;
+                lotteryButton.Enabled = true;
+                tryForChildButton.Enabled = true;
+                vacationButton.Enabled = true;
+            }
+
+            nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
+            if (model.You.Gender == 0)
+                genderLabel.Text = "Nő";
+            else
+                genderLabel.Text = "Férfi";
+            ageLabel.Text = model.You.Age.ToString() + " éves vagy";
+            moneyLabel.Text = "Jelenleg " + model.You.Money.ToString() + " forintod van";
+            healthLabel.Text = "Egészség: " + model.You.Health.ToString();
+            intelligenceLabel.Text = "Intelligencia: " + model.You.Intelligence.ToString();
+            appearanceLabel.Text = "Kinézet: " + model.You.Appearance.ToString();
+            happinessLabel.Text = "Boldogság: " + model.You.Happiness.ToString();
+
+            jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
+            if (model.You.Job != model.DefaultJob)
+            {
+                quitJobButton.Visible = true;
+                jobComboBox.Visible = false;
+                tryJobButton.Visible = false;
+            }
+
+            homeLabel.Text = model.You.Home.Type;
+            if (model.You.Home != model.DefaultHome)
+            {
+                homeComboBox.Visible = false;
+                buyHomeButton.Visible = false;
+            }
+
+            universityLabel.Text = model.You.University.Type;
+            if (model.You.University != model.DefaultUniversity)
+            {
+                applyToUniButton.Visible = false;
+                universityComboBox.Visible = false;
+            }
+
+            if (model.You.Partner is null)
+            {
+                currentLoveLabel.Text = "Jelenleg egyedülálló vagy";
+                newLoveButton.Visible = true;
+                tryRelationshipButton.Visible = false;
+                breakUpButton.Visible = false;
+                tryForChildButton.Visible = false;
+            }
+            else
+            {
+                currentLoveLabel.Text = "Párod: " + Environment.NewLine + "Név: " + model.You.Partner.FirstName + " " + model.You.Partner.LastName;
+                newLoveButton.Visible = false;
+                tryRelationshipButton.Visible = false;
+                breakUpButton.Visible = true;
+                tryForChildButton.Visible = true;
+            }
+
+            acquaintanceListBox.Items.Clear();
+
+            foreach (Person p in model.People)
+            {
+                if (p != model.You)
+                    acquaintanceListBox.Items.Add(p.FirstName + " " + p.LastName + " - " + p.Relationship.ToString());
+            }
+
+            eventsRichTextBox.Clear();
         }
     }
 }

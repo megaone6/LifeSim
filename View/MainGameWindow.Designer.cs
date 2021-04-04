@@ -78,6 +78,12 @@
             this.acquaintanceListBox = new System.Windows.Forms.ListBox();
             this.lotteryButton = new System.Windows.Forms.Button();
             this.visitDoctorButton = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -85,6 +91,7 @@
             this.universityPanel.SuspendLayout();
             this.lovePanel.SuspendLayout();
             this.acquaintancePanel.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -162,9 +169,9 @@
             this.mainPanel.Controls.Add(this.intelligenceLabel);
             this.mainPanel.Controls.Add(this.ageLabel);
             this.mainPanel.Controls.Add(this.healthLabel);
-            this.mainPanel.Location = new System.Drawing.Point(12, 13);
+            this.mainPanel.Location = new System.Drawing.Point(12, 35);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(776, 345);
+            this.mainPanel.Size = new System.Drawing.Size(776, 320);
             this.mainPanel.TabIndex = 7;
             // 
             // eventsRichTextBox
@@ -201,9 +208,9 @@
             this.jobPanel.Controls.Add(this.tryJobButton);
             this.jobPanel.Controls.Add(this.jobComboBox);
             this.jobPanel.Controls.Add(this.jobLabel);
-            this.jobPanel.Location = new System.Drawing.Point(12, 12);
+            this.jobPanel.Location = new System.Drawing.Point(12, 35);
             this.jobPanel.Name = "jobPanel";
-            this.jobPanel.Size = new System.Drawing.Size(776, 346);
+            this.jobPanel.Size = new System.Drawing.Size(776, 320);
             this.jobPanel.TabIndex = 8;
             // 
             // quitJobButton
@@ -282,9 +289,9 @@
             this.homePanel.Controls.Add(this.homeLabel);
             this.homePanel.Controls.Add(this.buyHomeButton);
             this.homePanel.Controls.Add(this.homeComboBox);
-            this.homePanel.Location = new System.Drawing.Point(12, 12);
+            this.homePanel.Location = new System.Drawing.Point(12, 35);
             this.homePanel.Name = "homePanel";
-            this.homePanel.Size = new System.Drawing.Size(776, 346);
+            this.homePanel.Size = new System.Drawing.Size(776, 320);
             this.homePanel.TabIndex = 11;
             // 
             // homeLabel
@@ -330,9 +337,9 @@
             this.leisurePanel.Controls.Add(this.vacationButton);
             this.leisurePanel.Controls.Add(this.readButton);
             this.leisurePanel.Controls.Add(this.workOutButton);
-            this.leisurePanel.Location = new System.Drawing.Point(12, 11);
+            this.leisurePanel.Location = new System.Drawing.Point(12, 35);
             this.leisurePanel.Name = "leisurePanel";
-            this.leisurePanel.Size = new System.Drawing.Size(776, 346);
+            this.leisurePanel.Size = new System.Drawing.Size(776, 320);
             this.leisurePanel.TabIndex = 13;
             // 
             // vacationButton
@@ -371,9 +378,9 @@
             this.universityPanel.Controls.Add(this.applyToUniButton);
             this.universityPanel.Controls.Add(this.universityComboBox);
             this.universityPanel.Controls.Add(this.universityLabel);
-            this.universityPanel.Location = new System.Drawing.Point(12, 12);
+            this.universityPanel.Location = new System.Drawing.Point(12, 35);
             this.universityPanel.Name = "universityPanel";
-            this.universityPanel.Size = new System.Drawing.Size(776, 346);
+            this.universityPanel.Size = new System.Drawing.Size(776, 320);
             this.universityPanel.TabIndex = 16;
             // 
             // applyToUniButton
@@ -412,9 +419,9 @@
             this.lovePanel.Controls.Add(this.newLoveButton);
             this.lovePanel.Controls.Add(this.newLoveLabel);
             this.lovePanel.Controls.Add(this.currentLoveLabel);
-            this.lovePanel.Location = new System.Drawing.Point(12, 12);
+            this.lovePanel.Location = new System.Drawing.Point(12, 35);
             this.lovePanel.Name = "lovePanel";
-            this.lovePanel.Size = new System.Drawing.Size(776, 345);
+            this.lovePanel.Size = new System.Drawing.Size(776, 320);
             this.lovePanel.TabIndex = 18;
             // 
             // tryForChildButton
@@ -442,7 +449,7 @@
             // 
             // tryRelationshipButton
             // 
-            this.tryRelationshipButton.Location = new System.Drawing.Point(323, 282);
+            this.tryRelationshipButton.Location = new System.Drawing.Point(323, 270);
             this.tryRelationshipButton.Name = "tryRelationshipButton";
             this.tryRelationshipButton.Size = new System.Drawing.Size(108, 44);
             this.tryRelationshipButton.TabIndex = 3;
@@ -453,7 +460,7 @@
             // 
             // newLoveButton
             // 
-            this.newLoveButton.Location = new System.Drawing.Point(323, 252);
+            this.newLoveButton.Location = new System.Drawing.Point(323, 243);
             this.newLoveButton.Name = "newLoveButton";
             this.newLoveButton.Size = new System.Drawing.Size(108, 23);
             this.newLoveButton.TabIndex = 2;
@@ -517,9 +524,9 @@
             this.acquaintancePanel.Controls.Add(this.quarrelButton);
             this.acquaintancePanel.Controls.Add(this.programWithAcquaintanceButton);
             this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
-            this.acquaintancePanel.Location = new System.Drawing.Point(12, 11);
+            this.acquaintancePanel.Location = new System.Drawing.Point(12, 35);
             this.acquaintancePanel.Name = "acquaintancePanel";
-            this.acquaintancePanel.Size = new System.Drawing.Size(776, 346);
+            this.acquaintancePanel.Size = new System.Drawing.Size(776, 320);
             this.acquaintancePanel.TabIndex = 10;
             // 
             // makeFriendButton
@@ -582,11 +589,53 @@
             this.visitDoctorButton.UseVisualStyleBackColor = true;
             this.visitDoctorButton.Click += new System.EventHandler(this.visitDoctorButton_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 22;
+            this.menuStrip1.Text = "menuStrip";
+            // 
+            // fileMenuItem
+            // 
+            this.fileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveMenuItem,
+            this.loadMenuItem});
+            this.fileMenuItem.Name = "fileMenuItem";
+            this.fileMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileMenuItem.Text = "Fájl";
+            // 
+            // saveMenuItem
+            // 
+            this.saveMenuItem.Name = "saveMenuItem";
+            this.saveMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.saveMenuItem.Text = "Mentés";
+            this.saveMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
+            // 
+            // loadMenuItem
+            // 
+            this.loadMenuItem.Name = "loadMenuItem";
+            this.loadMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.loadMenuItem.Text = "Betöltés";
+            this.loadMenuItem.Click += new System.EventHandler(this.loadMenuItem_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Játékmentések|*.sav";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Játékmentések|*.sav";
+            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.visitDoctorButton);
             this.Controls.Add(this.lotteryButton);
@@ -594,7 +643,6 @@
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.acquaintancePanelButton);
             this.Controls.Add(this.jobPanel);
-            this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
             this.Controls.Add(this.universityPanelButton);
@@ -604,6 +652,8 @@
             this.Controls.Add(this.mainPanelButton);
             this.Controls.Add(this.jobPanelButton);
             this.Controls.Add(this.ageButton);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGameWindow_FormClosing);
@@ -619,7 +669,10 @@
             this.lovePanel.ResumeLayout(false);
             this.lovePanel.PerformLayout();
             this.acquaintancePanel.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -674,5 +727,11 @@
         private System.Windows.Forms.Button makeFriendButton;
         private System.Windows.Forms.Button visitDoctorButton;
         private System.Windows.Forms.RichTextBox eventsRichTextBox;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

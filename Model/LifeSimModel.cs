@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
+using LifeSim.Persistence;
 
 namespace LifeSim.Model
 {
@@ -18,13 +18,11 @@ namespace LifeSim.Model
         private String yourName;
         private bool maleOrFemale;
         private bool smartUni;
-        private int yearsInUni;
-        private bool inUni;
-        private bool isWorking;
         private bool childOnWay;
         private int universityCosts;
         private int timeToPayBack;
-        private Dictionary<Person, Person> childParentPairs;
+        private Dictionary<Person, List<Person>> childParentPairs;
+        private TextFilePersistence persistence;
 
         #endregion
 
@@ -42,8 +40,6 @@ namespace LifeSim.Model
 
         public List<University> Universities { get; private set; }
 
-        public List<University> Degrees { get; private set; }
-
         public List<Home> Homes { get; private set; }
 
         public List<Sickness> Sicknesses { get; private set; }
@@ -53,8 +49,6 @@ namespace LifeSim.Model
         public University DefaultUniversity { get; private set; }
 
         public Home DefaultHome { get; private set; }
-
-        public int PromotionMeter { get; private set; }
 
         #endregion
 
@@ -158,6 +152,23 @@ namespace LifeSim.Model
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
         }
 
+        public LifeSimModel(TextFilePersistence persistence)
+        {
+            rnd = new Random();
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
+            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3) };
+            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 7), new Sickness("COVID-19", 20, 2) };
+            yourName = "";
+            familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
+            maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
+            femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
+            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
+            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
+            this.persistence = persistence;
+        }
+
         public LifeSimModel(String yourName, bool maleOrFemale)
         {
             rnd = new Random();
@@ -171,6 +182,20 @@ namespace LifeSim.Model
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
         }
 
+        public LifeSimModel(String yourName, bool maleOrFemale, TextFilePersistence persistence)
+        {
+            rnd = new Random();
+            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000) };
+            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3) };
+            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            this.yourName = yourName;
+            this.maleOrFemale = maleOrFemale;
+            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
+            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
+            this.persistence = persistence;
+        }
+
         #endregion
 
         #region Public game methods
@@ -178,8 +203,7 @@ namespace LifeSim.Model
         public void newGame()
         {
             People = new List<Person>();
-            childParentPairs = new Dictionary<Person, Person>();
-            PromotionMeter = 0;
+            childParentPairs = new Dictionary<Person, List<Person>>();
             String familyName;
             String name;
             Gender gender;
@@ -217,14 +241,11 @@ namespace LifeSim.Model
             if (intelligence > 100)
                 intelligence = 100;
 
-            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, DefaultJob, DefaultHome, DefaultUniversity);
+            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, 0, DefaultJob, DefaultHome, DefaultUniversity);
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
-            Degrees = new List<University>();
-            inUni = false;
             childOnWay = false;
-            isWorking = false;
             universityCosts = 0;
             timeToPayBack = 0;
         }
@@ -233,6 +254,9 @@ namespace LifeSim.Model
             foreach (Person p in People.ToList())
             {
                 p.Age++;
+
+                Debug.WriteLine(p.FirstName + " " + p.LastName);
+                Debug.WriteLine(p.Happiness);
 
                 p.Intelligence += rnd.Next(-3, 4);
                 if (p.Intelligence > 100)
@@ -285,36 +309,35 @@ namespace LifeSim.Model
                 universityCosts = 0;
             }
 
-            if (inUni)
+            if (You.University != DefaultUniversity)
             {
-                yearsInUni++;
-                if (yearsInUni == You.University.YearsToFinish)
+                You.YearsInUni++;
+                if (You.YearsInUni == You.University.YearsToFinish)
                 {
                     if (!smartUni)
                     {
                         do
                         {
                             timeToPayBack = rnd.Next(4, 25);
-                            universityCosts = You.University.CostPerSemester * 2 * yearsInUni / timeToPayBack;
+                            universityCosts = You.University.CostPerSemester * 2 * You.YearsInUni / timeToPayBack;
                         } while (25000 * 12 > universityCosts || universityCosts > 60000 * 12);
                         OnDumbGraduateEvent(universityCosts, timeToPayBack);
                     }
                     else
                         OnSmartGraduateEvent();
-                    inUni = false;
-                    yearsInUni = 0;
-                    Degrees.Add(You.University);
+                    You.YearsInUni = 0;
+                    You.Degrees.Add(You.University);
                     You.University = DefaultUniversity;
                 }
             }
 
-            if (isWorking && You.CurrentJobLevel != You.Job.MaxJobLevel)
+            if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel)
             {
-                PromotionMeter += rnd.Next(6, 13);
-                if (PromotionMeter >= 100)
+                You.PromotionMeter += rnd.Next(6, 13);
+                if (You.PromotionMeter >= 100)
                 {
                     You.CurrentJobLevel += 1;
-                    PromotionMeter = 0;
+                    You.PromotionMeter = 0;
                     You.Happiness += rnd.Next(2, 5);
                     OnPromotionEvent();
                     OnHappinessRefreshEvent();
@@ -324,14 +347,13 @@ namespace LifeSim.Model
             if (childOnWay)
             {
                 childOnWay = false;
-                You.Children.Add(childParentPairs.Values.Last());
+                You.Children.Add(childParentPairs.Values.Last().Last());
                 People.Add(You.Children[You.Children.Count - 1]);
                 OnChildBornEvent();
             }
 
-            if (You.Age == 65 && isWorking)
+            if (You.Age == 65 && You.Job != DefaultJob)
             {
-                isWorking = false;
                 int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) * 0.67));
                 You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
                 You.CurrentJobLevel = 0;
@@ -362,7 +384,7 @@ namespace LifeSim.Model
         {
             if (You.Age < 18 || You.Money >= 120000)
             {
-                int randomHealthGain = rnd.Next(1, 6);
+                int randomHealthGain = rnd.Next(6, 15);
                 if (You.Health + randomHealthGain <= 100)
                     You.Health += randomHealthGain;
                 else
@@ -437,10 +459,6 @@ namespace LifeSim.Model
 
         public void jobRefresh(Job job)
         {
-            if (job != DefaultJob)
-                isWorking = true;
-            else
-                isWorking = false;
             You.Job = job;
             OnJobChangedEvent();
         }
@@ -455,12 +473,9 @@ namespace LifeSim.Model
         {
             if (uni == DefaultUniversity)
             {
-                inUni = false;
                 return;
             }
-            else
-                inUni = true;
-            yearsInUni = 0;
+            You.YearsInUni = 0;
             You.University = uni;
             if (You.Intelligence >= 70)
             {
@@ -539,6 +554,7 @@ namespace LifeSim.Model
                 You.Partner = PotentialPartner.Item1;
                 People.Add(PotentialPartner.Item1);
                 PotentialPartner = null;
+                childParentPairs.Add(You.Partner, new List<Person>());
                 OnRelationshipSuccessEvent();
             }
         }
@@ -553,7 +569,6 @@ namespace LifeSim.Model
         {
             You.Job = DefaultJob;
             You.CurrentJobLevel = 0;
-            isWorking = false;
             OnQuitJobEvent();
         }
 
@@ -594,7 +609,7 @@ namespace LifeSim.Model
                     if (intelligence > 100)
                         intelligence = 100;
                     childOnWay = true;
-                    childParentPairs.Add(You.Partner, new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
+                    childParentPairs[You.Partner].Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
                     OnChildSuccessEvent();
                     break;
             }
@@ -603,12 +618,13 @@ namespace LifeSim.Model
         public void takeControlOfChild()
         {
             Person otherParent = null;
-            foreach (KeyValuePair<Person, Person> p in childParentPairs)
+            foreach (KeyValuePair<Person, List<Person>> p in childParentPairs)
             {
                 if (People.Exists(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName))
                     otherParent = People.Single(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName);
             }
             People.Clear();
+            childParentPairs.Clear();
             You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity);
             People.Add(You);
             if (otherParent != null)
@@ -620,7 +636,6 @@ namespace LifeSim.Model
             jobRefresh(DefaultJob);
             homeRefresh(DefaultHome);
             uniRefresh(DefaultUniversity);
-            PromotionMeter = 0;
             childOnWay = false;
         }
 
@@ -703,11 +718,11 @@ namespace LifeSim.Model
             if (success)
             {
                 You.Money += rnd.Next(1000000, 4000001);
-                PromotionMeter += 15;
-                if (PromotionMeter >= 100)
+                You.PromotionMeter += 15;
+                if (You.PromotionMeter >= 100)
                 {
                     You.CurrentJobLevel += 1;
-                    PromotionMeter = 0;
+                    You.PromotionMeter = 0;
                     You.Happiness += rnd.Next(2, 5);
                     OnPromotionEvent();
                     OnHappinessRefreshEvent();
@@ -785,6 +800,213 @@ namespace LifeSim.Model
             OnMoneyRefreshEvent();
         }
 
+        public void saveGame(String path)
+        {
+            if (persistence == null)
+                return;
+
+            List<String> values = new List<String>();
+            values.Add(People.Count.ToString());
+            foreach (Person p in People)
+            {
+                values.Add(p.FirstName);
+                values.Add(p.LastName);
+                values.Add(p.Age.ToString());
+                values.Add(p.genderToInt().ToString());
+                values.Add(p.Health.ToString());
+                values.Add(p.Intelligence.ToString());
+                values.Add(p.Appearance.ToString());
+                values.Add(p.Happiness.ToString());
+                values.Add(p.Relationship.ToString());
+                if (p == You)
+                {
+                    values.Add(You.Money.ToString());
+                    values.Add(Jobs.IndexOf(You.Job).ToString());
+                    values.Add(Homes.IndexOf(You.Home).ToString());
+                    values.Add(Universities.IndexOf(You.University).ToString());
+                    values.Add(You.Children.Count().ToString());
+                    foreach (Person c in You.Children)
+                    {
+                        values.Add(c.FirstName);
+                        values.Add(c.LastName);
+                        values.Add(c.Age.ToString());
+                        values.Add(c.genderToInt().ToString());
+                        values.Add(c.Health.ToString());
+                        values.Add(c.Intelligence.ToString());
+                        values.Add(c.Appearance.ToString());
+                        values.Add(c.Happiness.ToString());
+                        values.Add(c.Relationship.ToString());
+                    }
+                    if (You.Partner is null)
+                    {
+                        values.Add((0).ToString());
+                    }
+                    else
+                    {
+                        values.Add((1).ToString());
+                        values.Add(You.Partner.FirstName);
+                        values.Add(You.Partner.LastName);
+                        values.Add(You.Partner.Age.ToString());
+                        values.Add(You.Partner.genderToInt().ToString());
+                        values.Add(You.Partner.Health.ToString());
+                        values.Add(You.Partner.Intelligence.ToString());
+                        values.Add(You.Partner.Appearance.ToString());
+                        values.Add(You.Partner.Happiness.ToString());
+                        values.Add(You.Partner.Relationship.ToString());
+                    }
+                    values.Add(You.CurrentJobLevel.ToString());
+                    values.Add(You.YourSicknesses.Count().ToString());
+                    foreach (Sickness s in You.YourSicknesses)
+                    {
+                        values.Add(Sicknesses.IndexOf(s).ToString());
+                    }
+                    values.Add(You.Degrees.Count().ToString());
+                    foreach (University u in You.Degrees)
+                    {
+                        values.Add(Universities.IndexOf(u).ToString());
+                    }
+                    values.Add(You.PromotionMeter.ToString());
+                    values.Add(You.YearsInUni.ToString());
+                }
+            }
+            values.Add(childParentPairs.Count().ToString());
+            foreach (KeyValuePair<Person, List<Person>> rel in childParentPairs)
+            {
+                values.Add(rel.Key.FirstName);
+                values.Add(rel.Key.LastName);
+                values.Add(rel.Key.Age.ToString());
+                values.Add(rel.Key.genderToInt().ToString());
+                values.Add(rel.Key.Health.ToString());
+                values.Add(rel.Key.Intelligence.ToString());
+                values.Add(rel.Key.Appearance.ToString());
+                values.Add(rel.Key.Happiness.ToString());
+                values.Add(rel.Key.Relationship.ToString());
+                values.Add(rel.Value.Count().ToString());
+                foreach (Person c in rel.Value)
+                {
+                    values.Add(c.FirstName);
+                    values.Add(c.LastName);
+                    values.Add(c.Age.ToString());
+                    values.Add(c.genderToInt().ToString());
+                    values.Add(c.Health.ToString());
+                    values.Add(c.Intelligence.ToString());
+                    values.Add(c.Appearance.ToString());
+                    values.Add(c.Happiness.ToString());
+                    values.Add(c.Relationship.ToString());
+                }
+            }
+            persistence.SaveGame(path, values);
+        }
+
+        public void loadGame(String path)
+        {
+            if (persistence == null)
+                return;
+
+            People.Clear();
+            childParentPairs.Clear();
+            List<String> values = persistence.LoadGame(path);
+            Job job;
+            Home home;
+            University uni;
+
+            if (Int32.Parse(values[11]) == -1)
+            {
+                job = DefaultJob;
+            }
+            else
+            {
+                job = Jobs[Int32.Parse(values[11])];
+            }
+
+            if (Int32.Parse(values[12]) == -1)
+            {
+                home = DefaultHome;
+            }
+            else
+            {
+                home = Homes[Int32.Parse(values[12])];
+            }
+
+            if (Int32.Parse(values[13]) == -1)
+            {
+                uni = DefaultUniversity;
+            }
+            else
+            {
+                uni = Universities[Int32.Parse(values[13])];
+            }
+
+            int currIndex = 0;
+            int wordCount = 0;
+
+            for (int i = 0; i < Int32.Parse(values[0]); i++)
+            {
+                if (i == 0)
+                {
+                    You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]), Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
+                    currIndex = 14;
+                    wordCount = 14;
+                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    {
+                        Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+                        You.Children.Add(pers);
+                        People.Add(pers);
+                    }
+                    wordCount += 9 * You.Children.Count() + 1;
+                    if (Int32.Parse(values[++currIndex]) == 0)
+                    {
+                        You.Partner = null;
+                    }
+                    else
+                    {
+                        You.Partner = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+                        wordCount += 9;
+                    }
+                    You.CurrentJobLevel = Int32.Parse(values[++currIndex]);
+                    wordCount += 2;
+                    currIndex++;
+                    Debug.Write(wordCount);
+                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    {
+                        You.YourSicknesses.Add(Sicknesses[Int32.Parse(values[++currIndex])]);
+                    }
+                    wordCount += You.YourSicknesses.Count() + 1;
+                    currIndex++;
+                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    {
+                        You.Degrees.Add(Universities[Int32.Parse(values[++currIndex])]);
+                    }
+                    wordCount += You.Degrees.Count() + 1;
+                    You.PromotionMeter = Int32.Parse(values[++currIndex]);
+                    wordCount++;
+                    You.YearsInUni = Int32.Parse(values[++currIndex]);
+                    wordCount++;
+                    People.Add(You);
+                }
+                else
+                {
+                    Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+
+                    if (!You.Children.Exists(x => x.FirstName == pers.FirstName && x.LastName == pers.LastName))
+                    {
+                        People.Add(pers);
+                    }
+                    wordCount += 9;
+                }
+            }
+            ++currIndex;
+            for (int i = 0; i < Int32.Parse(values[wordCount]); i++)
+            {
+                childParentPairs.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex])), new List<Person>());
+                ++currIndex;
+                for (int j = 0; j < Int32.Parse(values[wordCount + 10]); j++)
+                {
+                    childParentPairs.Last().Value.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex])));
+                }
+            }
+        }
+
         #endregion
 
         #region Private methods
@@ -819,44 +1041,44 @@ namespace LifeSim.Model
             
             if (p.Happiness > 80 && p.Happiness <= 100)
             {
-                min = -2;
+                min = -4;
                 max = 6;
             }
 
             else if (p.Happiness > 60 && p.Happiness <= 80)
             {
-                min = -4;
+                min = -6;
                 max = 4;
             }
 
             else if (p.Happiness > 40 && p.Happiness <= 60)
             {
-                min = -6;
+                min = -8;
                 max = 2;
             }
 
             else if (p.Happiness > 20 && p.Happiness <= 40)
             {
-                min = -8;
+                min = -10;
                 max = 0;
             }
 
             else
             {
-                min = -10;
+                min = -12;
                 max = -2;
             }
 
             if (p.Age < 18)
             {
-                min += 2;
-                max += 2;
+                min += 1;
+                max += 1;
             }
 
             else if (p.Age >= 18 && p.Age < 36)
             {
-                min += 1;
-                max += 1;
+                min -= 1;
+                max -= 1;
             }
 
             else if (p.Age >= 36 && p.Age < 55)
@@ -868,16 +1090,20 @@ namespace LifeSim.Model
             else
             {
                 min -= 5;
-                max -= 6;
+                max -= 5;
             }
-
             if (p == You)
             {
                 foreach (Sickness s in You.YourSicknesses)
                 {
-                    min -= s.ApproximateEffectOnHealth + rnd.Next(-4,5);
-                    max -= s.ApproximateEffectOnHealth + rnd.Next(-4, 5);
+                    min -= s.ApproximateEffectOnHealth + rnd.Next(-3, 4);
+                    max -= s.ApproximateEffectOnHealth + rnd.Next(-3, 4);
                 }
+            }
+
+            if (min >= max)
+            {
+                min = max - 1;
             }
 
             return rnd.Next(min, max);
@@ -885,16 +1111,16 @@ namespace LifeSim.Model
 
         private int calculateHappiness(Person p)
         {
-            int min = -2;
+            int min = -4;
             int max = 6;
 
             if (p != You)
             {
+                Debug.Write("asd");
                 if (p.Age < 18)
                     return rnd.Next(min, max);
-
                 else
-                    return rnd.Next(-4, 3);
+                    return rnd.Next(-6, 3);
             }
 
             int averageRelationship = 0;
@@ -942,6 +1168,11 @@ namespace LifeSim.Model
             {
                 min += 2;
                 max += 2;
+            }
+
+            if (min >= max)
+            {
+                min = max - 1;
             }
 
             return rnd.Next(min, max);

@@ -2,21 +2,25 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using LifeSim.Persistence;
 
 namespace LifeSim.View
 {
     public partial class GameStart : Form
     {
         private LifeSimModel model;
+        private TextFilePersistence dataAccess;
 
         public GameStart()
         {
             InitializeComponent();
+
+            dataAccess = new TextFilePersistence();
         }
 
         private void randomButton_Click(object sender, EventArgs e)
         {
-            model = new LifeSimModel();
+            model = new LifeSimModel(dataAccess);
             var window = new MainGameWindow(model);
             window.Show();
             this.Close();
@@ -36,10 +40,10 @@ namespace LifeSim.View
         private void acceptNameButton_Click(object sender, EventArgs e)
         {
             if (maleRadioButton.Checked)
-                model = new LifeSimModel(inputName.Text, true);
+                model = new LifeSimModel(inputName.Text, true, dataAccess);
 
             else if (femaleRadioButton.Checked)
-                model = new LifeSimModel(inputName.Text, false);
+                model = new LifeSimModel(inputName.Text, false, dataAccess);
 
             else
             {
