@@ -73,7 +73,6 @@
             this.acquaintancePanelButton = new System.Windows.Forms.Button();
             this.acquaintancePanel = new System.Windows.Forms.Panel();
             this.makeFriendButton = new System.Windows.Forms.Button();
-            this.quarrelButton = new System.Windows.Forms.Button();
             this.programWithAcquaintanceButton = new System.Windows.Forms.Button();
             this.acquaintanceListBox = new System.Windows.Forms.ListBox();
             this.lotteryButton = new System.Windows.Forms.Button();
@@ -521,7 +520,6 @@
             // acquaintancePanel
             // 
             this.acquaintancePanel.Controls.Add(this.makeFriendButton);
-            this.acquaintancePanel.Controls.Add(this.quarrelButton);
             this.acquaintancePanel.Controls.Add(this.programWithAcquaintanceButton);
             this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
             this.acquaintancePanel.Location = new System.Drawing.Point(12, 35);
@@ -531,23 +529,13 @@
             // 
             // makeFriendButton
             // 
-            this.makeFriendButton.Location = new System.Drawing.Point(298, 291);
+            this.makeFriendButton.Location = new System.Drawing.Point(298, 261);
             this.makeFriendButton.Name = "makeFriendButton";
             this.makeFriendButton.Size = new System.Drawing.Size(168, 23);
             this.makeFriendButton.TabIndex = 3;
             this.makeFriendButton.Text = "Új barát keresése";
             this.makeFriendButton.UseVisualStyleBackColor = true;
             this.makeFriendButton.Click += new System.EventHandler(this.makeFriendButton_Click);
-            // 
-            // quarrelButton
-            // 
-            this.quarrelButton.Location = new System.Drawing.Point(298, 260);
-            this.quarrelButton.Name = "quarrelButton";
-            this.quarrelButton.Size = new System.Drawing.Size(168, 24);
-            this.quarrelButton.TabIndex = 2;
-            this.quarrelButton.Text = "Összeveszés";
-            this.quarrelButton.UseVisualStyleBackColor = true;
-            this.quarrelButton.Click += new System.EventHandler(this.quarrelButton_Click);
             // 
             // programWithAcquaintanceButton
             // 
@@ -635,11 +623,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.acquaintancePanel);
+            this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.visitDoctorButton);
             this.Controls.Add(this.lotteryButton);
-            this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.acquaintancePanelButton);
             this.Controls.Add(this.jobPanel);
@@ -722,7 +710,6 @@
         private System.Windows.Forms.Button vacationButton;
         private System.Windows.Forms.Button acquaintancePanelButton;
         private System.Windows.Forms.Button programWithAcquaintanceButton;
-        private System.Windows.Forms.Button quarrelButton;
         private System.Windows.Forms.Button lotteryButton;
         private System.Windows.Forms.Button makeFriendButton;
         private System.Windows.Forms.Button visitDoctorButton;

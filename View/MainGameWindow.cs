@@ -423,7 +423,6 @@ namespace LifeSim.View
         private void Model_QuarrelWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Összevesztél " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
-            acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
             acquaintanceListBox.Update();
         }
 
@@ -796,16 +795,6 @@ namespace LifeSim.View
                 return;
             }
             model.programWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
-        }
-
-        private void quarrelButton_Click(object sender, EventArgs e)
-        {
-            if (acquaintanceListBox.Text == "")
-            {
-                MessageBox.Show("Válassz ki valakit az ismerőseid közül!");
-                return;
-            }
-            model.quarrelWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
         }
 
         private void lotteryButton_Click(object sender, EventArgs e)

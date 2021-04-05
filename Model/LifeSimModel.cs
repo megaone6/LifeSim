@@ -279,7 +279,11 @@ namespace LifeSim.Model
 
                 if (p != You && You.Age > 3)
                 {
-                    p.Relationship -= rnd.Next(2, 5);
+                    p.Relationship -= rnd.Next(1, 4);
+                    if (rnd.Next(4) == 2)
+                    {
+                        quarrelWithAcquaintance(p);
+                    }
                     if (p.Relationship < 0)
                         p.Relationship = 0;
                 }
@@ -680,16 +684,11 @@ namespace LifeSim.Model
             OnProgramWithAcquaintanceEvent(People[index], index - 1);
         }
 
-        public void quarrelWithAcquaintance(int index)
+        public void quarrelWithAcquaintance(Person p)
         {
-            People[index].Relationship -= rnd.Next(2, 8);
+            p.Relationship -= rnd.Next(4, 12);
 
-            if (People[index].Relationship < 0)
-            {
-                People[index].Relationship = 0;
-            }
-
-            OnQuarrelWithAcquaintanceEvent(People[index], index - 1);
+            OnQuarrelWithAcquaintanceEvent(p);
         }
 
         public void lottery()
@@ -1367,9 +1366,9 @@ namespace LifeSim.Model
             ProgramWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
-        private void OnQuarrelWithAcquaintanceEvent(Person p, int persind)
+        private void OnQuarrelWithAcquaintanceEvent(Person p)
         {
-            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
+            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p));
         }
 
         private void OnNoMoneyForLotteryEvent()
