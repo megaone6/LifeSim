@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using LifeSim.Persistence;
 
@@ -49,6 +50,10 @@ namespace LifeSim.Model
         public University DefaultUniversity { get; private set; }
 
         public Home DefaultHome { get; private set; }
+
+        public Dictionary<String,String> Achievements { get; private set; }
+
+        public List<int> CompletedAchievements { get; private set; }
 
         #endregion
 
@@ -167,6 +172,12 @@ namespace LifeSim.Model
             DefaultHome = new Home("Szülői lakás", 0, 0);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
+            Achievements = new Dictionary<string, string> { { "Genesis", "Kezdd el az első életedet!" }, { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" }, { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" }, { "Őskövület", "Élj minimum 90 évig egy karakterrel!" }, { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" }, { "WIA", "Bukj el egy katonai missziót!" }, { "KIA", "Halj meg egy katonai misszióban!" }, { "Dolgos élet", "Vonulj nyugdíjba!" }, { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" }, { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
+            if (!File.Exists("achievements.ach"))
+            {
+                saveAchievements(0);
+            }
+            CompletedAchievements = loadAchievements();
         }
 
         public LifeSimModel(String yourName, bool maleOrFemale)
@@ -194,6 +205,12 @@ namespace LifeSim.Model
             DefaultHome = new Home("Szülői lakás", 0, 0);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
+            Achievements = new Dictionary<string, string> { { "Genesis", "Kezdd el az első életedet!" }, { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" }, { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" }, { "Őskövület", "Élj minimum 90 évig egy karakterrel!" }, { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" }, { "WIA", "Bukj el egy katonai missziót!" }, { "KIA", "Halj meg egy katonai misszióban!" }, { "Dolgos élet", "Vonulj nyugdíjba!" }, { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" }, { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
+            if (!File.Exists("achievements.ach"))
+            {
+                saveAchievements(0);
+            }
+            CompletedAchievements = loadAchievements();
         }
 
         #endregion
@@ -202,6 +219,10 @@ namespace LifeSim.Model
 
         public void newGame()
         {
+            foreach (int a in CompletedAchievements)
+            {
+                Debug.WriteLine(a);
+            }
             People = new List<Person>();
             childParentPairs = new Dictionary<Person, List<Person>>();
             String familyName;
@@ -302,6 +323,20 @@ namespace LifeSim.Model
                     {
                         breakUp(true);
                     }
+                    if (p == You)
+                    {
+                        if (p.Age <= 10 && !CompletedAchievements.Contains(2))
+                        {
+                            saveAchievements(2);
+                            CompletedAchievements.Add(2);
+                        }
+                        else if (p.Age == 90 && !CompletedAchievements.Contains(3))
+                        {
+                            saveAchievements(3);
+                            CompletedAchievements.Add(3);
+                        }
+                        return;
+                    }
                 }
             }
 
@@ -353,11 +388,26 @@ namespace LifeSim.Model
                 childOnWay = false;
                 You.Children.Add(childParentPairs.Values.Last().Last());
                 People.Add(You.Children[You.Children.Count - 1]);
+                if (People.Count == 10 && !CompletedAchievements.Contains(9))
+                {
+                    saveAchievements(9);
+                    CompletedAchievements.Add(9);
+                }
                 OnChildBornEvent();
             }
 
             if (You.Age == 65 && You.Job != DefaultJob)
             {
+                if (!CompletedAchievements.Contains(7))
+                {
+                    saveAchievements(7);
+                    CompletedAchievements.Add(7);
+                }
+                if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8))
+                {
+                    saveAchievements(8);
+                    CompletedAchievements.Add(8);
+                }
                 int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) * 0.67));
                 You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
                 You.CurrentJobLevel = 0;
@@ -557,6 +607,11 @@ namespace LifeSim.Model
             {
                 You.Partner = PotentialPartner.Item1;
                 People.Add(PotentialPartner.Item1);
+                if (People.Count == 10 && !CompletedAchievements.Contains(9))
+                {
+                    saveAchievements(9);
+                    CompletedAchievements.Add(9);
+                }
                 PotentialPartner = null;
                 childParentPairs.Add(You.Partner, new List<Person>());
                 OnRelationshipSuccessEvent();
@@ -716,6 +771,11 @@ namespace LifeSim.Model
         {
             if (success)
             {
+                if (!CompletedAchievements.Contains(4))
+                {
+                    saveAchievements(4);
+                    CompletedAchievements.Add(4);
+                }
                 You.Money += rnd.Next(1000000, 4000001);
                 You.PromotionMeter += 15;
                 if (You.PromotionMeter >= 100)
@@ -730,9 +790,19 @@ namespace LifeSim.Model
             }
             else
             {
+                if (!CompletedAchievements.Contains(5))
+                {
+                    saveAchievements(5);
+                    CompletedAchievements.Add(5);
+                }
                 You.Health -= rnd.Next(25, 100);
                 if (You.Health <= 0)
                 {
+                    if (!CompletedAchievements.Contains(6))
+                    {
+                        saveAchievements(6);
+                        CompletedAchievements.Add(6);
+                    }
                     People.Remove(You);
                     OnDeathEvent(You);
                     return;
@@ -761,6 +831,11 @@ namespace LifeSim.Model
 
             Person p = new Person(familyNames[rnd.Next(familyNames.Count)], name, rnd.Next(You.Age - 1, You.Age + 3), gender, rnd.Next(85, 101), rnd.Next(101), rnd.Next(101), rnd.Next(25, 101), rnd.Next(85, 101));
             People.Add(p);
+            if (People.Count == 10 && !CompletedAchievements.Contains(9))
+            {
+                saveAchievements(9);
+                CompletedAchievements.Add(9);
+            }
             OnMakeFriendSuccessEvent(p,People.Count - 1);
         }
 
@@ -797,6 +872,22 @@ namespace LifeSim.Model
 
             OnDoctorsVisitEvent(sicknessString, sicknessesHealed);
             OnMoneyRefreshEvent();
+        }
+
+        public void saveAchievements(int index)
+        {
+            if (persistence == null)
+                return;
+
+            persistence.AppendToFile("achievements.ach", index);
+        }
+
+        public List<int> loadAchievements()
+        {
+            if (persistence == null)
+                return null;
+
+            return persistence.LoadAchievements("achievements.ach");
         }
 
         public void saveGame(String path)
@@ -1070,26 +1161,26 @@ namespace LifeSim.Model
 
             if (p.Age < 18)
             {
-                min += 1;
-                max += 1;
+                min += 5;
+                max += 5;
             }
 
             else if (p.Age >= 18 && p.Age < 36)
             {
-                min -= 1;
-                max -= 1;
+                min += 2;
+                max += 2;
             }
 
             else if (p.Age >= 36 && p.Age < 55)
             {
-                min -= 3;
-                max -= 3;
+                min -= 2;
+                max -= 2;
             }
 
             else
             {
-                min -= 5;
-                max -= 5;
+                min -= 4;
+                max -= 4;
             }
             if (p == You)
             {
@@ -1195,6 +1286,11 @@ namespace LifeSim.Model
                 OnCaughtSicknessEvent(Sicknesses[1]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[1]);
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                {
+                    CompletedAchievements.Add(1);
+                    saveAchievements(1);
+                }
                 if (You.Health < 0)
                     OnDeathEvent(You);
                 return;
@@ -1206,6 +1302,11 @@ namespace LifeSim.Model
                 OnCaughtSicknessEvent(Sicknesses[2]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[2]);
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                {
+                    CompletedAchievements.Add(1);
+                    saveAchievements(1);
+                }
                 if (You.Health < 0)
                     OnDeathEvent(You);
                 return;
@@ -1217,6 +1318,11 @@ namespace LifeSim.Model
                 OnCaughtSicknessEvent(Sicknesses[3]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[3]);
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                {
+                    CompletedAchievements.Add(1);
+                    saveAchievements(1);
+                }
                 if (You.Health < 0)
                     OnDeathEvent(You);
                 return;
