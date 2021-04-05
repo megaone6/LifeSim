@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -7,228 +8,467 @@ using LifeSim.Persistence;
 
 namespace LifeSim.Model
 {
+    /// <summary>
+    /// Nemek felsorolási típusa.
+    /// </summary>
     public enum Gender { Female, Male }
+
+    /// <summary>
+    /// LifeSim játék logikájának típusa.
+    /// </summary>
     public class LifeSimModel
     {
+        #region Name list constants
+
+        private readonly ReadOnlyCollection<String> familyNames = new List<String> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp",
+            "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs",
+            "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi",
+            "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh",
+            "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Cserhegyi", "Demeter", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár",
+            "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh",
+            "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi",
+            "Budai" }.AsReadOnly(); //családnevek
+        private readonly ReadOnlyCollection<String> maleNames = new List<String> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence",
+            "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond",
+            "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes",
+            "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", 
+            "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos",
+            "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor",
+            "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" }.AsReadOnly(); //férfi keresztnevek
+        private readonly ReadOnlyCollection<String> femaleNames = new List<String> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára",
+            "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma",
+            "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka",
+            "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra",
+            "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita",
+            "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő",
+            "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" }.AsReadOnly(); //női keresztnevek
+
+        #endregion
+
         #region Fields
 
-        private Random rnd;
-        private List<string> familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
-        private List<string> maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
-        private List<string> femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
-        private String yourName;
-        private bool maleOrFemale;
-        private bool smartUni;
-        private bool childOnWay;
-        private int universityCosts;
-        private int timeToPayBack;
-        private Dictionary<Person, List<Person>> childParentPairs;
-        private TextFilePersistence persistence;
+        private Random rnd; //véletlenszám-generátor változója
+        private String yourName; //a játékos neve
+        private bool maleOrFemale; //férfi, vagy nő
+        private bool smartUni; //kell-e fizetned az egyetemért
+        private bool childOnWay; //vársz-e gyereket
+        private int universityCosts; //egyetem költségei
+        private int timeToPayBack; //visszafizetési idő
+        private Dictionary<Person, List<Person>> childParentPairs; //szülő-gyerek párosítások
+        private TextFilePersistence persistence; //adatelérés
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Játékos karakter.
+        /// </summary>
         public Player You { get; set; }
 
+        /// <summary>
+        /// Játékos karakter + NPC-k listája.
+        /// </summary>
         public List<Person> People { get; set; }
 
+        /// <summary>
+        /// Potenciális partner.
+        /// </summary>
         public Tuple<Person, int> PotentialPartner { get; set; }
 
+        /// <summary>
+        /// Szülők listája.
+        /// </summary>
         public List<Person> Parents { get; private set; }
 
+        /// <summary>
+        /// Munkák listája.
+        /// </summary>
         public List<Job> Jobs { get; private set; }
 
+        /// <summary>
+        /// Egyetemek listája.
+        /// </summary>
         public List<University> Universities { get; private set; }
 
+        /// <summary>
+        /// Lakások listája.
+        /// </summary>
         public List<Home> Homes { get; private set; }
 
+        /// <summary>
+        /// Betegségek listája.
+        /// </summary>
         public List<Sickness> Sicknesses { get; private set; }
 
+        /// <summary>
+        /// Alapértelmezett munka.
+        /// </summary>
         public Job DefaultJob { get; private set; }
 
+        /// <summary>
+        /// Alapértelmezett egyetem.
+        /// </summary>
         public University DefaultUniversity { get; private set; }
 
+        /// <summary>
+        /// Alapértelmezett otthon.
+        /// </summary>
         public Home DefaultHome { get; private set; }
 
+        /// <summary>
+        /// Achievementek szótára.
+        /// </summary>
         public Dictionary<String,String> Achievements { get; private set; }
 
+        /// <summary>
+        /// Teljesített achievementek listája.
+        /// </summary>
         public List<int> CompletedAchievements { get; private set; }
 
         #endregion
 
         #region Events
 
+        /// <summary>
+        /// Személy halálának seseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> DeathEvent;
 
+        /// <summary>
+        /// Munka változásának seseménye (jelentkezés, kilépés).
+        /// </summary>
         public event EventHandler<EventArgs> JobChangedEvent;
 
+        /// <summary>
+        /// Lakás változásának seseménye.
+        /// </summary>
         public event EventHandler<EventArgs> HomeChangedEvent;
 
+        /// <summary>
+        /// Egyetem változásának eseménye. (adott intelligencia felett)
+        /// </summary>
         public event EventHandler<EventArgs> SmartUniChangedEvent;
 
+        /// <summary>
+        /// Egyetem változásának eseménye. (adott intelligencia alatt)
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> DumbUniChangedEvent;
 
+        /// <summary>
+        /// Egyetem sikeres elvégzésének eseménye. (adott intelligencia felett)
+        /// </summary>
         public event EventHandler<EventArgs> SmartGraduateEvent;
 
+        /// <summary>
+        /// Egyetem sikeres elvégzésének eseménye. (adott intelligencia alatt)
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> DumbGraduateEvent;
 
+        /// <summary>
+        /// Egészség változásának eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> HealthRefreshEvent;
 
+        /// <summary>
+        /// Intelligencia változásának eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> IntelligenceRefreshEvent;
 
+        /// <summary>
+        /// Boldogság változásának eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> HappinessRefreshEvent;
 
+        /// <summary>
+        /// Kinézet változásának eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> AppearanceRefreshEvent;
 
+        /// <summary>
+        /// Pénz változásának eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> MoneyRefreshEvent;
 
+        /// <summary>
+        /// Kapcsolat sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> RelationshipFailEvent;
 
+        /// <summary>
+        /// Kapcsolat sikerességének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> RelationshipSuccessEvent;
 
+        /// <summary>
+        /// Szakítás eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> BreakUpEvent;
 
+        /// <summary>
+        /// Gyermekvállalás sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> ChildFailEvent;
 
+        /// <summary>
+        /// Gyermekvállalás sikerességének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> ChildSuccessEvent;
 
+        /// <summary>
+        /// Gyermek születésének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> ChildBornEvent;
 
+        /// <summary>
+        /// Felmondás eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> QuitJobEvent;
 
+        /// <summary>
+        /// Előléptetés eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> PromotionEvent;
 
+        /// <summary>
+        /// Nyugdíjba vonulás eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> RetirementEvent;
 
+        /// <summary>
+        /// Vakáció sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> VacationFailedEvent;
 
+        /// <summary>
+        /// Gyermekvállalás sikerességének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> VacationSuccessEvent;
 
+        /// <summary>
+        /// Edzés sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> WorkOutFailedEvent;
 
+        /// <summary>
+        /// Edzés sikerességének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> WorkOutSuccessEvent;
 
+        /// <summary>
+        /// Olvasás sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> ReadFailedEvent;
 
+        /// <summary>
+        /// Olvasás sikerességének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> ReadSuccessEvent;
 
+        /// <summary>
+        /// Ismerőssel folytatott közös program eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> ProgramWithAcquaintanceEvent;
 
+        /// <summary>
+        /// Ismerőssel való veszekedés eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> QuarrelWithAcquaintanceEvent;
 
+        /// <summary>
+        /// Lottózás sikertelenségének eseménye. (pénz miatt)
+        /// </summary>
         public event EventHandler<EventArgs> NoMoneyForLotteryEvent;
 
-        public event EventHandler<EventArgs> LotteryWinEvent;
-
+        /// <summary>
+        /// Lottózás sikertelenségének eseménye. (randomgenerátor miatt)
+        /// </summary>
         public event EventHandler<EventArgs> LotteryLoseEvent;
 
+        /// <summary>
+        /// Lottózás sikerességének eseménye.
+        /// </summary>
+        public event EventHandler<EventArgs> LotteryWinEvent;
+
+        /// <summary>
+        /// Katonai küldetésre küldés eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> MilitaryMissionEvent;
 
+        /// <summary>
+        /// Barátkozás sikertelenségének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> MakeFriendFailedEvent;
 
+        /// <summary>
+        /// Barátkozás sikerességének eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> MakeFriendSuccessEvent;
 
+        /// <summary>
+        /// Katonai küldetés teljesítésének eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> MilitaryMissionCompleteEvent;
 
+        /// <summary>
+        /// Repülőgép-szerencsétlenség eseménye.
+        /// </summary>
         public event EventHandler<EventArgs> PlaneCrashEvent;
 
+        /// <summary>
+        /// Betegség elkapásának eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> CaughtSicknessEvent;
 
+        /// <summary>
+        /// Doktor látogatás eseménye.
+        /// </summary>
         public event EventHandler<LifeSimEventArgs> DoctorsVisitEvent;
 
         #endregion
 
         #region Constructor
 
-        public LifeSimModel()
-        {
-            rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3)};
-            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
-            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 7), new Sickness("COVID-19", 25, 2) };
-            yourName = "";
-            familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
-            maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
-            femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
-            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
-            DefaultHome = new Home("Szülői lakás", 0, 0);
-            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
-        }
-
+        /// <summary>
+        /// LifeSim játék példányosítása véletlenszerű játékossal.
+        /// </summary>
+        /// <param name="persistence">Adatelérés.</param>
         public LifeSimModel(TextFilePersistence persistence)
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000), new University("Repülőmérnöki", 4, 375000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3), new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 }, { "Felsővezető villamosmérnök", 11640000 } }, Universities[4], 3) };
-            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
-            Sicknesses = new List<Sickness>() { new Sickness("Megfázás", 5), new Sickness("Rák", 18, 10), new Sickness("Magas vérnyomás", 6, 7), new Sickness("COVID-19", 20, 2) };
+            Universities = new List<University>() {
+                new University("Informatikus", 3, 325000),
+                new University("Orvosi", 6, 1045000),
+                new University("Tisztképző", 4, 250000),
+                new University("Mérnöki", 4, 325000),
+                new University("Repülőmérnöki", 4, 375000)
+            };
+            Jobs = new List<Job>() { 
+                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2),
+                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2),
+                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0),
+                new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 },
+                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3),
+                new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 },
+                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4),
+                new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 },
+                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3),
+                new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 },
+                    { "Vezető pilóta", 11640000 } }, Universities[4], 3) 
+            };
+            Homes = new List<Home>() {
+                new Home("Albérlet", 165000, 1980000),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 580000) 
+            };
+            Sicknesses = new List<Sickness>() {
+                new Sickness("Megfázás", 5),
+                new Sickness("Rák", 18, 10),
+                new Sickness("Magas vérnyomás", 6, 7),
+                new Sickness("COVID-19", 20, 2) 
+            };
             yourName = "";
-            familyNames = new List<string> { "Molnár", "Varga", "Poór", "Kovács", "Kiss", "Pósa", "Tóth", "Madaras", "Balogh", "Papp", "Major", "Jászai", "Fodor", "Takács", "Elek", "Horváth", "Nagy", "Fábián", "Kis", "Fehér", "Katona", "Pintér", "Kecskés", "Lakatos", "Szalai", "Gál", "Szűcs", "Bencsik", "Szücsi", "Bartók", "Király", "Lengyel", "Barta", "Fazekas", "Sándor", "Simon", "Soós", "Fekete", "Deák", "Székely", "Faragó", "Kelemen", "Szilágyi", "Pataki", "Csaba", "Cserepes", "Csiszár", "Sárközi", "Dóra", "Berkes", "Jakab", "Péter", "Rézműves", "Rácz", "Berki", "Kocsis", "Fülöp", "Ágoston", "Németh", "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár", "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh", "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi", "Budai" };
-            maleNames = new List<string> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence", "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond", "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes", "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos", "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor", "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" };
-            femaleNames = new List<string> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára", "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma", "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka", "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra", "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita", "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő", "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" };
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
             DefaultHome = new Home("Szülői lakás", 0, 0);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
-            Achievements = new Dictionary<string, string> { { "Genesis", "Kezdd el az első életedet!" }, { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" }, { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" }, { "Őskövület", "Élj minimum 90 évig egy karakterrel!" }, { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" }, { "WIA", "Bukj el egy katonai missziót!" }, { "KIA", "Halj meg egy katonai misszióban!" }, { "Dolgos élet", "Vonulj nyugdíjba!" }, { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" }, { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
-            if (!File.Exists("achievements.ach"))
+            Achievements = new Dictionary<string, string> {
+                { "Genesis", "Kezdd el az első életedet!" },
+                { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" },
+                { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" }, 
+                { "Őskövület", "Élj minimum 90 évig egy karakterrel!" }, 
+                { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" },
+                { "WIA", "Bukj el egy katonai missziót!" },
+                { "KIA", "Halj meg egy katonai misszióban!" },
+                { "Dolgos élet", "Vonulj nyugdíjba!" }, 
+                { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" },
+                { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
+            if (!File.Exists("achievements.ach")) //ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
             }
-            CompletedAchievements = loadAchievements();
+            CompletedAchievements = loadAchievements(); //ezután betöltjük a már elért achievementeket
         }
 
-        public LifeSimModel(String yourName, bool maleOrFemale)
-        {
-            rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3) };
-            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
-            this.yourName = yourName;
-            this.maleOrFemale = maleOrFemale;
-            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
-            DefaultHome = new Home("Szülői lakás", 0, 0);
-            DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
-        }
-
+        /// <summary>
+        /// LifeSim játék példányosítása előre megadott adatokkal.
+        /// </summary>
+        /// <param name="yourName">A játékos által megadott név.</param>
+        /// <param name="maleOrFemale">A játékos által megadott nem.</param>
+        /// <param name="persistence">Adatelérés.</param>
         public LifeSimModel(String yourName, bool maleOrFemale, TextFilePersistence persistence)
         {
             rnd = new Random();
-            Universities = new List<University>() { new University("Informatikus", 3, 325000), new University("Orvosi", 6, 1045000), new University("Tisztképző", 4, 250000), new University("Mérnöki", 4, 325000) };
-            Jobs = new List<Job>() { new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2), new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2), new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0), new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 }, { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3), new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 }, { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4), new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 }, { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3) };
-            Homes = new List<Home>() { new Home("Albérlet", 165000, 1980000), new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000), new Home("50 négyzetméteres, szép lakás", 25500000, 580000) };
+            Universities = new List<University>() {
+                new University("Informatikus", 3, 325000),
+                new University("Orvosi", 6, 1045000),
+                new University("Tisztképző", 4, 250000),
+                new University("Mérnöki", 4, 325000),
+                new University("Repülőmérnöki", 4, 375000)
+            };
+            Jobs = new List<Job>() {
+                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2),
+                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2),
+                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0),
+                new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 },
+                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3),
+                new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 },
+                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4),
+                new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 },
+                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3),
+                new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 },
+                    { "Vezető pilóta", 11640000 } }, Universities[4], 3)
+            };
+            Homes = new List<Home>() {
+                new Home("Albérlet", 165000, 1980000),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 580000)
+            };
+            Sicknesses = new List<Sickness>() {
+                new Sickness("Megfázás", 5),
+                new Sickness("Rák", 18, 10),
+                new Sickness("Magas vérnyomás", 6, 7),
+                new Sickness("COVID-19", 20, 2)
+            };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
             DefaultHome = new Home("Szülői lakás", 0, 0);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
-            Achievements = new Dictionary<string, string> { { "Genesis", "Kezdd el az első életedet!" }, { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" }, { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" }, { "Őskövület", "Élj minimum 90 évig egy karakterrel!" }, { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" }, { "WIA", "Bukj el egy katonai missziót!" }, { "KIA", "Halj meg egy katonai misszióban!" }, { "Dolgos élet", "Vonulj nyugdíjba!" }, { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" }, { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
-            if (!File.Exists("achievements.ach"))
+            Achievements = new Dictionary<string, string> {
+                { "Genesis", "Kezdd el az első életedet!" },
+                { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" },
+                { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" },
+                { "Őskövület", "Élj minimum 90 évig egy karakterrel!" },
+                { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" },
+                { "WIA", "Bukj el egy katonai missziót!" },
+                { "KIA", "Halj meg egy katonai misszióban!" },
+                { "Dolgos élet", "Vonulj nyugdíjba!" },
+                { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" },
+                { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
+            if (!File.Exists("achievements.ach")) //ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
             }
-            CompletedAchievements = loadAchievements();
+            CompletedAchievements = loadAchievements(); //ezután betöltjük a már elért achievementeket
         }
 
         #endregion
 
         #region Public game methods
 
+        /// <summary>
+        /// Új játék kezdése.
+        /// </summary>
         public void newGame()
         {
-            foreach (int a in CompletedAchievements)
-            {
-                Debug.WriteLine(a);
-            }
             People = new List<Person>();
             childParentPairs = new Dictionary<Person, List<Person>>();
             String familyName;
             String name;
             Gender gender;
-            if (yourName == "")
+            if (yourName == "") //ha random karakterrel kezdünk, akkor a véletlenszám-generátor segítségével kiválaszt egy családnevet, nemet és ennek megfelelően egy keresztnevet
             {
                 familyName = familyNames[rnd.Next(familyNames.Count)];
                 gender = (Gender)rnd.Next(2);
@@ -237,7 +477,7 @@ namespace LifeSim.Model
                 else
                     name = maleNames[rnd.Next(maleNames.Count)];
             }
-            else
+            else //különben az előre megadott névvel és nemmel kezd új játékot
             {
                 familyName = yourName.Split(' ')[0];
                 name = yourName.Split(' ')[1];
@@ -246,12 +486,15 @@ namespace LifeSim.Model
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(60,101), rnd.Next(101), rnd.Next(101), rnd.Next(50,101), rnd.Next(75,101)),
-                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female, rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))};
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(60,101), rnd.Next(101),
+                                                        rnd.Next(101), rnd.Next(50,101), rnd.Next(75,101)),
+                                            new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female,
+                                                        rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))}; //szülők legenerálása
 
-            int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance);
-            int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence);
+            int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance); //szülők kinézete alapján a játékos kinézetének kiszámolása
+            int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence); //szülők intelligenciája alapján a játékos intelligenciájának kiszámolása
 
+            //ha az értékek 0 alattira, vagy 100 felettire jönnek ki, akkor átállnak 0-ra, vagy 100-ra
             if (appearance < 0)
                 appearance = 0;
             if (intelligence < 0)
@@ -263,6 +506,7 @@ namespace LifeSim.Model
                 intelligence = 100;
 
             You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, 0, DefaultJob, DefaultHome, DefaultUniversity);
+            //játékos és szülők hozzáadása az emberek listájához
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
@@ -270,15 +514,17 @@ namespace LifeSim.Model
             universityCosts = 0;
             timeToPayBack = 0;
         }
+
+        /// <summary>
+        /// Ez a függvény leszimulálja az 1 év alatt történő eseményeket.
+        /// </summary>
         public void age()
         {
-            foreach (Person p in People.ToList())
+            foreach (Person p in People.ToList()) //minden listában szereplő emberen végigmegy
             {
-                p.Age++;
+                p.Age++; //növeli az életkort
 
-                Debug.WriteLine(p.FirstName + " " + p.LastName);
-                Debug.WriteLine(p.Happiness);
-
+                //változik az intelligencia, a kinézet, a boldogság és az egészség is (az utóbbiról később)
                 p.Intelligence += rnd.Next(-3, 4);
                 if (p.Intelligence > 100)
                     p.Intelligence = 100;
@@ -298,7 +544,12 @@ namespace LifeSim.Model
 
                 p.Happiness += calculateHappiness(p);
 
-                if (p != You && You.Age > 3)
+                if (p.Happiness > 100)
+                    p.Happiness = 100;
+                else if (p.Happiness < 0)
+                    p.Happiness = 0;
+
+                if (p != You && You.Age > 3) //ha az adott személy nem a játékos, és a játékos már elmúlt 3 éves, akkor a kapcsolatok romolhatnak, és akár veszekedés is történhet
                 {
                     p.Relationship -= rnd.Next(1, 4);
                     if (rnd.Next(4) == 2)
@@ -309,28 +560,23 @@ namespace LifeSim.Model
                         p.Relationship = 0;
                 }
 
-                if (p.Happiness > 100)
-                    p.Happiness = 100;
-                else if (p.Happiness < 0)
-                    p.Happiness = 0;
-
-                if (p.Age == 110 || p.Health <= 0)
+                if (p.Age == 110 || p.Health <= 0) //ha az adott személy egészsége elérte a 0-t, vagy a kora a 110-et, akkor meghal
                 {
                     p.Health = 0;
-                    People.Remove(p);
-                    OnDeathEvent(p);
-                    if (p == You.Partner)
+                    People.Remove(p); //törlődik az emberek listájából
+                    OnDeathEvent(p); //kiváltódik a halálhoz tartozó esemény
+                    if (p == You.Partner) //ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
                     {
                         breakUp(true);
                     }
-                    if (p == You)
+                    if (p == You) //ha a játékos karakter hal meg
                     {
-                        if (p.Age <= 10 && !CompletedAchievements.Contains(2))
+                        if (p.Age <= 10 && !CompletedAchievements.Contains(2)) //ha a játékos legfeljebb 10 éves, és még nincs meg a 3. achievement, akkor megkapjuk
                         {
                             saveAchievements(2);
                             CompletedAchievements.Add(2);
                         }
-                        else if (p.Age == 90 && !CompletedAchievements.Contains(3))
+                        else if (p.Age >= 90 && !CompletedAchievements.Contains(3)) //ha a játékos legalább 90 éves, és még nincs meg a 4. achievement, akkor megkapjuk
                         {
                             saveAchievements(3);
                             CompletedAchievements.Add(3);
@@ -340,7 +586,13 @@ namespace LifeSim.Model
                 }
             }
 
-            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts;
+            //Innentől csak a játékossal kapcsolatos változások szerepelnek
+
+            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts; //a pénzünkhöz hozzáadódik a fizetésünk, és levonódik
+                                                                                                                              //a lakás fenntartásának költsége, valamint az
+                                                                                                                              //egyetem költségei
+
+            //ha vissza kell fizetnünk az egyetemi költségeket, a hátralévő évek folyamatosan csökkennek, és ha eléri a 0-t, akkor a költségek megszűnnek
             if (timeToPayBack > 0)
                 timeToPayBack--;
             if (timeToPayBack == 0)
@@ -348,17 +600,17 @@ namespace LifeSim.Model
                 universityCosts = 0;
             }
 
-            if (You.University != DefaultUniversity)
+            if (You.University != DefaultUniversity) //ha éppen egyetemre járunk (nem az alap egyetemre), akkor az ott töltött éveink növekednek
             {
                 You.YearsInUni++;
-                if (You.YearsInUni == You.University.YearsToFinish)
+                if (You.YearsInUni == You.University.YearsToFinish) //ha elérjük az elvégzéshez szükséges évszámot, akkor megkapjuk a diplomát
                 {
-                    if (!smartUni)
+                    if (!smartUni) //ha fizetősre kerültünk be, akkor el kell kezdenünk fizetni
                     {
                         do
                         {
-                            timeToPayBack = rnd.Next(4, 25);
-                            universityCosts = You.University.CostPerSemester * 2 * You.YearsInUni / timeToPayBack;
+                            timeToPayBack = rnd.Next(4, 25); //hány évig fogjuk visszafizetni
+                            universityCosts = You.University.CostPerSemester * 2 * You.YearsInUni / timeToPayBack; //évente mennyit
                         } while (25000 * 12 > universityCosts || universityCosts > 60000 * 12);
                         OnDumbGraduateEvent(universityCosts, timeToPayBack);
                     }
@@ -370,10 +622,10 @@ namespace LifeSim.Model
                 }
             }
 
-            if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel)
+            if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel) //ha van munkánk, és még nem értük el a végső szintjét
             {
-                You.PromotionMeter += rnd.Next(6, 13);
-                if (You.PromotionMeter >= 100)
+                You.PromotionMeter += rnd.Next(6, 13); //növekszik az ún. Promotion Meter, ami az előléptetéshez való közelséget határozza meg
+                if (You.PromotionMeter >= 100) //ha eléri a 100-at, akkor átlépünk a munka következő szintjére, kapunk egy kevés boldogságot, és visszaáll 0-ra a Promotion Meter
                 {
                     You.CurrentJobLevel += 1;
                     You.PromotionMeter = 0;
@@ -383,12 +635,12 @@ namespace LifeSim.Model
                 }
             }
 
-            if (childOnWay)
+            if (childOnWay) //ha éppen gyermeket vártunk, akkor hozzáadjuk a gyermeket a gyermekeink, és az emberek listájához
             {
                 childOnWay = false;
                 You.Children.Add(childParentPairs.Values.Last().Last());
                 People.Add(You.Children[You.Children.Count - 1]);
-                if (People.Count == 10 && !CompletedAchievements.Contains(9))
+                if (People.Count == 11 && !CompletedAchievements.Contains(9)) //ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
                 {
                     saveAchievements(9);
                     CompletedAchievements.Add(9);
@@ -396,14 +648,14 @@ namespace LifeSim.Model
                 OnChildBornEvent();
             }
 
-            if (You.Age == 65 && You.Job != DefaultJob)
+            if (You.Age == 65 && You.Job != DefaultJob) //ha elértük a 65 éves kort, és dolgozunk, akkor nyugdíjba vonulunk (a fizetésünk 2/3-át kapjuk meg a hátralévő években)
             {
-                if (!CompletedAchievements.Contains(7))
+                if (!CompletedAchievements.Contains(7)) //ha még nincs meg a 8. achievement, akkor megkapjuk
                 {
                     saveAchievements(7);
                     CompletedAchievements.Add(7);
                 }
-                if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8))
+                if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8)) //ha katonák voltunk, és még nincs meg a 9. achievement, akkor megkapjuk
                 {
                     saveAchievements(8);
                     CompletedAchievements.Add(8);
@@ -414,7 +666,7 @@ namespace LifeSim.Model
                 OnRetirementEvent();
             }
 
-            if (You.Job == Jobs[3] || You.Job == Jobs[4])
+            if (You.Job == Jobs[3] || You.Job == Jobs[4]) //ha katonai karrierben vagyunk, akkor 1/5 eséllyel behívhatnak misszióra
             {
                 if (rnd.Next(5) == 3)
                 {
@@ -422,14 +674,11 @@ namespace LifeSim.Model
                 }
             }
 
-            if (You.Job == Jobs[6])
+            if (You.Job == Jobs[6] && rnd.Next(100) == 50) //ha pilóta karrierben vagyunk, akkor 1/100 eséllyel meghalhatunk repülőgép-szerencsétlenségben
             {
-                if (rnd.Next(100) == 50)
-                {
-                    You.Health -= 100;
-                    OnPlaneCrashEvent();
-                    OnDeathEvent(You);
-                }
+                 You.Health -= 100;
+                 OnPlaneCrashEvent();
+                 OnDeathEvent(You);
             }
             randomSickness();
         }

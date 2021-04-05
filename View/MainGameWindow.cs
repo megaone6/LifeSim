@@ -359,7 +359,7 @@ namespace LifeSim.View
             tryJobButton.Visible = true;
             MessageBox.Show("Kiléptél a munkahelyedről.");
             eventsRichTextBox.AppendText("Kiléptél a munkahelyedről." + Environment.NewLine + Environment.NewLine);
-            jobLabel.Text = model.You.Job.Name;
+            jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
         }
 
         private void Model_PromotionEvent(object sender, EventArgs e)
