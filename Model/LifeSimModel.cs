@@ -27,35 +27,35 @@ namespace LifeSim.Model
             "Dévényi", "Bátorfi", "Balázs", "Benedek", "Pásztor", "Károlyi", "Bogdán", "Cserhegyi", "Demeter", "Fenyő", "Váradi", "Ribár", "Juhász", "Fésűs", "Somodi", "Kolompár",
             "Szekeres", "Széles", "Orosz", "Ferenc", "Kónya", "Szalay", "Puskás", "Győri", "Szigetvári", "Herczeg", "Veres", "Győző", "Orsós", "Bodnár", "Vörös", "Darai", "Vígh",
             "Radics", "Mészáros", "Babos", "Geszti", "Erős", "Hegedüs", "Képes", "Szeles", "Sebestyén", "Borbély", "Kövesdy", "Sátori", "Mihály", "Csiki", "Végh", "Somogyi",
-            "Budai" }.AsReadOnly(); //családnevek
+            "Budai" }.AsReadOnly(); // családnevek
         private readonly ReadOnlyCollection<String> maleNames = new List<String> { "Péter", "János", "László", "Jakab", "József", "Gábor", "Sándor", "Bálint", "Richárd", "Bence",
             "Balázs", "Jácint", "Erik", "Zoltán", "Zsolt", "Kristóf", "Viktor", "Róbert", "Szilárd", "Szabolcs", "Martin", "Marcell", "Kázmér", "Benedek", "Máté", "Botond",
             "András", "Roland", "Ferenc", "István", "Krisztián", "Győző", "Farkas", "Ákos", "Béla", "Mihály", "Károly", "Gergely", "Ágoston", "Boldizsár", "Gergő", "Mózes",
             "Márió", "Ádám", "Dénes", "Ábel", "Tamás", "Szilveszter", "György", "Elek", "Áron", "Pál", "Márton", "Álmos", "Kornél", "Lőrinc", "Dániel", "Oszkár", "Márk", 
             "Koppány", "Ernő", "Lázár", "Mátyás", "Aladár", "Lajos", "Attila", "Benjámin", "Csaba", "Csanád", "Olivér", "Gyula", "Henrik", "Sámuel", "Tivadar", "Antal", "Vilmos",
             "Hugó", "Arnold", "Tibor", "Levente", "Géza", "Dezső", "Albert", "Csongor", "Iván", "Ottó", "Endre", "Dávid", "Zalán", "Nándor", "Imre", "Domonkos", "Zsombor",
-            "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" }.AsReadOnly(); //férfi keresztnevek
+            "Norbert", "Patrik", "Kevin", "Vince", "Kelemen", "Xavér", "Zebulon" }.AsReadOnly(); // férfi keresztnevek
         private readonly ReadOnlyCollection<String> femaleNames = new List<String> { "Petra", "Katalin", "Jázmin", "Melinda", "Vanda", "Zsófia", "Eszter", "Kamilla", "Sára",
             "Cecília", "Viktória", "Emese", "Erika", "Alexandra", "Barbara", "Zsuzsanna", "Linda", "Mária", "Emma", "Alíz", "Ibolya", "Erzsébet", "Tamara", "Virág", "Alma",
             "Réka", "Andrea", "Dóra", "Vivien", "Bernadett", "Karina", "Krisztina", "Lívia", "Anett", "Bella", "Edit", "Karolina", "Fruzsina", "Edina", "Beáta", "Boglárka",
             "Anna", "Éva", "Daniella", "Anita", "Veronika", "Csenge", "Adrienn", "Diána", "Júlia", "Katica", "Fanni", "Lilla", "Mónika", "Nóra", "Napsugár", "Márta", "Flóra",
             "Hanna", "Hajnalka", "Kincső", "Amanda", "Beatrix", "Dalma", "Dorina", "Johanna", "Laura", "Míra", "Nikoletta", "Orsolya", "Roxána", "Zsanett", "Viola", "Zita",
             "Tekla", "Olívia", "Mirtill", "Ilona", "Anikó", "Gabriella", "Tünde", "Szilvia", "Evelin", "Bianka", "Klaudia", "Kitti", "Léna", "Szonja", "Borbála", "Tímea", "Enikő",
-            "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" }.AsReadOnly(); //női keresztnevek
+            "Ramóna", "Dorottya", "Leila", "Hanga", "Adél", "Bettina", "Hortenzia", "Izabella" }.AsReadOnly(); // női keresztnevek
 
         #endregion
 
         #region Fields
 
-        private Random rnd; //véletlenszám-generátor változója
-        private String yourName; //a játékos neve
-        private bool maleOrFemale; //férfi, vagy nő
-        private bool smartUni; //kell-e fizetned az egyetemért
-        private bool childOnWay; //vársz-e gyereket
-        private int universityCosts; //egyetem költségei
-        private int timeToPayBack; //visszafizetési idő
-        private Dictionary<Person, List<Person>> childParentPairs; //szülő-gyerek párosítások
-        private TextFilePersistence persistence; //adatelérés
+        private Random rnd; // véletlenszám-generátor változója
+        private String yourName; // a játékos neve
+        private bool maleOrFemale; // férfi, vagy nő
+        private bool smartUni; // kell-e fizetned az egyetemért
+        private bool childOnWay; // vársz-e gyereket
+        private int universityCosts; // egyetem költségei
+        private int timeToPayBack; // visszafizetési idő
+        private Dictionary<Person, List<Person>> childParentPairs; // szülő-gyerek párosítások
+        private TextFilePersistence persistence; // adatelérés
 
         #endregion
 
@@ -383,11 +383,11 @@ namespace LifeSim.Model
                 { "Dolgos élet", "Vonulj nyugdíjba!" }, 
                 { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" },
                 { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
-            if (!File.Exists("achievements.ach")) //ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
+            if (!File.Exists("achievements.ach")) // ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
             }
-            CompletedAchievements = loadAchievements(); //ezután betöltjük a már elért achievementeket
+            CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
         /// <summary>
@@ -447,11 +447,11 @@ namespace LifeSim.Model
                 { "Dolgos élet", "Vonulj nyugdíjba!" },
                 { "Lesz mit mesélni az unokáknak!", "Vonulj nyugdíjba valamelyik katonai karrierből!" },
                 { "Közkedvelt", "Legyen legalább 10 élő ismerősöd!" } };
-            if (!File.Exists("achievements.ach")) //ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
+            if (!File.Exists("achievements.ach")) // ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
             }
-            CompletedAchievements = loadAchievements(); //ezután betöltjük a már elért achievementeket
+            CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
         #endregion
@@ -468,7 +468,7 @@ namespace LifeSim.Model
             String familyName;
             String name;
             Gender gender;
-            if (yourName == "") //ha random karakterrel kezdünk, akkor a véletlenszám-generátor segítségével kiválaszt egy családnevet, nemet és ennek megfelelően egy keresztnevet
+            if (yourName == "") // ha random karakterrel kezdünk, akkor a véletlenszám-generátor segítségével kiválaszt egy családnevet, nemet és ennek megfelelően egy keresztnevet
             {
                 familyName = familyNames[rnd.Next(familyNames.Count)];
                 gender = (Gender)rnd.Next(2);
@@ -477,7 +477,7 @@ namespace LifeSim.Model
                 else
                     name = maleNames[rnd.Next(maleNames.Count)];
             }
-            else //különben az előre megadott névvel és nemmel kezd új játékot
+            else // különben az előre megadott névvel és nemmel kezd új játékot
             {
                 familyName = yourName.Split(' ')[0];
                 name = yourName.Split(' ')[1];
@@ -489,12 +489,12 @@ namespace LifeSim.Model
             Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(60,101), rnd.Next(101),
                                                         rnd.Next(101), rnd.Next(50,101), rnd.Next(75,101)),
                                             new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female,
-                                                        rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))}; //szülők legenerálása
+                                                        rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))}; // szülők legenerálása
 
-            int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance); //szülők kinézete alapján a játékos kinézetének kiszámolása
-            int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence); //szülők intelligenciája alapján a játékos intelligenciájának kiszámolása
+            int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance); // szülők kinézete alapján a játékos kinézetének kiszámolása
+            int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence); // szülők intelligenciája alapján a játékos intelligenciájának kiszámolása
 
-            //ha az értékek 0 alattira, vagy 100 felettire jönnek ki, akkor átállnak 0-ra, vagy 100-ra
+            // ha az értékek 0 alattira, vagy 100 felettire jönnek ki, akkor átállnak 0-ra, vagy 100-ra
             if (appearance < 0)
                 appearance = 0;
             if (intelligence < 0)
@@ -506,7 +506,7 @@ namespace LifeSim.Model
                 intelligence = 100;
 
             You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, 0, DefaultJob, DefaultHome, DefaultUniversity);
-            //játékos és szülők hozzáadása az emberek listájához
+            // játékos és szülők hozzáadása az emberek listájához
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
@@ -520,11 +520,11 @@ namespace LifeSim.Model
         /// </summary>
         public void age()
         {
-            foreach (Person p in People.ToList()) //minden listában szereplő emberen végigmegy
+            foreach (Person p in People.ToList()) // minden listában szereplő emberen végigmegy
             {
-                p.Age++; //növeli az életkort
+                p.Age++; // növeli az életkort
 
-                //változik az intelligencia, a kinézet, a boldogság és az egészség is (az utóbbiról később)
+                // változik az intelligencia, a kinézet, a boldogság és az egészség is (az utóbbiról később)
                 p.Intelligence += rnd.Next(-3, 4);
                 if (p.Intelligence > 100)
                     p.Intelligence = 100;
@@ -549,7 +549,7 @@ namespace LifeSim.Model
                 else if (p.Happiness < 0)
                     p.Happiness = 0;
 
-                if (p != You && You.Age > 3) //ha az adott személy nem a játékos, és a játékos már elmúlt 3 éves, akkor a kapcsolatok romolhatnak, és akár veszekedés is történhet
+                if (p != You && You.Age > 3) // ha az adott személy nem a játékos, és a játékos már elmúlt 3 éves, akkor a kapcsolatok romolhatnak, és akár veszekedés is történhet
                 {
                     p.Relationship -= rnd.Next(1, 4);
                     if (rnd.Next(4) == 2)
@@ -560,23 +560,23 @@ namespace LifeSim.Model
                         p.Relationship = 0;
                 }
 
-                if (p.Age == 110 || p.Health <= 0) //ha az adott személy egészsége elérte a 0-t, vagy a kora a 110-et, akkor meghal
+                if (p.Age == 110 || p.Health <= 0) // ha az adott személy egészsége elérte a 0-t, vagy a kora a 110-et, akkor meghal
                 {
                     p.Health = 0;
-                    People.Remove(p); //törlődik az emberek listájából
-                    OnDeathEvent(p); //kiváltódik a halálhoz tartozó esemény
-                    if (p == You.Partner) //ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
+                    People.Remove(p); // törlődik az emberek listájából
+                    OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
+                    if (p == You.Partner) // ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
                     {
                         breakUp(true);
                     }
-                    if (p == You) //ha a játékos karakter hal meg
+                    if (p == You) // ha a játékos karakter hal meg
                     {
-                        if (p.Age <= 10 && !CompletedAchievements.Contains(2)) //ha a játékos legfeljebb 10 éves, és még nincs meg a 3. achievement, akkor megkapjuk
+                        if (p.Age <= 10 && !CompletedAchievements.Contains(2)) // ha a játékos legfeljebb 10 éves, és még nincs meg a 3. achievement, akkor megkapjuk
                         {
                             saveAchievements(2);
                             CompletedAchievements.Add(2);
                         }
-                        else if (p.Age >= 90 && !CompletedAchievements.Contains(3)) //ha a játékos legalább 90 éves, és még nincs meg a 4. achievement, akkor megkapjuk
+                        else if (p.Age >= 90 && !CompletedAchievements.Contains(3)) // ha a játékos legalább 90 éves, és még nincs meg a 4. achievement, akkor megkapjuk
                         {
                             saveAchievements(3);
                             CompletedAchievements.Add(3);
@@ -586,13 +586,13 @@ namespace LifeSim.Model
                 }
             }
 
-            //Innentől csak a játékossal kapcsolatos változások szerepelnek
+            // Innentől csak a játékossal kapcsolatos változások szerepelnek
 
-            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts; //a pénzünkhöz hozzáadódik a fizetésünk, és levonódik
-                                                                                                                              //a lakás fenntartásának költsége, valamint az
-                                                                                                                              //egyetem költségei
+            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts; // a pénzünkhöz hozzáadódik a fizetésünk, és levonódik
+                                                                                                                              // a lakás fenntartásának költsége, valamint az
+                                                                                                                              // egyetem költségei
 
-            //ha vissza kell fizetnünk az egyetemi költségeket, a hátralévő évek folyamatosan csökkennek, és ha eléri a 0-t, akkor a költségek megszűnnek
+            // ha vissza kell fizetnünk az egyetemi költségeket, a hátralévő évek folyamatosan csökkennek, és ha eléri a 0-t, akkor a költségek megszűnnek
             if (timeToPayBack > 0)
                 timeToPayBack--;
             if (timeToPayBack == 0)
@@ -600,17 +600,17 @@ namespace LifeSim.Model
                 universityCosts = 0;
             }
 
-            if (You.University != DefaultUniversity) //ha éppen egyetemre járunk (nem az alap egyetemre), akkor az ott töltött éveink növekednek
+            if (You.University != DefaultUniversity) // ha éppen egyetemre járunk (nem az alap egyetemre), akkor az ott töltött éveink növekednek
             {
                 You.YearsInUni++;
-                if (You.YearsInUni == You.University.YearsToFinish) //ha elérjük az elvégzéshez szükséges évszámot, akkor megkapjuk a diplomát
+                if (You.YearsInUni == You.University.YearsToFinish) // ha elérjük az elvégzéshez szükséges évszámot, akkor megkapjuk a diplomát
                 {
-                    if (!smartUni) //ha fizetősre kerültünk be, akkor el kell kezdenünk fizetni
+                    if (!smartUni) // ha fizetősre kerültünk be, akkor el kell kezdenünk fizetni
                     {
                         do
                         {
-                            timeToPayBack = rnd.Next(4, 25); //hány évig fogjuk visszafizetni
-                            universityCosts = You.University.CostPerSemester * 2 * You.YearsInUni / timeToPayBack; //évente mennyit
+                            timeToPayBack = rnd.Next(4, 25); // hány évig fogjuk visszafizetni
+                            universityCosts = You.University.CostPerSemester * 2 * You.YearsInUni / timeToPayBack; // évente mennyit
                         } while (25000 * 12 > universityCosts || universityCosts > 60000 * 12);
                         OnDumbGraduateEvent(universityCosts, timeToPayBack);
                     }
@@ -622,10 +622,10 @@ namespace LifeSim.Model
                 }
             }
 
-            if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel) //ha van munkánk, és még nem értük el a végső szintjét
+            if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel) // ha van munkánk, és még nem értük el a végső szintjét
             {
-                You.PromotionMeter += rnd.Next(6, 13); //növekszik az ún. Promotion Meter, ami az előléptetéshez való közelséget határozza meg
-                if (You.PromotionMeter >= 100) //ha eléri a 100-at, akkor átlépünk a munka következő szintjére, kapunk egy kevés boldogságot, és visszaáll 0-ra a Promotion Meter
+                You.PromotionMeter += rnd.Next(6, 13); // növekszik az ún. Promotion Meter, ami az előléptetéshez való közelséget határozza meg
+                if (You.PromotionMeter >= 100) // ha eléri a 100-at, akkor átlépünk a munka következő szintjére, kapunk egy kevés boldogságot, és visszaáll 0-ra a Promotion Meter
                 {
                     You.CurrentJobLevel += 1;
                     You.PromotionMeter = 0;
@@ -635,12 +635,12 @@ namespace LifeSim.Model
                 }
             }
 
-            if (childOnWay) //ha éppen gyermeket vártunk, akkor hozzáadjuk a gyermeket a gyermekeink, és az emberek listájához
+            if (childOnWay) // ha éppen gyermeket vártunk, akkor hozzáadjuk a gyermeket a gyermekeink, és az emberek listájához
             {
                 childOnWay = false;
                 You.Children.Add(childParentPairs.Values.Last().Last());
                 People.Add(You.Children[You.Children.Count - 1]);
-                if (People.Count == 11 && !CompletedAchievements.Contains(9)) //ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
+                if (People.Count == 11 && !CompletedAchievements.Contains(9)) // ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
                 {
                     saveAchievements(9);
                     CompletedAchievements.Add(9);
@@ -648,14 +648,14 @@ namespace LifeSim.Model
                 OnChildBornEvent();
             }
 
-            if (You.Age == 65 && You.Job != DefaultJob) //ha elértük a 65 éves kort, és dolgozunk, akkor nyugdíjba vonulunk (a fizetésünk 2/3-át kapjuk meg a hátralévő években)
+            if (You.Age == 65 && You.Job != DefaultJob) // ha elértük a 65 éves kort, és dolgozunk, akkor nyugdíjba vonulunk (a fizetésünk 2/3-át kapjuk meg a hátralévő években)
             {
-                if (!CompletedAchievements.Contains(7)) //ha még nincs meg a 8. achievement, akkor megkapjuk
+                if (!CompletedAchievements.Contains(7)) // ha még nincs meg a 8. achievement, akkor megkapjuk
                 {
                     saveAchievements(7);
                     CompletedAchievements.Add(7);
                 }
-                if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8)) //ha katonák voltunk, és még nincs meg a 9. achievement, akkor megkapjuk
+                if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8)) // ha katonák voltunk, és még nincs meg a 9. achievement, akkor megkapjuk
                 {
                     saveAchievements(8);
                     CompletedAchievements.Add(8);
@@ -666,7 +666,7 @@ namespace LifeSim.Model
                 OnRetirementEvent();
             }
 
-            if (You.Job == Jobs[3] || You.Job == Jobs[4]) //ha katonai karrierben vagyunk, akkor 1/5 eséllyel behívhatnak misszióra
+            if (You.Job == Jobs[3] || You.Job == Jobs[4]) // ha katonai karrierben vagyunk, akkor 1/5 eséllyel behívhatnak misszióra
             {
                 if (rnd.Next(5) == 3)
                 {
@@ -683,11 +683,15 @@ namespace LifeSim.Model
             randomSickness();
         }
 
+        /// <summary>
+        /// Ez a függvény az edzés folyamatát foglalja magában.
+        /// </summary>
         public void workOut()
         {
+            // ha nem töltöttük be a 18-at, akkor ingyen edzünk, különben 120000 forintot kell fizetni
             if (You.Age < 18 || You.Money >= 120000)
             {
-                int randomHealthGain = rnd.Next(6, 15);
+                int randomHealthGain = rnd.Next(6, 15); // kapunk egészséget 
                 if (You.Health + randomHealthGain <= 100)
                     You.Health += randomHealthGain;
                 else
@@ -695,7 +699,7 @@ namespace LifeSim.Model
                     You.Health = 100;
                 }
 
-                int randomHappinessGain = rnd.Next(2, 5);
+                int randomHappinessGain = rnd.Next(2, 5); // boldogságot
                 if (You.Happiness + randomHappinessGain <= 100)
                     You.Happiness += randomHappinessGain;
                 else
@@ -703,7 +707,7 @@ namespace LifeSim.Model
                     You.Happiness = 100;
                 }
 
-                int randomAppearanceGain = rnd.Next(1, 5);
+                int randomAppearanceGain = rnd.Next(1, 5); // és kinézetet
                 if (You.Appearance + randomAppearanceGain <= 100)
                     You.Appearance += randomAppearanceGain;
                 else
@@ -714,23 +718,27 @@ namespace LifeSim.Model
                 OnHealthRefreshEvent();
                 OnHappinessRefreshEvent();
                 OnAppearanceRefreshEvent();
-                if (You.Age >= 18)
+                if (You.Age >= 18) // ha betöltöttük a 18-at, akkor levonja a pénzt
                 {
                     You.Money -= 120000;
                     OnMoneyRefreshEvent();
                 }
             }
-            else
+            else // ha nem teljesülnek a feltételek, akkor nem tudunk edzeni
             {
                 OnWorkOutFailedEvent();
             }
         }
 
+        /// <summary>
+        /// Ez a függvény az olvasás folyamatát foglalja magában.
+        /// </summary>
         public void read()
         {
+            // ha nem töltöttük be a 18-at, akkor ingyen olvasunk, különben 75000 forintot kell fizetni
             if (You.Age < 18 || You.Money >= 75000)
             {
-                int randomIntelligenceGain = rnd.Next(1, 6);
+                int randomIntelligenceGain = rnd.Next(3, 9); // kapunk intelligenciát
                 if (You.Intelligence + randomIntelligenceGain <= 100)
                     You.Intelligence += randomIntelligenceGain;
                 else
@@ -738,7 +746,7 @@ namespace LifeSim.Model
                     You.Intelligence = 100;
                 }
 
-                int randomHappinessGain = rnd.Next(2, 5);
+                int randomHappinessGain = rnd.Next(2, 5); // és boldogságot
                 if (You.Happiness + randomHappinessGain <= 100)
                     You.Happiness += randomHappinessGain;
                 else
@@ -748,30 +756,42 @@ namespace LifeSim.Model
                 OnReadSuccessEvent();
                 OnIntelligenceRefreshEvent();
                 OnHappinessRefreshEvent();
-                if (You.Age >= 18)
+                if (You.Age >= 18) // ha betöltöttük a 18-at, akkor levonja a pénzt
                 {
                     You.Money -= 75000;
                     OnMoneyRefreshEvent();
                 }
             }
-            else
+            else // ha nem teljesülnek a feltételek, akkor nem tudunk olvasnui
             {
                 OnReadFailedEvent();
             }
         }
 
+        /// <summary>
+        /// A játékos munkáját frissítő függvény.
+        /// </summary>
+        /// <param name="job">A munka, amire a játékos jelentkezett.</param>
         public void jobRefresh(Job job)
         {
             You.Job = job;
             OnJobChangedEvent();
         }
 
+        /// <summary>
+        /// A játékos lakását frissítő függvény.
+        /// </summary>
+        /// <param name="home">A lakás, amit a játékos megvett.</param>
         public void homeRefresh(Home home)
         {
             You.Home = home;
             OnHomeChangedEvent();
         }
 
+        /// <summary>
+        /// A játékos egyetemi tanulmányait frissítő függvény.
+        /// </summary>
+        /// <param name="uni">Az egyetem, amire a játékos jelentkezett.</param>
         public void uniRefresh(University uni)
         {
             if (uni == DefaultUniversity)
@@ -780,71 +800,79 @@ namespace LifeSim.Model
             }
             You.YearsInUni = 0;
             You.University = uni;
-            if (You.Intelligence >= 70)
+            if (You.Intelligence >= 70) // ha az intelligenciánk eléri a 70-et, akkor nem kell fizetnünk az egyetemért
             {
                 smartUni = true;
                 OnSmartUniChangedEvent();
             }
-            else
+            else // különben igen
             {
                 smartUni = false;
                 OnDumbUniChangedEvent(uni.CostPerSemester);
             }
         }
 
+        /// <summary>
+        /// Függvény, amely a játékos lehetséges párját generálja le.
+        /// </summary>
+        /// <returns>A játékos lehetséges párja, és az esély a kapcsolatra.</returns>
         public Tuple<Person, int> newLove()
         {
             String randomName;
             Gender loveGender;
-            if (You.Gender == Gender.Male)
+            if (You.Gender == Gender.Male) // ha férfi a játékos, akkor a visszatérített karakter nő lesz
             {
                 randomName = femaleNames[rnd.Next(femaleNames.Count)];
                 loveGender = Gender.Female;
             }
-            else
+            else // különben férfi
             {
                 randomName = maleNames[rnd.Next(maleNames.Count)];
                 loveGender = Gender.Male;
             }
             int randomAge = rnd.Next(-2, 3);
-            Person crush = new Person(familyNames[rnd.Next(familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(101), rnd.Next(101), rnd.Next(10, 101), 100);
-            int chanceOfLove = chanceOfMutualLove(crush);
+            Person crush = new Person(familyNames[rnd.Next(familyNames.Count)], randomName, You.Age + randomAge, loveGender, rnd.Next(1, 101), rnd.Next(101), rnd.Next(101),
+                rnd.Next(10, 101), 100);
+            int chanceOfLove = chanceOfMutualLove(crush); // a játékos és a "crush" statisztikái alapján kiszámít egy esélyt a kapcsolatra
             PotentialPartner = new Tuple<Person, int>(crush, chanceOfLove);
             return PotentialPartner;
         }
 
+        /// <summary>
+        /// Kapcsolattal való megpróbálkozás függvénye.
+        /// </summary>
         public void tryRelationship()
         {
-            int randomNum = rnd.Next(5);
-            bool fail = false;
-            switch (PotentialPartner.Item2)
+            int randomNum = rnd.Next(5); // random szám generálása
+            bool fail = false; // alapból az van beállítva, hogy sikeres legyen a kapcsolat
+            switch (PotentialPartner.Item2) // megnézzük az esélyhez tartozó értéket
             {
-                case 0:
+                case 0: // ha 0, akkor semmiképpen nem tudunk összejönni a potenciális partnerrel
                     fail = true;
                     OnRelationshipFailEvent();
                     break;
-                case 20:
+                case 20: // ha 20, akkor 1/5 esélyünk van
                     if (randomNum > 0)
                     {
                         fail = true;
                         OnRelationshipFailEvent();
                     }
                     break;
-                case 40:
+                case 40: // ha 40, akkor 2/5 esélyünk van
                     if (randomNum > 1)
                     {
                         fail = true;
                         OnRelationshipFailEvent();
                     }
                     break;
-                case 60:
+                case 60: // ha 60, akkor 3/5 esélyünk van
                     if (randomNum > 2)
                     {
                         fail = true;
                         OnRelationshipFailEvent();
                     }
                     break;
-                case 80:
+                case 80: // ha 80, akkor 4/5 esélyünk van
                     if (randomNum > 3)
                     {
                         fail = true;
@@ -852,11 +880,11 @@ namespace LifeSim.Model
                     }
                     break;
             }
-            if (!fail)
+            if (!fail) // ha a randomszám-generátor jó számot generált, vagy 100% volt az esélyünk, akkor összejövünk a potenciális partnerrel
             {
                 You.Partner = PotentialPartner.Item1;
-                People.Add(PotentialPartner.Item1);
-                if (People.Count == 10 && !CompletedAchievements.Contains(9))
+                People.Add(PotentialPartner.Item1); // hozzáadjuk az emberek listájához
+                if (People.Count == 10 && !CompletedAchievements.Contains(9)) // ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
                 {
                     saveAchievements(9);
                     CompletedAchievements.Add(9);
@@ -867,43 +895,54 @@ namespace LifeSim.Model
             }
         }
 
+        /// <summary>
+        /// Különválás partnerünkkel.
+        /// </summary>
+        /// <param name="death">A különválás oka a partner halála miatt volt-e.</param>
         public void breakUp(bool death)
         {
-            You.Partner = null;
+            You.Partner = null; // visszaállítjuk a partnerünket null-ra
             OnBreakUpEvent(death);
         }
 
+        /// <summary>
+        /// Munkából való kilépés.
+        /// </summary>
         public void quitJob()
         {
-            You.Job = DefaultJob;
-            You.CurrentJobLevel = 0;
+            You.Job = DefaultJob; // visszaállítjuk a munkánkat az alap munkára
+            You.CurrentJobLevel = 0; // visszaállítjuk az elért szintünket 0-ra
             OnQuitJobEvent();
         }
 
+        /// <summary>
+        /// Gyermekkel való próbálkozás függvénye.
+        /// </summary>
         public void tryForChild()
         {
             int childSuccess = rnd.Next(2);
-            switch (childSuccess)
+            switch (childSuccess) // 50% eséllyel lehet gyermekünk
             {
-                case 0:
+                case 0: // ha nem sikerül, akkor csak az ehhez tartozó esemény váltódik ki
                     OnChildFailEvent();
                     break;
-                case 1:
-                    Gender gender = (Gender)rnd.Next(2);
+                case 1: // ha sikerül, akkor a következők történnek:
+                    Gender gender = (Gender)rnd.Next(2); // random nem generálása
                     String name;
 
-                    if (gender == 0)
+                    if (gender == 0) // nemnek megfelelő névválasztás
                         name = femaleNames[rnd.Next(femaleNames.Count)];
                     else
                         name = maleNames[rnd.Next(maleNames.Count)];
 
                     String firstName;
 
-                    if (You.Gender == Gender.Male)
+                    if (You.Gender == Gender.Male) // ha férfi a játékos, akkor az ő vezetéknevét kapja meg, különben a partnerét
                         firstName = You.FirstName;
                     else
                         firstName = You.Partner.FirstName;
 
+                    // kinézet és intelligencia statisztikákat a játékostól és a partnertől kapja meg a gyermek
                     int appearance = calculateStartingStat(You.Appearance, You.Partner.Appearance);
                     int intelligence = calculateStartingStat(You.Intelligence, You.Partner.Intelligence);
 
@@ -923,41 +962,49 @@ namespace LifeSim.Model
             }
         }
 
+        /// <summary>
+        /// Ez a függvény felel azért, hogy a halál után a legidősebb gyermek fölött vehessük át az irányítást.
+        /// </summary>
         public void takeControlOfChild()
         {
             Person otherParent = null;
-            foreach (KeyValuePair<Person, List<Person>> p in childParentPairs)
+            foreach (KeyValuePair<Person, List<Person>> p in childParentPairs) // megkeresi, hogy él-e még a gyermek másik szülője
             {
                 if (People.Exists(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName))
                     otherParent = People.Single(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName);
             }
-            People.Clear();
-            childParentPairs.Clear();
-            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity);
-            People.Add(You);
-            if (otherParent != null)
+            People.Clear(); // kiürítjük az emberek listáját
+            childParentPairs.Clear(); // ahogy a szülő-gyermek párokat is
+            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity); // a játékos karakter szerepét átveszi a gyermek karakter
+            People.Add(You); // hozzáadjuk az új játékos karaktert az emberek listájához
+            if (otherParent != null) // ha még él a másik szülő (azaz ha értéke nem null), akkor generálunk neki egy random kapcsolat értéket és hozzáadjuk az emberek listájához
             {
-                otherParent.Relationship = rnd.Next(75, 101);
+                otherParent.Relationship = rnd.Next(75, 101); 
                 People.Add(otherParent);
             }
-            breakUp(true);
+            breakUp(true); // meghívódik a szakítás függvény, hogy az új játékos karakterünknek ne legyen partnere
             jobRefresh(DefaultJob);
             homeRefresh(DefaultHome);
             uniRefresh(DefaultUniversity);
             childOnWay = false;
         }
 
+        /// <summary>
+        /// Ez a függvény a vakáció folyamatát foglalja magában.
+        /// </summary>
         public void vacation()
         {
-            int familyCount = You.Children.Count + 1;
-            if (You.Partner != null)
-                familyCount += 1;
-
-            if (You.Money < 300000 * familyCount)
-                OnVacationFailedEvent();
+            int familyCount;
+            if (You.Partner != null) // kiszámolja, hogy vannak-e gyermekeink és párunk, mert ettől fog függni a vakáció költsége
+                familyCount = You.Children.Count + 2;
             else
+                familyCount = You.Children.Count + 1;
+
+            if (You.Money < 300000 * familyCount) // ha nincs 300000 * családtagokszáma pénzünk, akkor nem tudunk vakációra menni
+                OnVacationFailedEvent();
+            else // különben a következők történhetnek:
             {
-                if (rnd.Next(100) == 50)
+                if (rnd.Next(100) == 50) // repülőgép-szerencsétlenséget szenvedhetünk 1/100 eséllyel
                 {
                     You.Health -= 100;
                     OnPlaneCrashEvent();
@@ -965,9 +1012,9 @@ namespace LifeSim.Model
                     return;
                 }
                 OnVacationSuccessEvent();
-                You.Money -= 300000 * familyCount;
+                You.Money -= 300000 * familyCount; // ha sikeres a vakáció, akkor levonódik a pénz
                 OnMoneyRefreshEvent();
-                int randomHappinessGain = rnd.Next(10, 21);
+                int randomHappinessGain = rnd.Next(10, 21); // kapunk viszonylag sok boldogságot
                 if (You.Happiness + randomHappinessGain <= 100)
                     You.Happiness += randomHappinessGain;
                 else
@@ -976,9 +1023,13 @@ namespace LifeSim.Model
             }
         }
 
+        /// <summary>
+        /// Ismerőssel való közös program.
+        /// </summary>
+        /// <param name="index">Az ismerős sorszáma.</param>
         public void programWithAcquaintance(int index)
         {
-            People[index].Relationship += rnd.Next(2, 8);
+            People[index].Relationship += rnd.Next(4, 10); // kapunk valamennyi kapcsolatpontot
 
             if (People[index].Relationship > 100)
             {
@@ -988,46 +1039,63 @@ namespace LifeSim.Model
             OnProgramWithAcquaintanceEvent(People[index], index - 1);
         }
 
+        /// <summary>
+        /// Ismerőssel való összeveszés.
+        /// </summary>
         public void quarrelWithAcquaintance(Person p)
         {
-            p.Relationship -= rnd.Next(4, 12);
+            p.Relationship -= rnd.Next(6, 12);
 
-            OnQuarrelWithAcquaintanceEvent(p);
+            if (p.Relationship > 100)
+            {
+                p.Relationship = 100;
+            }
+
+            int index = People.IndexOf(p) - 1;
+
+            OnQuarrelWithAcquaintanceEvent(p, index);
         }
 
+        /// <summary>
+        /// Lottózás függvénye.
+        /// </summary>
         public void lottery()
         {
-            if (You.Money < 5000)
+            if (You.Money < 5000) // a lottószelvény 5000 forintba kerül, ha ez nincs meg, akkor nem tudunk lottózni
             {
                 OnNoMoneyForLotteryEvent();
                 return;
             }
-            You.Money -= 5000;
+            You.Money -= 5000; // levonódik az 5000 forint a pénzünkből
             int chance = rnd.Next(100);
-            if (chance == 42)
+            if (chance == 42) // a nyerés esélye 1/100, ha sikerül, akkor nyerünk egy random, magas pénzösszeget
             {
                 OnLotteryWinEvent();
                 You.Money += rnd.Next(2000000, 250000001);
             }
-            else
+            else // különben nem nyerünk semmit
             {
                 OnLotteryLoseEvent();
             }
             OnMoneyRefreshEvent();
         }
 
+        /// <summary>
+        /// Katonai misszió végén történő eseményeket szimuláló függvény.
+        /// </summary>
+        /// <param name="success">Sikeres volt-e a misszió.</param>
         public void endOfMission(bool success)
         {
-            if (success)
+            if (success) // ha sikeres volt, akkor a következők történnek:
             {
-                if (!CompletedAchievements.Contains(4))
+                if (!CompletedAchievements.Contains(4)) // ha még nincs meg az 5. achievement, akkor megkapjuk
                 {
                     saveAchievements(4);
                     CompletedAchievements.Add(4);
                 }
-                You.Money += rnd.Next(1000000, 4000001);
-                You.PromotionMeter += 15;
-                if (You.PromotionMeter >= 100)
+                You.Money += rnd.Next(1000000, 4000001); // kapunk valamennyi pénzt
+                You.PromotionMeter += 15; // közelebb kerülünk az előléptetéshez
+                if (You.PromotionMeter >= 100) // ha a Promotion Meter eléri a 100-at, akkor megkapjuk az előléptetést
                 {
                     You.CurrentJobLevel += 1;
                     You.PromotionMeter = 0;
@@ -1037,17 +1105,17 @@ namespace LifeSim.Model
                 }
                 OnMoneyRefreshEvent();
             }
-            else
+            else // különben:
             {
-                if (!CompletedAchievements.Contains(5))
+                if (!CompletedAchievements.Contains(5)) // ha még nincs meg a 6. achievement, akkor megkapjuk
                 {
                     saveAchievements(5);
                     CompletedAchievements.Add(5);
                 }
-                You.Health -= rnd.Next(25, 100);
-                if (You.Health <= 0)
+                You.Health -= rnd.Next(25, 100); // egészségünk csökken
+                if (You.Health <= 0) // ha eléri a 0-t, akkor meghalunk
                 {
-                    if (!CompletedAchievements.Contains(6))
+                    if (!CompletedAchievements.Contains(6)) // ha még nincs meg a 7.achievement, akkor megkapjuk
                     {
                         saveAchievements(6);
                         CompletedAchievements.Add(6);
@@ -1061,36 +1129,44 @@ namespace LifeSim.Model
             OnMilitaryMissionCompleteEvent();
         }
 
+        /// <summary>
+        /// Barátkozást szimuláló függvény.
+        /// </summary>
         public void makeFriend()
         {
-            int chance = rnd.Next(2);
-            if (chance == 0)
+            int chance = rnd.Next(2); // 50% esélyünk van összebarátkozni valakivel
+            if (chance == 0) // ha nem sikerül, akkor itt visszatér a függvény
             {
                 OnMakeFriendFailedEvent();
                 return;
             }
 
-            Gender gender = (Gender)rnd.Next(2);
+            Gender gender = (Gender)rnd.Next(2); // generálunk új barátunknak egy random nemet
             String name;
 
+            // ennek megfelelően kap egy keresztnevet is
             if (gender == 0)
                 name = femaleNames[rnd.Next(femaleNames.Count)];
             else
                 name = maleNames[rnd.Next(maleNames.Count)];
 
-            Person p = new Person(familyNames[rnd.Next(familyNames.Count)], name, rnd.Next(You.Age - 1, You.Age + 3), gender, rnd.Next(85, 101), rnd.Next(101), rnd.Next(101), rnd.Next(25, 101), rnd.Next(85, 101));
-            People.Add(p);
-            if (People.Count == 10 && !CompletedAchievements.Contains(9))
+            Person p = new Person(familyNames[rnd.Next(familyNames.Count)], name, rnd.Next(You.Age - 1, You.Age + 3), gender, rnd.Next(85, 101), rnd.Next(101), rnd.Next(101),
+                rnd.Next(25, 101), rnd.Next(85, 101));
+            People.Add(p); //hozzáadódik az emberek listájához
+            if (People.Count == 10 && !CompletedAchievements.Contains(9)) // ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
             {
                 saveAchievements(9);
                 CompletedAchievements.Add(9);
             }
-            OnMakeFriendSuccessEvent(p,People.Count - 1);
+            OnMakeFriendSuccessEvent(p, People.Count - 1);
         }
 
+        /// <summary>
+        /// Orvos meglátogatását szimuláló függvény.
+        /// </summary>
         public void visitDoctor()
         {
-            if(You.YourSicknesses.Count == 0)
+            if (You.YourSicknesses.Count == 0) // ha nincs egy betegség sem a betegségeink listájában, akkor az esemény üres stringeket kap paraméterül
             {
                 OnDoctorsVisitEvent("", "");
                 return;
@@ -1098,22 +1174,23 @@ namespace LifeSim.Model
             String sicknessString = "";
             String sicknessesHealed = "";
             int randomVariable;
-            foreach (Sickness s in You.YourSicknesses.ToList())
+            foreach (Sickness s in You.YourSicknesses.ToList()) // végignézzük az összes betegséget a betegségeink listájában
             {
                 sicknessString += s.Name + ", ";
                 randomVariable = rnd.Next(s.ChanceToHeal);
-                if (You.Age < 18 || You.Money >= 500000)
+                if (You.Age < 18 || You.Money >= 500000) // ha még nem töltöttük be a 18-at vagy van elég pénzünk:
                 {
-                    if (rnd.Next(s.ChanceToHeal) == randomVariable)
+                    if (rnd.Next(s.ChanceToHeal) == randomVariable) // ha a két randomszám ugyanaz, akkor az orvos meg tudja gyógyítani a betegséget
                     {
                         sicknessesHealed += s.Name + ", ";
-                        You.YourSicknesses.Remove(s);
+                        You.YourSicknesses.Remove(s); // kikerül a betegségek listájából
                     }
-                    if (You.Age >= 18)
+                    if (You.Age >= 18) // ha a játékos betöltötte már a 18-at, akkor a szükséges pénz levonódik tőle
                         You.Money -= 500000;
                 }
             }
 
+            // a diagnosztizált és a meggyógyított betegségeket összefűzzük stringekbe, hogy a nézetben könnyen ki lehessen őket írni
             sicknessString = sicknessString.Substring(0, sicknessString.Length - 2);
 
             if (sicknessesHealed.Length > 0)
@@ -1123,6 +1200,10 @@ namespace LifeSim.Model
             OnMoneyRefreshEvent();
         }
 
+        /// <summary>
+        /// Achievementek elmentésére szolgáló függvény.
+        /// </summary>
+        /// <param name="index">Az achievement sorszáma.</param>
         public void saveAchievements(int index)
         {
             if (persistence == null)
@@ -1131,6 +1212,10 @@ namespace LifeSim.Model
             persistence.AppendToFile("achievements.ach", index);
         }
 
+        /// <summary>
+        /// Achievementek betöltésére szolgáló függvény.
+        /// </summary>
+        /// <returns>Elért achievementek sorszámának listája.</returns>
         public List<int> loadAchievements()
         {
             if (persistence == null)
@@ -1139,14 +1224,18 @@ namespace LifeSim.Model
             return persistence.LoadAchievements("achievements.ach");
         }
 
+        /// <summary>
+        /// Játék mentésére szolgáló függvény.
+        /// </summary>
+        /// <param name="path">Elérési útvonal.</param>
         public void saveGame(String path)
         {
             if (persistence == null)
                 return;
 
             List<String> values = new List<String>();
-            values.Add(People.Count.ToString());
-            foreach (Person p in People)
+            values.Add(People.Count.ToString()); // eltároljuk, hogy hány ember szerepel jelenlegi játékunkban
+            foreach (Person p in People) // eltároljuk minden tulajdonságukat
             {
                 values.Add(p.FirstName);
                 values.Add(p.LastName);
@@ -1157,7 +1246,7 @@ namespace LifeSim.Model
                 values.Add(p.Appearance.ToString());
                 values.Add(p.Happiness.ToString());
                 values.Add(p.Relationship.ToString());
-                if (p == You)
+                if (p == You) // a játékos karakter exkluzív tulajdonságait, kapcsolatait is eltároljuk
                 {
                     values.Add(You.Money.ToString());
                     values.Add(Jobs.IndexOf(You.Job).ToString());
@@ -1209,7 +1298,7 @@ namespace LifeSim.Model
                 }
             }
             values.Add(childParentPairs.Count().ToString());
-            foreach (KeyValuePair<Person, List<Person>> rel in childParentPairs)
+            foreach (KeyValuePair<Person, List<Person>> rel in childParentPairs) // végül pedig a gyermek-szülő párokat is tároljuk
             {
                 values.Add(rel.Key.FirstName);
                 values.Add(rel.Key.LastName);
@@ -1237,18 +1326,24 @@ namespace LifeSim.Model
             persistence.SaveGame(path, values);
         }
 
+        /// <summary>
+        /// Játék betöltésére szolgáló függvény.
+        /// </summary>
+        /// <param name="path">Elérési útvonal.</param>
         public void loadGame(String path)
         {
             if (persistence == null)
                 return;
 
             People.Clear();
+            You.Children.Clear();
             childParentPairs.Clear();
             List<String> values = persistence.LoadGame(path);
             Job job;
             Home home;
             University uni;
 
+            // ha a munka, az otthon, vagy az egyetem helyén -1 szerepel a fájlban, akkor az a Default értékeket jelzi
             if (Int32.Parse(values[11]) == -1)
             {
                 job = DefaultJob;
@@ -1279,16 +1374,19 @@ namespace LifeSim.Model
             int currIndex = 0;
             int wordCount = 0;
 
-            for (int i = 0; i < Int32.Parse(values[0]); i++)
+            for (int i = 0; i < Int32.Parse(values[0]); i++) // végigmegyünk a listán, és minden szükséges adattagot feltöltünk
             {
                 if (i == 0)
                 {
-                    You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]), Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
+                    You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]),
+                        Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
                     currIndex = 14;
                     wordCount = 14;
                     for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
                     {
-                        Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+                        Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
+                            Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
+                            Int32.Parse(values[++currIndex]));
                         You.Children.Add(pers);
                         People.Add(pers);
                     }
@@ -1299,7 +1397,9 @@ namespace LifeSim.Model
                     }
                     else
                     {
-                        You.Partner = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+                        You.Partner = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
+                            Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
+                            Int32.Parse(values[++currIndex]));
                         wordCount += 9;
                     }
                     You.CurrentJobLevel = Int32.Parse(values[++currIndex]);
@@ -1325,7 +1425,9 @@ namespace LifeSim.Model
                 }
                 else
                 {
-                    Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]));
+                    Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
+                        Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
+                        Int32.Parse(values[++currIndex]));
 
                     if (!You.Children.Exists(x => x.FirstName == pers.FirstName && x.LastName == pers.LastName))
                     {
@@ -1337,11 +1439,15 @@ namespace LifeSim.Model
             ++currIndex;
             for (int i = 0; i < Int32.Parse(values[wordCount]); i++)
             {
-                childParentPairs.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex])), new List<Person>());
+                childParentPairs.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
+                    Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
+                    Int32.Parse(values[++currIndex])), new List<Person>());
                 ++currIndex;
                 for (int j = 0; j < Int32.Parse(values[wordCount + 10]); j++)
                 {
-                    childParentPairs.Last().Value.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex])));
+                    childParentPairs.Last().Value.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]),
+                        (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
+                        Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex])));
                 }
             }
         }
@@ -1350,8 +1456,14 @@ namespace LifeSim.Model
 
         #region Private methods
 
+        /// <summary>
+        /// Függvény, ami a kapcsolat esélyét számolja ki.
+        /// </summary>
+        /// <param name="crush">Potenciális párunk.</param>
+        /// <returns>A kapcsolat esélye.</returns>
         private int chanceOfMutualLove(Person crush)
         {
+            // a kinézet- és intelligenciabeli különbségeket veszi figyelembe, ez minél inkább a mi javunkra szól, annál nagyobb lesz az esély
             int appearanceDifference = You.Appearance - crush.Appearance;
             int intelligenceDifference = You.Intelligence - crush.Intelligence;
             if (appearanceDifference < -40 || intelligenceDifference < -40)
@@ -1368,16 +1480,28 @@ namespace LifeSim.Model
                 return 100;
         }
 
+        /// <summary>
+        /// Kezdő statisztika kiszámolása.
+        /// </summary>
+        /// <param name="stat1">Első érték.</param>
+        /// <param name="stat2">Második érték.</param>
+        /// <returns>A paraméterekből kiszámolt statisztika.</returns>
         private int calculateStartingStat(int stat1, int stat2)
         {
-            return (stat1 + stat2) / 2 + rnd.Next(-10, 11);
+            return (stat1 + stat2) / 2 + rnd.Next(-10, 11); //a két érték átlaga + egy random szám
         }
 
+        /// <summary>
+        /// Egészség kiszámolása.
+        /// </summary>
+        /// <param name="p">A személy, akinek az egészségét számoljuk.</param>
+        /// <returns>Egészségbeli változás mértéke.</returns>
         private int calculateHealth(Person p)
         {
             int min;
             int max;
             
+            // a személy boldogságától függően kapunk egy alap min és max értéket
             if (p.Happiness > 80 && p.Happiness <= 100)
             {
                 min = -4;
@@ -1408,6 +1532,7 @@ namespace LifeSim.Model
                 max = -2;
             }
 
+            // ehhez még hozzájön a személy kora is, minél fiatalabb, annál előnyösebb ez az egészségére nézve
             if (p.Age < 18)
             {
                 min += 5;
@@ -1431,6 +1556,8 @@ namespace LifeSim.Model
                 min -= 4;
                 max -= 4;
             }
+
+            // végül pedig ha a játékos karaktert nézzük, ő az elkapott betegségei függvényében is veszíthet ezekből az értékekből
             if (p == You)
             {
                 foreach (Sickness s in You.YourSicknesses)
@@ -1440,22 +1567,28 @@ namespace LifeSim.Model
                 }
             }
 
+            // ha véletlenül a minimum nagyobb lenne, mint a maximum, akkor a minimumot a maximumnál 1-gyel kisebb értékre állítja
             if (min >= max)
             {
                 min = max - 1;
             }
 
-            return rnd.Next(min, max);
+            return rnd.Next(min, max); // min és max közötti random számot térít vissza
         }
 
+        /// <summary>
+        /// Boldogság kiszámolása.
+        /// </summary>
+        /// <param name="p">A személy, akinek a boldogságát számoljuk.</param>
+        /// <returns>Boldogságbeli változás mértéke.</returns>
         private int calculateHappiness(Person p)
         {
             int min = -4;
             int max = 6;
 
+            // ha nem a játékos karaktert nézzük, akkor egyszerűen csak egy random generált szám lesz a változás mértéke
             if (p != You)
             {
-                Debug.Write("asd");
                 if (p.Age < 18)
                     return rnd.Next(min, max);
                 else
@@ -1465,14 +1598,17 @@ namespace LifeSim.Model
             int averageRelationship = 0;
             int count = People.Count();
 
+            // összeadja, hogy a játékos milyen kapcsolatot ápol ismerőseivel (ez alapból 0-ra van állítva, ha nincs ismerős, akkor marad is ennyi)
             foreach (Person other in People)
             {
                 averageRelationship += other.Relationship;
             }
 
+            // ha van legalább egy ismerőse a játékosnak, akkor az előbb kapott értéket elosztja az ismerősök számával
             if (count > 0)
                 averageRelationship /= count;
 
+            // ennek az értéknek a függvényében számolódik ki a boldogságbeli változás mértéke (minél nagyobb az átlag kapcsolat pont, annál több boldogságot kaphat a játékos)
             if (averageRelationship > 80 && averageRelationship <= 100)
             {
                 min = 1;
@@ -1517,9 +1653,14 @@ namespace LifeSim.Model
             return rnd.Next(min, max);
         }
 
+        /// <summary>
+        /// Véletlenszerű betegség elkapása.
+        /// </summary>
         private void randomSickness()
         {
-            if (rnd.Next(10) == 4)
+            // ha elkapunk egy betegséget, akkor csökken az egészségünk (a maradandóaknál egészen addig, amíg az orvos nem gyógyítja őket, ezért egy listában tároljuk őket)
+            // ha a játékos karakter egészsége eléri a 0-t, akkor természetesen meghal
+            if (rnd.Next(10) == 4) // megfázás (1/10 esély, nem maradandó)
             {
                 You.Health -= Sicknesses[0].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[0]);
@@ -1529,13 +1670,13 @@ namespace LifeSim.Model
                 return;
             }
 
-            if (rnd.Next(200) == 60 && !You.YourSicknesses.Contains(Sicknesses[1]))
+            if (rnd.Next(200) == 60 && !You.YourSicknesses.Contains(Sicknesses[1])) // rák (1/200 esély, maradandó)
             {
                 You.Health -= Sicknesses[1].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[1]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[1]);
-                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1)) // ha ezzel együtt 2 betegségünk is van, és még nincs meg a 2. achievement, akkor megkapjuk
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
@@ -1545,13 +1686,13 @@ namespace LifeSim.Model
                 return;
             }
 
-            if (rnd.Next(60) == 10 && !You.YourSicknesses.Contains(Sicknesses[2]))
+            if (rnd.Next(60) == 10 && !You.YourSicknesses.Contains(Sicknesses[2])) // magas vérnyomás (1/60 esély, maradandó)
             {
                 You.Health -= Sicknesses[2].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[2]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[2]);
-                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1)) // ha ezzel együtt 2 betegségünk is van, és még nincs meg a 2. achievement, akkor megkapjuk
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
@@ -1561,13 +1702,13 @@ namespace LifeSim.Model
                 return;
             }
 
-            if (rnd.Next(58) == 12 && !You.YourSicknesses.Contains(Sicknesses[3]))
+            if (rnd.Next(58) == 12 && !You.YourSicknesses.Contains(Sicknesses[3])) // COVID-19 (1/58 esély, maradandó)
             {
                 You.Health -= Sicknesses[3].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[3]);
                 OnHealthRefreshEvent();
                 You.YourSicknesses.Add(Sicknesses[3]);
-                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1))
+                if (You.YourSicknesses.Count >= 2 && !CompletedAchievements.Contains(1)) // ha ezzel együtt 2 betegségünk is van, és még nincs meg a 2. achievement, akkor megkapjuk
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
@@ -1582,195 +1723,324 @@ namespace LifeSim.Model
 
         #region Private event methods
 
+        /// <summary>
+        /// Halál eseményének kiváltása.
+        /// </summary>
+        /// <param name="p">A halott személy.</param>
         private void OnDeathEvent(Person p)
         {
             DeathEvent?.Invoke(this, new LifeSimEventArgs(p));
         }
 
+        /// <summary>
+        /// Munkaváltozás eseményének kiváltása.
+        /// </summary>
         private void OnJobChangedEvent()
         {
             JobChangedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Lakásváltozás eseményének kiváltása.
+        /// </summary>
         private void OnHomeChangedEvent()
         {
             HomeChangedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Egyetemváltozás eseményének kiváltása magas intelligenciával.
+        /// </summary>
         private void OnSmartUniChangedEvent()
         {
             SmartUniChangedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Egyetemváltozás eseményének kiváltása alacsony intelligenciával.
+        /// </summary>
+        /// <param name="CostOfUni">Az egyetem költsége.</param>
         private void OnDumbUniChangedEvent(int CostOfUni)
         {
             DumbUniChangedEvent?.Invoke(this, new LifeSimEventArgs(CostOfUni));
         }
 
+        /// <summary>
+        /// Egyetem elvégzés eseményének kiváltása magas intelligenciával.
+        /// </summary>
         private void OnSmartGraduateEvent()
         {
             SmartGraduateEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Egyetem elvégzés eseményének kiváltása alacsony intelligenciával.
+        /// </summary>
+        /// <param name="CostPerYear">Évente visszafizetendő összeg.</param>
+        /// <param name="YearsToPayBack">Hány évig tart visszafizetni.</param>
         private void OnDumbGraduateEvent(int CostPerYear, int YearsToPayBack)
         {
             DumbGraduateEvent?.Invoke(this, new LifeSimEventArgs(CostPerYear, YearsToPayBack));
         }
 
+        /// <summary>
+        /// Egészség változás eseményének kiváltása.
+        /// </summary>
         private void OnHealthRefreshEvent()
         {
             HealthRefreshEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Intelligencia változás eseményének kiváltása.
+        /// </summary>
         private void OnIntelligenceRefreshEvent()
         {
             IntelligenceRefreshEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Boldogság változás eseményének kiváltása.
+        /// </summary>
         private void OnHappinessRefreshEvent()
         {
             HappinessRefreshEvent?.Invoke(this, new EventArgs());
         }
+
+        /// <summary>
+        /// Kinézet változás eseményének kiváltása.
+        /// </summary>
         private void OnAppearanceRefreshEvent()
         {
             AppearanceRefreshEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Pénz változás eseményének kiváltása.
+        /// </summary>
         private void OnMoneyRefreshEvent()
         {
             MoneyRefreshEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Kapcsolat sikertelenség eseményének kiváltása.
+        /// </summary>
         private void OnRelationshipFailEvent()
         {
             RelationshipFailEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Kapcsolat sikeresség eseményének kiváltása.
+        /// </summary>
         private void OnRelationshipSuccessEvent()
         {
             RelationshipSuccessEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Különválás eseményének kiváltása.
+        /// </summary>
+        /// <param name="death">Halál miatt történt-e a szétválás.</param>
         private void OnBreakUpEvent(bool death)
         {
             BreakUpEvent?.Invoke(this, new LifeSimEventArgs(death));
         }
 
+        /// <summary>
+        /// Gyermekkel való próbálkozás sikertelenségéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnChildFailEvent()
         {
             ChildFailEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Gyermekkel való próbálkozás sikerességéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnChildSuccessEvent()
         {
             ChildSuccessEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Gyermekkel megszületéséhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnChildBornEvent()
         {
             ChildBornEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Munkából való kilépés eseményének kiváltása.
+        /// </summary>
         private void OnQuitJobEvent()
         {
             QuitJobEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Előléptetés eseményének kiváltása.
+        /// </summary>
         private void OnPromotionEvent()
         {
             PromotionEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Nyugdíjba vonulás eseményének kiváltása.
+        /// </summary>
         private void OnRetirementEvent()
         {
             RetirementEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Vakáció sikertelenségéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnVacationFailedEvent()
         {
             VacationFailedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Vakáció sikerességéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnVacationSuccessEvent()
         {
             VacationSuccessEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Edzés sikerességéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnWorkOutSuccessEvent()
         {
             WorkOutSuccessEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Edzés sikertelenségéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnWorkOutFailedEvent()
         {
             WorkOutFailedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Olvasás sikerességéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnReadSuccessEvent()
         {
             ReadSuccessEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Olvasás sikertelenségéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnReadFailedEvent()
         {
             ReadFailedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Közös program eseményének kiváltása.
+        /// </summary>
+        /// <param name="p">A személy, akivel a közös programot folytattuk.</param>
+        /// <param name="persind">A személy sorszáma a nézetben.</param>
         private void OnProgramWithAcquaintanceEvent(Person p, int persind)
         {
             ProgramWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
-        private void OnQuarrelWithAcquaintanceEvent(Person p)
+        /// <summary>
+        /// Összeveszés eseményének kiváltása.
+        /// </summary>
+        /// <param name="p">A személy, akivel összeveszünk.</param>
+        /// <param name="persind">A személy sorszáma a nézetben.</param>
+        private void OnQuarrelWithAcquaintanceEvent(Person p, int persind)
         {
-            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p));
+            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
+        /// <summary>
+        /// Esemény, ami akkor váltódik ki, ha nincs pénz lottószelvényre.
+        /// </summary>
         private void OnNoMoneyForLotteryEvent()
         {
             NoMoneyForLotteryEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Lottónyerés eseményének kiváltása.
+        /// </summary>
         private void OnLotteryWinEvent()
         {
             LotteryWinEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Lottóvesztés eseményének kiváltása.
+        /// </summary>
         private void OnLotteryLoseEvent()
         {
             LotteryLoseEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Katonai küldetés eseményének kiváltása.
+        /// </summary>
         private void OnMilitaryMissionEvent()
         {
             MilitaryMissionEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Barátkozás sikertelenségéhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnMakeFriendFailedEvent()
         {
             MakeFriendFailedEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Barátkozás sikerességéhez tartozó esemény kiváltása.
+        /// </summary>
+        /// <param name="p">A személy, akivel összebarátkoztunk.</param>
+        /// <param name="persind">A személy sorszáma a nézetben.</param>
         private void OnMakeFriendSuccessEvent(Person p, int persind)
         {
             MakeFriendSuccessEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
         }
 
+        /// <summary>
+        /// Katonai küldetés teljesítéséhez tartozó esemény kiváltása.
+        /// </summary>
         private void OnMilitaryMissionCompleteEvent()
         {
             MilitaryMissionCompleteEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Repülőgép-szerencsétlenség eseményének kiváltása.
+        /// </summary>
         private void OnPlaneCrashEvent()
         {
             PlaneCrashEvent?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Betegség elkapásához tartozó esemény kiváltása.
+        /// </summary>
         private void OnCaughtSicknessEvent(Sickness Sickness)
         {
             CaughtSicknessEvent?.Invoke(this, new LifeSimEventArgs(Sickness));
         }
 
+        /// <summary>
+        /// Orvos meglátogatásához tartozó esemény kiváltása.
+        /// </summary>
         private void OnDoctorsVisitEvent(String Sicknesses, String SicknessesHealed)
         {
             DoctorsVisitEvent?.Invoke(this, new LifeSimEventArgs(Sicknesses, SicknessesHealed));

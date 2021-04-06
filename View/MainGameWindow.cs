@@ -423,6 +423,8 @@ namespace LifeSim.View
         private void Model_QuarrelWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Összevesztél " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
+            eventsRichTextBox.AppendText("Összevesztél " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString() + Environment.NewLine + Environment.NewLine);
+            acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
             acquaintanceListBox.Update();
         }
 
