@@ -645,6 +645,7 @@
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGameWindow_FormClosing);
+            this.Load += new System.EventHandler(this.MainGameWindow_Load);
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();
             this.jobPanel.ResumeLayout(false);
