@@ -83,6 +83,7 @@ namespace LifeSim.View
             model.PlaneCrashEvent += new EventHandler<EventArgs>(Model_PlaneCrashEvent);
             model.CaughtSicknessEvent += new EventHandler<LifeSimEventArgs>(Model_CaughtSicknessEvent);
             model.DoctorsVisitEvent += new EventHandler<LifeSimEventArgs>(Model_DoctorsVisitEvent);
+            model.AchievementUnlockedEvent += new EventHandler<LifeSimEventArgs>(Model_AchievementUnlockedEvent);
 
             refreshControls();
 
@@ -674,6 +675,14 @@ namespace LifeSim.View
                 e.SicknessesHealed + Environment.NewLine + Environment.NewLine); // kiírjuk a gyógyított betegségeket
         }
 
+        /// <summary>
+        /// Achievement feloldásának eseménykezelője.
+        /// </summary>
+        private void Model_AchievementUnlockedEvent(object sender, LifeSimEventArgs e)
+        {
+            MessageBox.Show("Gratulálok! Elérted a következő teljesítményt: " + e.AchievementName + "!");
+        }
+
         #endregion
 
         #region Control event handlers
@@ -1098,6 +1107,15 @@ namespace LifeSim.View
         }
 
         /// <summary>
+        /// Achievement menü gomb eseménykezelője.
+        /// </summary>
+        private void achievementMenuItem_Click(object sender, EventArgs e)
+        {
+            AchievementsWindow ach = new AchievementsWindow(model);
+            ach.Show();
+        }
+
+        /// <summary>
         /// RichTextBox szövegének változásához tartozó eseménykezelő.
         /// </summary>
         private void eventsRichTextBox_TextChanged(object sender, EventArgs e)
@@ -1116,18 +1134,39 @@ namespace LifeSim.View
         /// </summary>
         private void refreshControls()
         {
+            ageButton.Enabled = true;
             // kortól függően gombok be- és kikapcsolása
-            if (model.You.Age >= 3)
+            if (model.You.Age < 3)
+                acquaintancePanelButton.Enabled = false;
+            else
                 acquaintancePanelButton.Enabled = true;
-            if (model.You.Age >= 12)
+            if (model.You.Age < 12)
+            {
+                leisurePanelButton.Enabled = false;
+                workOutButton.Enabled = false;
+                readButton.Enabled = false;
+            }
+            else
             {
                 leisurePanelButton.Enabled = true;
                 workOutButton.Enabled = true;
                 readButton.Enabled = true;
             }
-            if (model.You.Age >= 14)
+            if (model.You.Age < 14)
+                lovePanelButton.Enabled = false;
+            else
                 lovePanelButton.Enabled = true;
-            if (model.You.Age >= 18)
+            if (model.You.Age < 18)
+            {
+                jobPanelButton.Enabled = false;
+                homePanelButton.Enabled = false;
+                universityPanelButton.Enabled = false;
+                acquaintancePanelButton.Enabled = false;
+                lotteryButton.Enabled = false;
+                tryForChildButton.Enabled = false;
+                vacationButton.Enabled = false;
+            }
+            else
             {
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
@@ -1145,16 +1184,34 @@ namespace LifeSim.View
                 jobComboBox.Visible = false;
                 tryJobButton.Visible = false;
             }
+            else
+            {
+                quitJobButton.Visible = false;
+                jobComboBox.Visible = true;
+                tryJobButton.Visible = true;
+            }
             if (model.You.Home != model.DefaultHome)
             {
                 homeComboBox.Visible = false;
                 buyHomeButton.Visible = false;
+            }
+            else
+            {
+                homeComboBox.Visible = true;
+                buyHomeButton.Visible = true;
             }
             if (model.You.University != model.DefaultUniversity)
             {
                 applyToUniButton.Visible = false;
                 universityComboBox.Visible = false;
             }
+            else
+            {
+                applyToUniButton.Visible = true;
+                universityComboBox.Visible = true;
+            }
+            homeLabel.Text = model.You.Home.Type;
+            universityLabel.Text = model.You.University.Type;
 
             // labelek frissítése
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;

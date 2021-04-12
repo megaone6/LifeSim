@@ -325,6 +325,11 @@ namespace LifeSim.Model
         /// </summary>
         public event EventHandler<LifeSimEventArgs> DoctorsVisitEvent;
 
+        /// <summary>
+        /// Achievement megszerzésének eseménye.
+        /// </summary>
+        public event EventHandler<LifeSimEventArgs> AchievementUnlockedEvent;
+
         #endregion
 
         #region Constructor
@@ -386,6 +391,7 @@ namespace LifeSim.Model
             if (!File.Exists("achievements.ach")) // ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
+                OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
             CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
@@ -439,7 +445,7 @@ namespace LifeSim.Model
             Achievements = new Dictionary<string, string> {
                 { "Genesis", "Kezdd el az első életedet!" },
                 { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" },
-                { "Tiszavirág", "Élj maximum 10 évig egy karakterrel!" },
+                { "Tiszavirág", "Élj maximum 15 évig egy karakterrel!" },
                 { "Őskövület", "Élj minimum 90 évig egy karakterrel!" },
                 { "Tango down!", "Sikeresen teljesíts egy katonai missziót!" },
                 { "WIA", "Bukj el egy katonai missziót!" },
@@ -450,6 +456,7 @@ namespace LifeSim.Model
             if (!File.Exists("achievements.ach")) // ha nem létezik az achievement fájl, akkor létrehozzuk és beleírunk egy 0-t (ez az első achievementet jelképezi)
             {
                 saveAchievements(0);
+                OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
             CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
@@ -562,27 +569,29 @@ namespace LifeSim.Model
 
                 if (p.Age == 110 || p.Health <= 0) // ha az adott személy egészsége elérte a 0-t, vagy a kora a 110-et, akkor meghal
                 {
-                    p.Health = 0;
-                    People.Remove(p); // törlődik az emberek listájából
-                    OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
-                    if (p == You.Partner) // ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
-                    {
-                        breakUp(true);
-                    }
                     if (p == You) // ha a játékos karakter hal meg
                     {
-                        if (p.Age <= 10 && !CompletedAchievements.Contains(2)) // ha a játékos legfeljebb 10 éves, és még nincs meg a 3. achievement, akkor megkapjuk
+                        if (p.Age <= 15 && !CompletedAchievements.Contains(2)) // ha a játékos legfeljebb 15 éves, és még nincs meg a 3. achievement, akkor megkapjuk
                         {
                             saveAchievements(2);
                             CompletedAchievements.Add(2);
+                            OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(2));
                         }
                         else if (p.Age >= 90 && !CompletedAchievements.Contains(3)) // ha a játékos legalább 90 éves, és még nincs meg a 4. achievement, akkor megkapjuk
                         {
                             saveAchievements(3);
                             CompletedAchievements.Add(3);
+                            OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(3));
                         }
-                        return;
                     }
+                    else if (p == You.Partner) // ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
+                    {
+                        breakUp(true);
+                    }
+                    p.Health = 0;
+                    People.Remove(p); // törlődik az emberek listájából
+                    OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
+                    return;
                 }
             }
 
@@ -644,6 +653,7 @@ namespace LifeSim.Model
                 {
                     saveAchievements(9);
                     CompletedAchievements.Add(9);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(9));
                 }
                 OnChildBornEvent();
             }
@@ -654,11 +664,13 @@ namespace LifeSim.Model
                 {
                     saveAchievements(7);
                     CompletedAchievements.Add(7);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(7));
                 }
                 if ((You.Job == Jobs[3] || You.Job == Jobs[4]) && !CompletedAchievements.Contains(8)) // ha katonák voltunk, és még nincs meg a 9. achievement, akkor megkapjuk
                 {
                     saveAchievements(8);
                     CompletedAchievements.Add(8);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(8));
                 }
                 int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) * 0.67));
                 You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
@@ -888,6 +900,7 @@ namespace LifeSim.Model
                 {
                     saveAchievements(9);
                     CompletedAchievements.Add(9);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(9));
                 }
                 PotentialPartner = null;
                 childParentPairs.Add(You.Partner, new List<Person>());
@@ -1046,9 +1059,9 @@ namespace LifeSim.Model
         {
             p.Relationship -= rnd.Next(6, 12);
 
-            if (p.Relationship > 100)
+            if (p.Relationship < 0)
             {
-                p.Relationship = 100;
+                p.Relationship = 0;
             }
 
             int index = People.IndexOf(p) - 1;
@@ -1092,6 +1105,7 @@ namespace LifeSim.Model
                 {
                     saveAchievements(4);
                     CompletedAchievements.Add(4);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(4));
                 }
                 You.Money += rnd.Next(1000000, 4000001); // kapunk valamennyi pénzt
                 You.PromotionMeter += 15; // közelebb kerülünk az előléptetéshez
@@ -1111,6 +1125,7 @@ namespace LifeSim.Model
                 {
                     saveAchievements(5);
                     CompletedAchievements.Add(5);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(5));
                 }
                 You.Health -= rnd.Next(25, 100); // egészségünk csökken
                 if (You.Health <= 0) // ha eléri a 0-t, akkor meghalunk
@@ -1119,6 +1134,7 @@ namespace LifeSim.Model
                     {
                         saveAchievements(6);
                         CompletedAchievements.Add(6);
+                        OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(6));
                     }
                     People.Remove(You);
                     OnDeathEvent(You);
@@ -1157,6 +1173,7 @@ namespace LifeSim.Model
             {
                 saveAchievements(9);
                 CompletedAchievements.Add(9);
+                OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(9));
             }
             OnMakeFriendSuccessEvent(p, People.Count - 1);
         }
@@ -1680,6 +1697,7 @@ namespace LifeSim.Model
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(1));
                 }
                 if (You.Health < 0)
                     OnDeathEvent(You);
@@ -1696,6 +1714,7 @@ namespace LifeSim.Model
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(1));
                 }
                 if (You.Health < 0)
                     OnDeathEvent(You);
@@ -1712,6 +1731,7 @@ namespace LifeSim.Model
                 {
                     CompletedAchievements.Add(1);
                     saveAchievements(1);
+                    OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(1));
                 }
                 if (You.Health < 0)
                     OnDeathEvent(You);
@@ -2044,6 +2064,14 @@ namespace LifeSim.Model
         private void OnDoctorsVisitEvent(String Sicknesses, String SicknessesHealed)
         {
             DoctorsVisitEvent?.Invoke(this, new LifeSimEventArgs(Sicknesses, SicknessesHealed));
+        }
+
+        /// <summary>
+        /// Achievement teljesítéséhez tartozó esemény kiváltása.
+        /// </summary>
+        private void OnAchievementUnlockedEvent(String achName)
+        {
+            AchievementUnlockedEvent?.Invoke(this, new LifeSimEventArgs(achName));
         }
 
         #endregion

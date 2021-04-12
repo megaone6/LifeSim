@@ -83,6 +83,7 @@
             this.loadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.achievementMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -580,7 +581,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileMenuItem});
+            this.fileMenuItem,
+            this.achievementMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -617,6 +619,13 @@
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Játékmentések|*.sav";
+            // 
+            // achievementMenuItem
+            // 
+            this.achievementMenuItem.Name = "achievementMenuItem";
+            this.achievementMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.achievementMenuItem.Text = "Achievementek";
+            this.achievementMenuItem.Click += new System.EventHandler(this.achievementMenuItem_Click);
             // 
             // MainGameWindow
             // 
@@ -721,5 +730,6 @@
         private System.Windows.Forms.ToolStripMenuItem loadMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem achievementMenuItem;
     }
 }

@@ -48,6 +48,11 @@ namespace LifeSim.Model
         public String SicknessesHealed { get; }
 
         /// <summary>
+        /// Az elért teljesítmény neve.
+        /// </summary>
+        public String AchievementName { get; }
+
+        /// <summary>
         /// LifeSim eseményargumentum példányosításai.
         /// </summary>
 
@@ -97,6 +102,12 @@ namespace LifeSim.Model
         {
             this.Sicknesses = Sicknesses;
             this.SicknessesHealed = SicknessesHealed;
+        }
+
+        /// <param name="AchievementName">Elért achievement.</param>
+        public LifeSimEventArgs(String AchievementName)
+        {
+            this.AchievementName = AchievementName;
         }
     }
 }

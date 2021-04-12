@@ -74,7 +74,7 @@ namespace LifeSim.View
             {
                 Button btn = new Button();
                 btn.Name = "btn" + i.ToString();
-                btn.Size = new System.Drawing.Size(40, 40);
+                btn.Size = new Size(40, 40);
                 btn.UseVisualStyleBackColor = true;
                 btn.BackColor = Color.Gray;
 
