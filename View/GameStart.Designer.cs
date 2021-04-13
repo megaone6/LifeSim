@@ -110,7 +110,9 @@
             this.Controls.Add(this.inputName);
             this.Controls.Add(this.inputButton);
             this.Controls.Add(this.randomButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "GameStart";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Válassz!";
             this.ResumeLayout(false);
             this.PerformLayout();

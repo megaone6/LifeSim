@@ -81,9 +81,9 @@
             this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.achievementMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.achievementMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -133,33 +133,40 @@
             // 
             // healthLabel
             // 
-            this.healthLabel.AutoSize = true;
-            this.healthLabel.Location = new System.Drawing.Point(643, 16);
+            this.healthLabel.Image = ((System.Drawing.Image)(resources.GetObject("healthLabel.Image")));
+            this.healthLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.healthLabel.Location = new System.Drawing.Point(625, 16);
             this.healthLabel.Name = "healthLabel";
-            this.healthLabel.Size = new System.Drawing.Size(78, 15);
+            this.healthLabel.Size = new System.Drawing.Size(115, 15);
             this.healthLabel.TabIndex = 4;
             this.healthLabel.Text = "Egészség: 100";
+            this.healthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // intelligenceLabel
             // 
-            this.intelligenceLabel.AutoSize = true;
-            this.intelligenceLabel.Location = new System.Drawing.Point(643, 44);
+            this.intelligenceLabel.Image = ((System.Drawing.Image)(resources.GetObject("intelligenceLabel.Image")));
+            this.intelligenceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.intelligenceLabel.Location = new System.Drawing.Point(625, 38);
             this.intelligenceLabel.Name = "intelligenceLabel";
-            this.intelligenceLabel.Size = new System.Drawing.Size(77, 15);
+            this.intelligenceLabel.Size = new System.Drawing.Size(115, 27);
             this.intelligenceLabel.TabIndex = 5;
-            this.intelligenceLabel.Text = "Intelligencia: ";
+            this.intelligenceLabel.Text = "Intelligencia:";
+            this.intelligenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // appearanceLabel
             // 
-            this.appearanceLabel.AutoSize = true;
-            this.appearanceLabel.Location = new System.Drawing.Point(643, 71);
+            this.appearanceLabel.Image = ((System.Drawing.Image)(resources.GetObject("appearanceLabel.Image")));
+            this.appearanceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.appearanceLabel.Location = new System.Drawing.Point(625, 71);
             this.appearanceLabel.Name = "appearanceLabel";
-            this.appearanceLabel.Size = new System.Drawing.Size(51, 15);
+            this.appearanceLabel.Size = new System.Drawing.Size(115, 23);
             this.appearanceLabel.TabIndex = 6;
             this.appearanceLabel.Text = "Kinézet: ";
+            this.appearanceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mainPanel
             // 
+            this.mainPanel.BackColor = System.Drawing.SystemColors.Control;
             this.mainPanel.Controls.Add(this.eventsRichTextBox);
             this.mainPanel.Controls.Add(this.happinessLabel);
             this.mainPanel.Controls.Add(this.moneyLabel);
@@ -186,12 +193,14 @@
             // 
             // happinessLabel
             // 
-            this.happinessLabel.AutoSize = true;
-            this.happinessLabel.Location = new System.Drawing.Point(643, 97);
+            this.happinessLabel.Image = ((System.Drawing.Image)(resources.GetObject("happinessLabel.Image")));
+            this.happinessLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.happinessLabel.Location = new System.Drawing.Point(625, 100);
             this.happinessLabel.Name = "happinessLabel";
-            this.happinessLabel.Size = new System.Drawing.Size(69, 15);
+            this.happinessLabel.Size = new System.Drawing.Size(115, 23);
             this.happinessLabel.TabIndex = 10;
             this.happinessLabel.Text = "Boldogság: ";
+            this.happinessLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // moneyLabel
             // 
@@ -253,12 +262,17 @@
             // 
             // jobPanelButton
             // 
+            this.jobPanelButton.AutoSize = true;
             this.jobPanelButton.Enabled = false;
+            this.jobPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("jobPanelButton.Image")));
+            this.jobPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.jobPanelButton.Location = new System.Drawing.Point(20, 375);
             this.jobPanelButton.Name = "jobPanelButton";
-            this.jobPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.jobPanelButton.Size = new System.Drawing.Size(75, 25);
             this.jobPanelButton.TabIndex = 0;
             this.jobPanelButton.Text = "Munka";
+            this.jobPanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.jobPanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.jobPanelButton.UseVisualStyleBackColor = true;
             this.jobPanelButton.Click += new System.EventHandler(this.jobPanelButton_Click);
             // 
@@ -267,7 +281,7 @@
             this.mainPanelButton.Enabled = false;
             this.mainPanelButton.Location = new System.Drawing.Point(114, 375);
             this.mainPanelButton.Name = "mainPanelButton";
-            this.mainPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.mainPanelButton.Size = new System.Drawing.Size(75, 25);
             this.mainPanelButton.TabIndex = 9;
             this.mainPanelButton.Text = "Fő menü";
             this.mainPanelButton.UseVisualStyleBackColor = true;
@@ -275,12 +289,17 @@
             // 
             // homePanelButton
             // 
+            this.homePanelButton.AutoSize = true;
             this.homePanelButton.Enabled = false;
-            this.homePanelButton.Location = new System.Drawing.Point(213, 375);
+            this.homePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("homePanelButton.Image")));
+            this.homePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.homePanelButton.Location = new System.Drawing.Point(208, 375);
             this.homePanelButton.Name = "homePanelButton";
-            this.homePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.homePanelButton.Size = new System.Drawing.Size(75, 25);
             this.homePanelButton.TabIndex = 10;
             this.homePanelButton.Text = "Lakás";
+            this.homePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.homePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.homePanelButton.UseVisualStyleBackColor = true;
             this.homePanelButton.Click += new System.EventHandler(this.homePanelButton_Click);
             // 
@@ -323,12 +342,17 @@
             // 
             // leisurePanelButton
             // 
+            this.leisurePanelButton.AutoSize = true;
             this.leisurePanelButton.Enabled = false;
-            this.leisurePanelButton.Location = new System.Drawing.Point(310, 375);
+            this.leisurePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("leisurePanelButton.Image")));
+            this.leisurePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.leisurePanelButton.Location = new System.Drawing.Point(298, 375);
             this.leisurePanelButton.Name = "leisurePanelButton";
-            this.leisurePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.leisurePanelButton.Size = new System.Drawing.Size(87, 25);
             this.leisurePanelButton.TabIndex = 12;
             this.leisurePanelButton.Text = "Szabadidő";
+            this.leisurePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.leisurePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.leisurePanelButton.UseVisualStyleBackColor = true;
             this.leisurePanelButton.Click += new System.EventHandler(this.leisurePanelButton_Click);
             // 
@@ -487,34 +511,49 @@
             // 
             // universityPanelButton
             // 
+            this.universityPanelButton.AutoSize = true;
             this.universityPanelButton.Enabled = false;
-            this.universityPanelButton.Location = new System.Drawing.Point(403, 374);
+            this.universityPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("universityPanelButton.Image")));
+            this.universityPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.universityPanelButton.Location = new System.Drawing.Point(400, 374);
             this.universityPanelButton.Name = "universityPanelButton";
-            this.universityPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.universityPanelButton.Size = new System.Drawing.Size(79, 25);
             this.universityPanelButton.TabIndex = 14;
             this.universityPanelButton.Text = "Egyetem";
+            this.universityPanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.universityPanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.universityPanelButton.UseVisualStyleBackColor = true;
             this.universityPanelButton.Click += new System.EventHandler(this.universityPanelButton_Click);
             // 
             // lovePanelButton
             // 
+            this.lovePanelButton.AutoSize = true;
             this.lovePanelButton.Enabled = false;
-            this.lovePanelButton.Location = new System.Drawing.Point(499, 374);
+            this.lovePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("lovePanelButton.Image")));
+            this.lovePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lovePanelButton.Location = new System.Drawing.Point(494, 374);
             this.lovePanelButton.Name = "lovePanelButton";
-            this.lovePanelButton.Size = new System.Drawing.Size(75, 23);
+            this.lovePanelButton.Size = new System.Drawing.Size(80, 25);
             this.lovePanelButton.TabIndex = 17;
             this.lovePanelButton.Text = "Szerelem";
+            this.lovePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lovePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.lovePanelButton.UseVisualStyleBackColor = true;
             this.lovePanelButton.Click += new System.EventHandler(this.lovePanelButton_Click);
             // 
             // acquaintancePanelButton
             // 
+            this.acquaintancePanelButton.AutoSize = true;
             this.acquaintancePanelButton.Enabled = false;
-            this.acquaintancePanelButton.Location = new System.Drawing.Point(594, 373);
+            this.acquaintancePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("acquaintancePanelButton.Image")));
+            this.acquaintancePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.acquaintancePanelButton.Location = new System.Drawing.Point(589, 373);
             this.acquaintancePanelButton.Name = "acquaintancePanelButton";
-            this.acquaintancePanelButton.Size = new System.Drawing.Size(81, 23);
+            this.acquaintancePanelButton.Size = new System.Drawing.Size(87, 25);
             this.acquaintancePanelButton.TabIndex = 19;
             this.acquaintancePanelButton.Text = "Ismerősök";
+            this.acquaintancePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.acquaintancePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.acquaintancePanelButton.UseVisualStyleBackColor = true;
             this.acquaintancePanelButton.Click += new System.EventHandler(this.acquaintancePanelButton_Click);
             // 
@@ -559,22 +598,32 @@
             // 
             // lotteryButton
             // 
+            this.lotteryButton.AutoSize = true;
             this.lotteryButton.Enabled = false;
-            this.lotteryButton.Location = new System.Drawing.Point(698, 373);
+            this.lotteryButton.Image = ((System.Drawing.Image)(resources.GetObject("lotteryButton.Image")));
+            this.lotteryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lotteryButton.Location = new System.Drawing.Point(691, 373);
             this.lotteryButton.Name = "lotteryButton";
-            this.lotteryButton.Size = new System.Drawing.Size(75, 23);
+            this.lotteryButton.Size = new System.Drawing.Size(69, 25);
             this.lotteryButton.TabIndex = 20;
             this.lotteryButton.Text = "Lottó";
+            this.lotteryButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lotteryButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.lotteryButton.UseVisualStyleBackColor = true;
             this.lotteryButton.Click += new System.EventHandler(this.lotteryButton_Click);
             // 
             // visitDoctorButton
             // 
+            this.visitDoctorButton.AutoSize = true;
+            this.visitDoctorButton.Image = ((System.Drawing.Image)(resources.GetObject("visitDoctorButton.Image")));
+            this.visitDoctorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.visitDoctorButton.Location = new System.Drawing.Point(20, 404);
             this.visitDoctorButton.Name = "visitDoctorButton";
-            this.visitDoctorButton.Size = new System.Drawing.Size(75, 23);
+            this.visitDoctorButton.Size = new System.Drawing.Size(75, 25);
             this.visitDoctorButton.TabIndex = 21;
             this.visitDoctorButton.Text = "Orvos";
+            this.visitDoctorButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.visitDoctorButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.visitDoctorButton.UseVisualStyleBackColor = true;
             this.visitDoctorButton.Click += new System.EventHandler(this.visitDoctorButton_Click);
             // 
@@ -612,6 +661,13 @@
             this.loadMenuItem.Text = "Betöltés";
             this.loadMenuItem.Click += new System.EventHandler(this.loadMenuItem_Click);
             // 
+            // achievementMenuItem
+            // 
+            this.achievementMenuItem.Name = "achievementMenuItem";
+            this.achievementMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.achievementMenuItem.Text = "Achievementek";
+            this.achievementMenuItem.Click += new System.EventHandler(this.achievementMenuItem_Click);
+            // 
             // saveFileDialog
             // 
             this.saveFileDialog.Filter = "Játékmentések|*.sav";
@@ -619,13 +675,6 @@
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Játékmentések|*.sav";
-            // 
-            // achievementMenuItem
-            // 
-            this.achievementMenuItem.Name = "achievementMenuItem";
-            this.achievementMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.achievementMenuItem.Text = "Achievementek";
-            this.achievementMenuItem.Click += new System.EventHandler(this.achievementMenuItem_Click);
             // 
             // MainGameWindow
             // 
@@ -650,6 +699,8 @@
             this.Controls.Add(this.jobPanelButton);
             this.Controls.Add(this.ageButton);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
