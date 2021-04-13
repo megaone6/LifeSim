@@ -124,6 +124,7 @@
             // ageButton
             // 
             this.ageButton.BackColor = System.Drawing.Color.Transparent;
+            this.ageButton.FlatAppearance.BorderSize = 0;
             this.ageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ageButton.Location = new System.Drawing.Point(356, 413);
             this.ageButton.Name = "ageButton";
@@ -230,6 +231,7 @@
             // 
             // quitJobButton
             // 
+            this.quitJobButton.FlatAppearance.BorderSize = 0;
             this.quitJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.quitJobButton.Location = new System.Drawing.Point(15, 62);
             this.quitJobButton.Name = "quitJobButton";
@@ -242,6 +244,7 @@
             // 
             // tryJobButton
             // 
+            this.tryJobButton.FlatAppearance.BorderSize = 0;
             this.tryJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryJobButton.Location = new System.Drawing.Point(344, 190);
             this.tryJobButton.Name = "tryJobButton";
@@ -273,6 +276,7 @@
             this.jobPanelButton.AutoSize = true;
             this.jobPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.jobPanelButton.Enabled = false;
+            this.jobPanelButton.FlatAppearance.BorderSize = 0;
             this.jobPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("jobPanelButton.Image")));
             this.jobPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -290,6 +294,7 @@
             // 
             this.mainPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.mainPanelButton.Enabled = false;
+            this.mainPanelButton.FlatAppearance.BorderSize = 0;
             this.mainPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mainPanelButton.Location = new System.Drawing.Point(114, 375);
             this.mainPanelButton.Name = "mainPanelButton";
@@ -304,6 +309,7 @@
             this.homePanelButton.AutoSize = true;
             this.homePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.homePanelButton.Enabled = false;
+            this.homePanelButton.FlatAppearance.BorderSize = 0;
             this.homePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.homePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("homePanelButton.Image")));
             this.homePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -338,6 +344,7 @@
             // 
             // buyHomeButton
             // 
+            this.buyHomeButton.FlatAppearance.BorderSize = 0;
             this.buyHomeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buyHomeButton.Location = new System.Drawing.Point(344, 190);
             this.buyHomeButton.Name = "buyHomeButton";
@@ -361,6 +368,7 @@
             this.leisurePanelButton.AutoSize = true;
             this.leisurePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.leisurePanelButton.Enabled = false;
+            this.leisurePanelButton.FlatAppearance.BorderSize = 0;
             this.leisurePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.leisurePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("leisurePanelButton.Image")));
             this.leisurePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -388,6 +396,7 @@
             // vacationButton
             // 
             this.vacationButton.Enabled = false;
+            this.vacationButton.FlatAppearance.BorderSize = 0;
             this.vacationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.vacationButton.Image = ((System.Drawing.Image)(resources.GetObject("vacationButton.Image")));
             this.vacationButton.Location = new System.Drawing.Point(15, 199);
@@ -399,6 +408,7 @@
             // 
             // readButton
             // 
+            this.readButton.FlatAppearance.BorderSize = 0;
             this.readButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.readButton.Image = ((System.Drawing.Image)(resources.GetObject("readButton.Image")));
             this.readButton.Location = new System.Drawing.Point(14, 107);
@@ -410,6 +420,7 @@
             // 
             // workOutButton
             // 
+            this.workOutButton.FlatAppearance.BorderSize = 0;
             this.workOutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.workOutButton.Image = ((System.Drawing.Image)(resources.GetObject("workOutButton.Image")));
             this.workOutButton.Location = new System.Drawing.Point(14, 16);
@@ -432,6 +443,7 @@
             // 
             // applyToUniButton
             // 
+            this.applyToUniButton.FlatAppearance.BorderSize = 0;
             this.applyToUniButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.applyToUniButton.Location = new System.Drawing.Point(344, 189);
             this.applyToUniButton.Name = "applyToUniButton";
@@ -476,6 +488,7 @@
             // tryForChildButton
             // 
             this.tryForChildButton.Enabled = false;
+            this.tryForChildButton.FlatAppearance.BorderSize = 0;
             this.tryForChildButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryForChildButton.Location = new System.Drawing.Point(15, 100);
             this.tryForChildButton.Name = "tryForChildButton";
@@ -488,6 +501,7 @@
             // 
             // breakUpButton
             // 
+            this.breakUpButton.FlatAppearance.BorderSize = 0;
             this.breakUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.breakUpButton.Location = new System.Drawing.Point(15, 71);
             this.breakUpButton.Name = "breakUpButton";
@@ -500,6 +514,7 @@
             // 
             // tryRelationshipButton
             // 
+            this.tryRelationshipButton.FlatAppearance.BorderSize = 0;
             this.tryRelationshipButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryRelationshipButton.Location = new System.Drawing.Point(323, 270);
             this.tryRelationshipButton.Name = "tryRelationshipButton";
@@ -512,6 +527,7 @@
             // 
             // newLoveButton
             // 
+            this.newLoveButton.FlatAppearance.BorderSize = 0;
             this.newLoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newLoveButton.Location = new System.Drawing.Point(323, 243);
             this.newLoveButton.Name = "newLoveButton";
@@ -543,6 +559,7 @@
             this.universityPanelButton.AutoSize = true;
             this.universityPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.universityPanelButton.Enabled = false;
+            this.universityPanelButton.FlatAppearance.BorderSize = 0;
             this.universityPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.universityPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("universityPanelButton.Image")));
             this.universityPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -561,6 +578,7 @@
             this.lovePanelButton.AutoSize = true;
             this.lovePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.lovePanelButton.Enabled = false;
+            this.lovePanelButton.FlatAppearance.BorderSize = 0;
             this.lovePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lovePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("lovePanelButton.Image")));
             this.lovePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -579,6 +597,7 @@
             this.acquaintancePanelButton.AutoSize = true;
             this.acquaintancePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.acquaintancePanelButton.Enabled = false;
+            this.acquaintancePanelButton.FlatAppearance.BorderSize = 0;
             this.acquaintancePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.acquaintancePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("acquaintancePanelButton.Image")));
             this.acquaintancePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -606,6 +625,7 @@
             // makeFriendButton
             // 
             this.makeFriendButton.BackColor = System.Drawing.Color.Transparent;
+            this.makeFriendButton.FlatAppearance.BorderSize = 0;
             this.makeFriendButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.makeFriendButton.Location = new System.Drawing.Point(298, 261);
             this.makeFriendButton.Name = "makeFriendButton";
@@ -617,6 +637,7 @@
             // 
             // programWithAcquaintanceButton
             // 
+            this.programWithAcquaintanceButton.FlatAppearance.BorderSize = 0;
             this.programWithAcquaintanceButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.programWithAcquaintanceButton.Location = new System.Drawing.Point(298, 232);
             this.programWithAcquaintanceButton.Name = "programWithAcquaintanceButton";
@@ -640,6 +661,7 @@
             this.lotteryButton.AutoSize = true;
             this.lotteryButton.BackColor = System.Drawing.Color.Transparent;
             this.lotteryButton.Enabled = false;
+            this.lotteryButton.FlatAppearance.BorderSize = 0;
             this.lotteryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lotteryButton.Image = ((System.Drawing.Image)(resources.GetObject("lotteryButton.Image")));
             this.lotteryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -657,6 +679,7 @@
             // 
             this.visitDoctorButton.AutoSize = true;
             this.visitDoctorButton.BackColor = System.Drawing.Color.Transparent;
+            this.visitDoctorButton.FlatAppearance.BorderSize = 0;
             this.visitDoctorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.visitDoctorButton.Image = ((System.Drawing.Image)(resources.GetObject("visitDoctorButton.Image")));
             this.visitDoctorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -748,6 +771,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainGameWindow";
             this.Text = "Életszimulátor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGameWindow_FormClosing);

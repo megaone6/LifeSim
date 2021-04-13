@@ -28,22 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AchievementsWindow));
             this.achievementsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // achievementsPanel
             // 
+            this.achievementsPanel.BackColor = System.Drawing.Color.Transparent;
             this.achievementsPanel.Location = new System.Drawing.Point(12, 12);
             this.achievementsPanel.Name = "achievementsPanel";
-            this.achievementsPanel.Size = new System.Drawing.Size(787, 319);
+            this.achievementsPanel.Size = new System.Drawing.Size(524, 209);
             this.achievementsPanel.TabIndex = 0;
             // 
             // AchievementsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 343);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(548, 233);
             this.Controls.Add(this.achievementsPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AchievementsWindow";
             this.Text = "Elért achievementek";
             this.Shown += new System.EventHandler(this.AchievementsWindow_Shown);

@@ -707,7 +707,7 @@ namespace LifeSim.View
                 acquaintancePanelButton.Enabled = true;
             if (model.You.Age == 12)
                 leisurePanelButton.Enabled = true;
-            if (model.You.Age > 12)
+            if (model.You.Age >= 12)
             {
                 workOutButton.Enabled = true;
                 readButton.Enabled = true;
