@@ -123,16 +123,19 @@
             // 
             // ageButton
             // 
-            this.ageButton.Location = new System.Drawing.Point(356, 415);
+            this.ageButton.BackColor = System.Drawing.Color.Transparent;
+            this.ageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ageButton.Location = new System.Drawing.Point(356, 413);
             this.ageButton.Name = "ageButton";
-            this.ageButton.Size = new System.Drawing.Size(75, 23);
+            this.ageButton.Size = new System.Drawing.Size(75, 27);
             this.ageButton.TabIndex = 3;
             this.ageButton.Text = "+1 év";
-            this.ageButton.UseVisualStyleBackColor = true;
+            this.ageButton.UseVisualStyleBackColor = false;
             this.ageButton.Click += new System.EventHandler(this.ageButton_Click);
             // 
             // healthLabel
             // 
+            this.healthLabel.BackColor = System.Drawing.Color.Transparent;
             this.healthLabel.Image = ((System.Drawing.Image)(resources.GetObject("healthLabel.Image")));
             this.healthLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.healthLabel.Location = new System.Drawing.Point(625, 16);
@@ -166,7 +169,8 @@
             // 
             // mainPanel
             // 
-            this.mainPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.mainPanel.BackColor = System.Drawing.Color.Transparent;
+            this.mainPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mainPanel.Controls.Add(this.eventsRichTextBox);
             this.mainPanel.Controls.Add(this.happinessLabel);
             this.mainPanel.Controls.Add(this.moneyLabel);
@@ -183,6 +187,7 @@
             // 
             // eventsRichTextBox
             // 
+            this.eventsRichTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.eventsRichTextBox.Location = new System.Drawing.Point(201, 138);
             this.eventsRichTextBox.Name = "eventsRichTextBox";
             this.eventsRichTextBox.ReadOnly = true;
@@ -213,6 +218,7 @@
             // 
             // jobPanel
             // 
+            this.jobPanel.BackColor = System.Drawing.Color.Transparent;
             this.jobPanel.Controls.Add(this.quitJobButton);
             this.jobPanel.Controls.Add(this.tryJobButton);
             this.jobPanel.Controls.Add(this.jobComboBox);
@@ -224,6 +230,7 @@
             // 
             // quitJobButton
             // 
+            this.quitJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.quitJobButton.Location = new System.Drawing.Point(15, 62);
             this.quitJobButton.Name = "quitJobButton";
             this.quitJobButton.Size = new System.Drawing.Size(75, 23);
@@ -235,6 +242,7 @@
             // 
             // tryJobButton
             // 
+            this.tryJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryJobButton.Location = new System.Drawing.Point(344, 190);
             this.tryJobButton.Name = "tryJobButton";
             this.tryJobButton.Size = new System.Drawing.Size(75, 23);
@@ -263,48 +271,55 @@
             // jobPanelButton
             // 
             this.jobPanelButton.AutoSize = true;
+            this.jobPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.jobPanelButton.Enabled = false;
+            this.jobPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("jobPanelButton.Image")));
             this.jobPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.jobPanelButton.Location = new System.Drawing.Point(20, 375);
             this.jobPanelButton.Name = "jobPanelButton";
-            this.jobPanelButton.Size = new System.Drawing.Size(75, 25);
+            this.jobPanelButton.Size = new System.Drawing.Size(75, 27);
             this.jobPanelButton.TabIndex = 0;
             this.jobPanelButton.Text = "Munka";
             this.jobPanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.jobPanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.jobPanelButton.UseVisualStyleBackColor = true;
+            this.jobPanelButton.UseVisualStyleBackColor = false;
             this.jobPanelButton.Click += new System.EventHandler(this.jobPanelButton_Click);
             // 
             // mainPanelButton
             // 
+            this.mainPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.mainPanelButton.Enabled = false;
+            this.mainPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mainPanelButton.Location = new System.Drawing.Point(114, 375);
             this.mainPanelButton.Name = "mainPanelButton";
-            this.mainPanelButton.Size = new System.Drawing.Size(75, 25);
+            this.mainPanelButton.Size = new System.Drawing.Size(75, 27);
             this.mainPanelButton.TabIndex = 9;
             this.mainPanelButton.Text = "Fő menü";
-            this.mainPanelButton.UseVisualStyleBackColor = true;
+            this.mainPanelButton.UseVisualStyleBackColor = false;
             this.mainPanelButton.Click += new System.EventHandler(this.mainPanelButton_Click);
             // 
             // homePanelButton
             // 
             this.homePanelButton.AutoSize = true;
+            this.homePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.homePanelButton.Enabled = false;
+            this.homePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.homePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("homePanelButton.Image")));
             this.homePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homePanelButton.Location = new System.Drawing.Point(208, 375);
             this.homePanelButton.Name = "homePanelButton";
-            this.homePanelButton.Size = new System.Drawing.Size(75, 25);
+            this.homePanelButton.Size = new System.Drawing.Size(75, 27);
             this.homePanelButton.TabIndex = 10;
             this.homePanelButton.Text = "Lakás";
             this.homePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.homePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.homePanelButton.UseVisualStyleBackColor = true;
+            this.homePanelButton.UseVisualStyleBackColor = false;
             this.homePanelButton.Click += new System.EventHandler(this.homePanelButton_Click);
             // 
             // homePanel
             // 
+            this.homePanel.BackColor = System.Drawing.Color.Transparent;
             this.homePanel.Controls.Add(this.homeLabel);
             this.homePanel.Controls.Add(this.buyHomeButton);
             this.homePanel.Controls.Add(this.homeComboBox);
@@ -323,6 +338,7 @@
             // 
             // buyHomeButton
             // 
+            this.buyHomeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buyHomeButton.Location = new System.Drawing.Point(344, 190);
             this.buyHomeButton.Name = "buyHomeButton";
             this.buyHomeButton.Size = new System.Drawing.Size(75, 23);
@@ -343,21 +359,24 @@
             // leisurePanelButton
             // 
             this.leisurePanelButton.AutoSize = true;
+            this.leisurePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.leisurePanelButton.Enabled = false;
+            this.leisurePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.leisurePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("leisurePanelButton.Image")));
             this.leisurePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.leisurePanelButton.Location = new System.Drawing.Point(298, 375);
             this.leisurePanelButton.Name = "leisurePanelButton";
-            this.leisurePanelButton.Size = new System.Drawing.Size(87, 25);
+            this.leisurePanelButton.Size = new System.Drawing.Size(89, 27);
             this.leisurePanelButton.TabIndex = 12;
             this.leisurePanelButton.Text = "Szabadidő";
             this.leisurePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.leisurePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.leisurePanelButton.UseVisualStyleBackColor = true;
+            this.leisurePanelButton.UseVisualStyleBackColor = false;
             this.leisurePanelButton.Click += new System.EventHandler(this.leisurePanelButton_Click);
             // 
             // leisurePanel
             // 
+            this.leisurePanel.BackColor = System.Drawing.Color.Transparent;
             this.leisurePanel.Controls.Add(this.vacationButton);
             this.leisurePanel.Controls.Add(this.readButton);
             this.leisurePanel.Controls.Add(this.workOutButton);
@@ -369,6 +388,7 @@
             // vacationButton
             // 
             this.vacationButton.Enabled = false;
+            this.vacationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.vacationButton.Image = ((System.Drawing.Image)(resources.GetObject("vacationButton.Image")));
             this.vacationButton.Location = new System.Drawing.Point(15, 199);
             this.vacationButton.Name = "vacationButton";
@@ -379,6 +399,7 @@
             // 
             // readButton
             // 
+            this.readButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.readButton.Image = ((System.Drawing.Image)(resources.GetObject("readButton.Image")));
             this.readButton.Location = new System.Drawing.Point(14, 107);
             this.readButton.Name = "readButton";
@@ -389,6 +410,7 @@
             // 
             // workOutButton
             // 
+            this.workOutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.workOutButton.Image = ((System.Drawing.Image)(resources.GetObject("workOutButton.Image")));
             this.workOutButton.Location = new System.Drawing.Point(14, 16);
             this.workOutButton.Name = "workOutButton";
@@ -399,6 +421,7 @@
             // 
             // universityPanel
             // 
+            this.universityPanel.BackColor = System.Drawing.Color.Transparent;
             this.universityPanel.Controls.Add(this.applyToUniButton);
             this.universityPanel.Controls.Add(this.universityComboBox);
             this.universityPanel.Controls.Add(this.universityLabel);
@@ -409,6 +432,7 @@
             // 
             // applyToUniButton
             // 
+            this.applyToUniButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.applyToUniButton.Location = new System.Drawing.Point(344, 189);
             this.applyToUniButton.Name = "applyToUniButton";
             this.applyToUniButton.Size = new System.Drawing.Size(75, 23);
@@ -437,6 +461,7 @@
             // 
             // lovePanel
             // 
+            this.lovePanel.BackColor = System.Drawing.Color.Transparent;
             this.lovePanel.Controls.Add(this.tryForChildButton);
             this.lovePanel.Controls.Add(this.breakUpButton);
             this.lovePanel.Controls.Add(this.tryRelationshipButton);
@@ -451,6 +476,7 @@
             // tryForChildButton
             // 
             this.tryForChildButton.Enabled = false;
+            this.tryForChildButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryForChildButton.Location = new System.Drawing.Point(15, 100);
             this.tryForChildButton.Name = "tryForChildButton";
             this.tryForChildButton.Size = new System.Drawing.Size(162, 23);
@@ -462,6 +488,7 @@
             // 
             // breakUpButton
             // 
+            this.breakUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.breakUpButton.Location = new System.Drawing.Point(15, 71);
             this.breakUpButton.Name = "breakUpButton";
             this.breakUpButton.Size = new System.Drawing.Size(162, 23);
@@ -473,6 +500,7 @@
             // 
             // tryRelationshipButton
             // 
+            this.tryRelationshipButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tryRelationshipButton.Location = new System.Drawing.Point(323, 270);
             this.tryRelationshipButton.Name = "tryRelationshipButton";
             this.tryRelationshipButton.Size = new System.Drawing.Size(108, 44);
@@ -484,6 +512,7 @@
             // 
             // newLoveButton
             // 
+            this.newLoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newLoveButton.Location = new System.Drawing.Point(323, 243);
             this.newLoveButton.Name = "newLoveButton";
             this.newLoveButton.Size = new System.Drawing.Size(108, 23);
@@ -512,53 +541,60 @@
             // universityPanelButton
             // 
             this.universityPanelButton.AutoSize = true;
+            this.universityPanelButton.BackColor = System.Drawing.Color.Transparent;
             this.universityPanelButton.Enabled = false;
+            this.universityPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.universityPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("universityPanelButton.Image")));
             this.universityPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.universityPanelButton.Location = new System.Drawing.Point(400, 374);
             this.universityPanelButton.Name = "universityPanelButton";
-            this.universityPanelButton.Size = new System.Drawing.Size(79, 25);
+            this.universityPanelButton.Size = new System.Drawing.Size(81, 27);
             this.universityPanelButton.TabIndex = 14;
             this.universityPanelButton.Text = "Egyetem";
             this.universityPanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.universityPanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.universityPanelButton.UseVisualStyleBackColor = true;
+            this.universityPanelButton.UseVisualStyleBackColor = false;
             this.universityPanelButton.Click += new System.EventHandler(this.universityPanelButton_Click);
             // 
             // lovePanelButton
             // 
             this.lovePanelButton.AutoSize = true;
+            this.lovePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.lovePanelButton.Enabled = false;
+            this.lovePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lovePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("lovePanelButton.Image")));
             this.lovePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lovePanelButton.Location = new System.Drawing.Point(494, 374);
             this.lovePanelButton.Name = "lovePanelButton";
-            this.lovePanelButton.Size = new System.Drawing.Size(80, 25);
+            this.lovePanelButton.Size = new System.Drawing.Size(82, 27);
             this.lovePanelButton.TabIndex = 17;
             this.lovePanelButton.Text = "Szerelem";
             this.lovePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lovePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.lovePanelButton.UseVisualStyleBackColor = true;
+            this.lovePanelButton.UseVisualStyleBackColor = false;
             this.lovePanelButton.Click += new System.EventHandler(this.lovePanelButton_Click);
             // 
             // acquaintancePanelButton
             // 
             this.acquaintancePanelButton.AutoSize = true;
+            this.acquaintancePanelButton.BackColor = System.Drawing.Color.Transparent;
             this.acquaintancePanelButton.Enabled = false;
+            this.acquaintancePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.acquaintancePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("acquaintancePanelButton.Image")));
             this.acquaintancePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.acquaintancePanelButton.Location = new System.Drawing.Point(589, 373);
             this.acquaintancePanelButton.Name = "acquaintancePanelButton";
-            this.acquaintancePanelButton.Size = new System.Drawing.Size(87, 25);
+            this.acquaintancePanelButton.Size = new System.Drawing.Size(89, 27);
             this.acquaintancePanelButton.TabIndex = 19;
             this.acquaintancePanelButton.Text = "Ismerősök";
             this.acquaintancePanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.acquaintancePanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.acquaintancePanelButton.UseVisualStyleBackColor = true;
+            this.acquaintancePanelButton.UseVisualStyleBackColor = false;
             this.acquaintancePanelButton.Click += new System.EventHandler(this.acquaintancePanelButton_Click);
             // 
             // acquaintancePanel
             // 
+            this.acquaintancePanel.BackColor = System.Drawing.Color.Transparent;
             this.acquaintancePanel.Controls.Add(this.makeFriendButton);
             this.acquaintancePanel.Controls.Add(this.programWithAcquaintanceButton);
             this.acquaintancePanel.Controls.Add(this.acquaintanceListBox);
@@ -569,16 +605,19 @@
             // 
             // makeFriendButton
             // 
+            this.makeFriendButton.BackColor = System.Drawing.Color.Transparent;
+            this.makeFriendButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.makeFriendButton.Location = new System.Drawing.Point(298, 261);
             this.makeFriendButton.Name = "makeFriendButton";
             this.makeFriendButton.Size = new System.Drawing.Size(168, 23);
             this.makeFriendButton.TabIndex = 3;
             this.makeFriendButton.Text = "Új barát keresése";
-            this.makeFriendButton.UseVisualStyleBackColor = true;
+            this.makeFriendButton.UseVisualStyleBackColor = false;
             this.makeFriendButton.Click += new System.EventHandler(this.makeFriendButton_Click);
             // 
             // programWithAcquaintanceButton
             // 
+            this.programWithAcquaintanceButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.programWithAcquaintanceButton.Location = new System.Drawing.Point(298, 232);
             this.programWithAcquaintanceButton.Name = "programWithAcquaintanceButton";
             this.programWithAcquaintanceButton.Size = new System.Drawing.Size(168, 23);
@@ -599,36 +638,41 @@
             // lotteryButton
             // 
             this.lotteryButton.AutoSize = true;
+            this.lotteryButton.BackColor = System.Drawing.Color.Transparent;
             this.lotteryButton.Enabled = false;
+            this.lotteryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lotteryButton.Image = ((System.Drawing.Image)(resources.GetObject("lotteryButton.Image")));
             this.lotteryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lotteryButton.Location = new System.Drawing.Point(691, 373);
             this.lotteryButton.Name = "lotteryButton";
-            this.lotteryButton.Size = new System.Drawing.Size(69, 25);
+            this.lotteryButton.Size = new System.Drawing.Size(69, 27);
             this.lotteryButton.TabIndex = 20;
             this.lotteryButton.Text = "Lottó";
             this.lotteryButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lotteryButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.lotteryButton.UseVisualStyleBackColor = true;
+            this.lotteryButton.UseVisualStyleBackColor = false;
             this.lotteryButton.Click += new System.EventHandler(this.lotteryButton_Click);
             // 
             // visitDoctorButton
             // 
             this.visitDoctorButton.AutoSize = true;
+            this.visitDoctorButton.BackColor = System.Drawing.Color.Transparent;
+            this.visitDoctorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.visitDoctorButton.Image = ((System.Drawing.Image)(resources.GetObject("visitDoctorButton.Image")));
             this.visitDoctorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.visitDoctorButton.Location = new System.Drawing.Point(20, 404);
+            this.visitDoctorButton.Location = new System.Drawing.Point(20, 413);
             this.visitDoctorButton.Name = "visitDoctorButton";
-            this.visitDoctorButton.Size = new System.Drawing.Size(75, 25);
+            this.visitDoctorButton.Size = new System.Drawing.Size(75, 27);
             this.visitDoctorButton.TabIndex = 21;
             this.visitDoctorButton.Text = "Orvos";
             this.visitDoctorButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.visitDoctorButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.visitDoctorButton.UseVisualStyleBackColor = true;
+            this.visitDoctorButton.UseVisualStyleBackColor = false;
             this.visitDoctorButton.Click += new System.EventHandler(this.visitDoctorButton_Click);
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenuItem,
             this.achievementMenuItem});
@@ -680,6 +724,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.acquaintancePanel);
