@@ -258,9 +258,9 @@ namespace LifeSim.View
             // 
             // jobComboBox
             // 
-            this.jobComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237))))); ;
-            this.jobComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.jobComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237)))));
             this.jobComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.jobComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.jobComboBox.FormattingEnabled = true;
             this.jobComboBox.Location = new System.Drawing.Point(323, 159);
             this.jobComboBox.Name = "jobComboBox";
@@ -360,9 +360,9 @@ namespace LifeSim.View
             // 
             // homeComboBox
             // 
-            this.homeComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237))))); ;
-            this.homeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.homeComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237)))));
             this.homeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.homeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.homeComboBox.FormattingEnabled = true;
             this.homeComboBox.Location = new System.Drawing.Point(323, 158);
             this.homeComboBox.Name = "homeComboBox";
@@ -461,9 +461,9 @@ namespace LifeSim.View
             // 
             // universityComboBox
             // 
-            this.universityComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237))))); ;
-            this.universityComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.universityComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237)))));
             this.universityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.universityComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.universityComboBox.FormattingEnabled = true;
             this.universityComboBox.Location = new System.Drawing.Point(323, 158);
             this.universityComboBox.Name = "universityComboBox";
