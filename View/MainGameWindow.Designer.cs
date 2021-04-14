@@ -139,7 +139,6 @@ namespace LifeSim.View
             // healthLabel
             // 
             this.healthLabel.BackColor = System.Drawing.Color.Transparent;
-            this.healthLabel.Image = ((System.Drawing.Image)(resources.GetObject("healthLabel.Image")));
             this.healthLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.healthLabel.Location = new System.Drawing.Point(625, 16);
             this.healthLabel.Name = "healthLabel";
@@ -150,7 +149,6 @@ namespace LifeSim.View
             // 
             // intelligenceLabel
             // 
-            this.intelligenceLabel.Image = ((System.Drawing.Image)(resources.GetObject("intelligenceLabel.Image")));
             this.intelligenceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.intelligenceLabel.Location = new System.Drawing.Point(625, 38);
             this.intelligenceLabel.Name = "intelligenceLabel";
@@ -161,7 +159,6 @@ namespace LifeSim.View
             // 
             // appearanceLabel
             // 
-            this.appearanceLabel.Image = ((System.Drawing.Image)(resources.GetObject("appearanceLabel.Image")));
             this.appearanceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.appearanceLabel.Location = new System.Drawing.Point(625, 71);
             this.appearanceLabel.Name = "appearanceLabel";
@@ -201,7 +198,6 @@ namespace LifeSim.View
             // 
             // happinessLabel
             // 
-            this.happinessLabel.Image = ((System.Drawing.Image)(resources.GetObject("happinessLabel.Image")));
             this.happinessLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.happinessLabel.Location = new System.Drawing.Point(625, 100);
             this.happinessLabel.Name = "happinessLabel";
@@ -282,7 +278,6 @@ namespace LifeSim.View
             this.jobPanelButton.Enabled = false;
             this.jobPanelButton.FlatAppearance.BorderSize = 0;
             this.jobPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.jobPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("jobPanelButton.Image")));
             this.jobPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.jobPanelButton.Location = new System.Drawing.Point(20, 375);
             this.jobPanelButton.Name = "jobPanelButton";
@@ -315,7 +310,6 @@ namespace LifeSim.View
             this.homePanelButton.Enabled = false;
             this.homePanelButton.FlatAppearance.BorderSize = 0;
             this.homePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.homePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("homePanelButton.Image")));
             this.homePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.homePanelButton.Location = new System.Drawing.Point(208, 375);
             this.homePanelButton.Name = "homePanelButton";
@@ -376,7 +370,6 @@ namespace LifeSim.View
             this.leisurePanelButton.Enabled = false;
             this.leisurePanelButton.FlatAppearance.BorderSize = 0;
             this.leisurePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.leisurePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("leisurePanelButton.Image")));
             this.leisurePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.leisurePanelButton.Location = new System.Drawing.Point(298, 375);
             this.leisurePanelButton.Name = "leisurePanelButton";
@@ -569,7 +562,6 @@ namespace LifeSim.View
             this.universityPanelButton.Enabled = false;
             this.universityPanelButton.FlatAppearance.BorderSize = 0;
             this.universityPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.universityPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("universityPanelButton.Image")));
             this.universityPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.universityPanelButton.Location = new System.Drawing.Point(400, 374);
             this.universityPanelButton.Name = "universityPanelButton";
@@ -588,7 +580,6 @@ namespace LifeSim.View
             this.lovePanelButton.Enabled = false;
             this.lovePanelButton.FlatAppearance.BorderSize = 0;
             this.lovePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lovePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("lovePanelButton.Image")));
             this.lovePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lovePanelButton.Location = new System.Drawing.Point(494, 374);
             this.lovePanelButton.Name = "lovePanelButton";
@@ -607,7 +598,6 @@ namespace LifeSim.View
             this.acquaintancePanelButton.Enabled = false;
             this.acquaintancePanelButton.FlatAppearance.BorderSize = 0;
             this.acquaintancePanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.acquaintancePanelButton.Image = ((System.Drawing.Image)(resources.GetObject("acquaintancePanelButton.Image")));
             this.acquaintancePanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.acquaintancePanelButton.Location = new System.Drawing.Point(589, 373);
             this.acquaintancePanelButton.Name = "acquaintancePanelButton";
@@ -672,7 +662,6 @@ namespace LifeSim.View
             this.lotteryButton.Enabled = false;
             this.lotteryButton.FlatAppearance.BorderSize = 0;
             this.lotteryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lotteryButton.Image = ((System.Drawing.Image)(resources.GetObject("lotteryButton.Image")));
             this.lotteryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lotteryButton.Location = new System.Drawing.Point(691, 373);
             this.lotteryButton.Name = "lotteryButton";
@@ -690,7 +679,6 @@ namespace LifeSim.View
             this.visitDoctorButton.BackColor = System.Drawing.Color.Transparent;
             this.visitDoctorButton.FlatAppearance.BorderSize = 0;
             this.visitDoctorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.visitDoctorButton.Image = ((System.Drawing.Image)(resources.GetObject("visitDoctorButton.Image")));
             this.visitDoctorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.visitDoctorButton.Location = new System.Drawing.Point(20, 413);
             this.visitDoctorButton.Name = "visitDoctorButton";

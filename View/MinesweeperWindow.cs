@@ -1,4 +1,5 @@
 ﻿using LifeSim.Model;
+using LifeSim.Properties;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -145,9 +146,14 @@ namespace LifeSim.View
                 {
                     minefieldPanel.Controls[i].BackColor = Color.Red;
                 }
-                else if (msmodel.MineField[i / 8, i % 8].Marked) // ha megjelölünk egy gombot, az sárga lesz
+                else if (msmodel.MineField[i / 8, i % 8].Marked) // ha megjelölünk egy gombot, ahhoz hozzárendeljük a zászló ikont
                 {
-                    minefieldPanel.Controls[i].BackColor = Color.Yellow;
+                    minefieldPanel.Controls[i].BackgroundImage = Resources.flagImage;
+                    minefieldPanel.Controls[i].BackgroundImageLayout = ImageLayout.Center;
+                }
+                else if (!msmodel.MineField[i / 8, i % 8].Marked) // ha megjelölünk egy gombot, ahhoz hozzárendeljük a zászló ikont
+                {
+                    minefieldPanel.Controls[i].BackgroundImage = base.BackgroundImage;
                 }
                 else // különben szürke marad
                 {

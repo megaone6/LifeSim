@@ -213,6 +213,7 @@ namespace LifeSim.Model
 
             checkedFields.Add((i,j));
             MineField[i,j].Revealed = true;
+
             if (MineField[i,j].MinesInProximity == 0) // ha nincs akna a közelben, akkor a szomszédos mezőket felfedi
             {
                 revealRecursion(i - 1, j - 1);
@@ -236,7 +237,7 @@ namespace LifeSim.Model
             if (i < 0 || i > 7 || j < 0 || j > 7) // ha a mező kívül esik a pályán, akkor visszatér
                 return;
 
-            if (!checkedFields.Contains((i,j)) && !MineField[i,j].Mine) // ha a mezőt még nem fedtük fel és nem akna van rajta, akkor felfedi
+            if (!checkedFields.Contains((i,j)) && !MineField[i,j].Mine && !MineField[i, j].Marked) // ha a mezőt még nem fedtük fel, nem jelöltük meg és nem akna van rajta, akkor felfedi
             {
                 revealFields(i, j);
             }

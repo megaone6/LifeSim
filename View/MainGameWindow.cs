@@ -1,5 +1,6 @@
 ﻿using LifeSim.Model;
 using LifeSim.Persistence;
+using LifeSim.Properties;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -86,6 +87,26 @@ namespace LifeSim.View
             model.AchievementUnlockedEvent += new EventHandler<LifeSimEventArgs>(Model_AchievementUnlockedEvent);
 
             refreshControls();
+
+            // képek betöltése
+            healthLabel.Image = Resources.healthy;
+            if (model.You.Intelligence >= 50)
+                intelligenceLabel.Image = Resources.smart;
+            else
+                intelligenceLabel.Image = Resources.dumb;
+            if (model.You.Appearance >= 50)
+                appearanceLabel.Image = Resources.beautiful;
+            else
+                appearanceLabel.Image = Resources.ugly;
+            happinessLabel.Image = Resources.happy;
+            jobPanelButton.Image = Resources.job;
+            homePanelButton.Image = Resources.home;
+            leisurePanelButton.Image = Resources.leisure;
+            universityPanelButton.Image = Resources.university;
+            lovePanelButton.Image = Resources.love;
+            acquaintancePanelButton.Image = Resources.acquaintances;
+            lotteryButton.Image = Resources.lottery;
+            visitDoctorButton.Image = Resources.doctor;
 
             // munka Combo Box feltöltése
             foreach (Job job in model.Jobs)
@@ -700,6 +721,24 @@ namespace LifeSim.View
             eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
 
             model.age(); // meghívjuk a Modelben a játék előrehaladásához tartozó függvényt
+
+            // változtatjuk a tulajdonsághoz tartozó ikont, ha szükséges
+            if (model.You.Health >= 50)
+                healthLabel.Image = Resources.healthy;
+            else
+                healthLabel.Image = Resources.unhealthy;
+            if (model.You.Intelligence >= 50)
+                intelligenceLabel.Image = Resources.smart;
+            else
+                intelligenceLabel.Image = Resources.dumb;
+            if (model.You.Appearance >= 50)
+                appearanceLabel.Image = Resources.beautiful;
+            else
+                appearanceLabel.Image = Resources.ugly;
+            if (model.You.Happiness >= 50)
+                happinessLabel.Image = Resources.happy;
+            else
+                happinessLabel.Image = Resources.sad;
 
             // korunktól függően bekapcsoljuk a megfelelő gombokat
             visitDoctorButton.Enabled = true;
