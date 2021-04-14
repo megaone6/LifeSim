@@ -99,7 +99,7 @@ namespace LifeSim.View
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(8, 16);
+            this.nameLabel.Location = new System.Drawing.Point(9, 15);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(34, 15);
             this.nameLabel.TabIndex = 0;
@@ -107,17 +107,17 @@ namespace LifeSim.View
             // 
             // genderLabel
             // 
-            this.genderLabel.AutoSize = true;
+            this.genderLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.genderLabel.Location = new System.Drawing.Point(8, 44);
             this.genderLabel.Name = "genderLabel";
-            this.genderLabel.Size = new System.Drawing.Size(39, 15);
+            this.genderLabel.Size = new System.Drawing.Size(0, 15);
             this.genderLabel.TabIndex = 1;
-            this.genderLabel.Text = "Nem: ";
+            this.genderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ageLabel
             // 
             this.ageLabel.AutoSize = true;
-            this.ageLabel.Location = new System.Drawing.Point(8, 71);
+            this.ageLabel.Location = new System.Drawing.Point(9, 75);
             this.ageLabel.Name = "ageLabel";
             this.ageLabel.Size = new System.Drawing.Size(67, 15);
             this.ageLabel.TabIndex = 2;
@@ -209,7 +209,7 @@ namespace LifeSim.View
             // moneyLabel
             // 
             this.moneyLabel.AutoSize = true;
-            this.moneyLabel.Location = new System.Drawing.Point(9, 97);
+            this.moneyLabel.Location = new System.Drawing.Point(8, 104);
             this.moneyLabel.Name = "moneyLabel";
             this.moneyLabel.Size = new System.Drawing.Size(126, 15);
             this.moneyLabel.TabIndex = 9;
@@ -270,6 +270,7 @@ namespace LifeSim.View
             this.jobLabel.Name = "jobLabel";
             this.jobLabel.Size = new System.Drawing.Size(0, 15);
             this.jobLabel.TabIndex = 0;
+            this.jobLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // jobPanelButton
             // 
@@ -488,27 +489,35 @@ namespace LifeSim.View
             // 
             // tryForChildButton
             // 
+            this.tryForChildButton.AutoSize = true;
             this.tryForChildButton.Enabled = false;
             this.tryForChildButton.FlatAppearance.BorderSize = 0;
             this.tryForChildButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tryForChildButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tryForChildButton.Location = new System.Drawing.Point(15, 100);
             this.tryForChildButton.Name = "tryForChildButton";
-            this.tryForChildButton.Size = new System.Drawing.Size(162, 23);
+            this.tryForChildButton.Size = new System.Drawing.Size(162, 25);
             this.tryForChildButton.TabIndex = 5;
             this.tryForChildButton.Text = "Próbálkozás gyermekkel";
+            this.tryForChildButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tryForChildButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.tryForChildButton.UseVisualStyleBackColor = true;
             this.tryForChildButton.Visible = false;
             this.tryForChildButton.Click += new System.EventHandler(this.tryForChildButton_Click);
             // 
             // breakUpButton
             // 
+            this.breakUpButton.AutoSize = true;
             this.breakUpButton.FlatAppearance.BorderSize = 0;
             this.breakUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.breakUpButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.breakUpButton.Location = new System.Drawing.Point(15, 71);
             this.breakUpButton.Name = "breakUpButton";
-            this.breakUpButton.Size = new System.Drawing.Size(162, 23);
+            this.breakUpButton.Size = new System.Drawing.Size(162, 25);
             this.breakUpButton.TabIndex = 4;
             this.breakUpButton.Text = "Szakítás";
+            this.breakUpButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.breakUpButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.breakUpButton.UseVisualStyleBackColor = true;
             this.breakUpButton.Visible = false;
             this.breakUpButton.Click += new System.EventHandler(this.breakUpButton_Click);

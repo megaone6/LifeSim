@@ -1064,9 +1064,9 @@ namespace LifeSim.Model
                 p.Relationship = 0;
             }
 
-            int index = People.IndexOf(p) - 1;
+            int index = People.IndexOf(p);
 
-            OnQuarrelWithAcquaintanceEvent(p, index);
+            OnQuarrelWithAcquaintanceEvent(p);
         }
 
         /// <summary>
@@ -1252,66 +1252,75 @@ namespace LifeSim.Model
 
             List<String> values = new List<String>();
             values.Add(People.Count.ToString()); // eltároljuk, hogy hány ember szerepel jelenlegi játékunkban
+            values.Add(You.FirstName);
+            values.Add(You.LastName);
+            values.Add(You.Age.ToString());
+            values.Add(You.genderToInt().ToString());
+            values.Add(You.Health.ToString());
+            values.Add(You.Intelligence.ToString());
+            values.Add(You.Appearance.ToString());
+            values.Add(You.Happiness.ToString());
+            values.Add(You.Relationship.ToString());
+            values.Add(You.Money.ToString());
+            values.Add(Jobs.IndexOf(You.Job).ToString());
+            values.Add(Homes.IndexOf(You.Home).ToString());
+            values.Add(Universities.IndexOf(You.University).ToString());
+            values.Add(You.Children.Count().ToString());
+            foreach (Person c in You.Children)
+            {
+                values.Add(c.FirstName);
+                values.Add(c.LastName);
+                values.Add(c.Age.ToString());
+                values.Add(c.genderToInt().ToString());
+                values.Add(c.Health.ToString());
+                values.Add(c.Intelligence.ToString());
+                values.Add(c.Appearance.ToString());
+                values.Add(c.Happiness.ToString());
+                values.Add(c.Relationship.ToString());
+            }
+            if (You.Partner is null)
+            {
+                values.Add((0).ToString());
+            }
+            else
+            {
+                values.Add((1).ToString());
+                values.Add(You.Partner.FirstName);
+                values.Add(You.Partner.LastName);
+                values.Add(You.Partner.Age.ToString());
+                values.Add(You.Partner.genderToInt().ToString());
+                values.Add(You.Partner.Health.ToString());
+                values.Add(You.Partner.Intelligence.ToString());
+                values.Add(You.Partner.Appearance.ToString());
+                values.Add(You.Partner.Happiness.ToString());
+                values.Add(You.Partner.Relationship.ToString());
+            }
+            values.Add(You.CurrentJobLevel.ToString());
+            values.Add(You.YourSicknesses.Count().ToString());
+            foreach (Sickness s in You.YourSicknesses)
+            {
+                values.Add(Sicknesses.IndexOf(s).ToString());
+            }
+            values.Add(You.Degrees.Count().ToString());
+            foreach (University u in You.Degrees)
+            {
+                values.Add(Universities.IndexOf(u).ToString());
+            }
+            values.Add(You.PromotionMeter.ToString());
+            values.Add(You.YearsInUni.ToString());
             foreach (Person p in People) // eltároljuk minden tulajdonságukat
             {
-                values.Add(p.FirstName);
-                values.Add(p.LastName);
-                values.Add(p.Age.ToString());
-                values.Add(p.genderToInt().ToString());
-                values.Add(p.Health.ToString());
-                values.Add(p.Intelligence.ToString());
-                values.Add(p.Appearance.ToString());
-                values.Add(p.Happiness.ToString());
-                values.Add(p.Relationship.ToString());
-                if (p == You) // a játékos karakter exkluzív tulajdonságait, kapcsolatait is eltároljuk
+                if (p != You)
                 {
-                    values.Add(You.Money.ToString());
-                    values.Add(Jobs.IndexOf(You.Job).ToString());
-                    values.Add(Homes.IndexOf(You.Home).ToString());
-                    values.Add(Universities.IndexOf(You.University).ToString());
-                    values.Add(You.Children.Count().ToString());
-                    foreach (Person c in You.Children)
-                    {
-                        values.Add(c.FirstName);
-                        values.Add(c.LastName);
-                        values.Add(c.Age.ToString());
-                        values.Add(c.genderToInt().ToString());
-                        values.Add(c.Health.ToString());
-                        values.Add(c.Intelligence.ToString());
-                        values.Add(c.Appearance.ToString());
-                        values.Add(c.Happiness.ToString());
-                        values.Add(c.Relationship.ToString());
-                    }
-                    if (You.Partner is null)
-                    {
-                        values.Add((0).ToString());
-                    }
-                    else
-                    {
-                        values.Add((1).ToString());
-                        values.Add(You.Partner.FirstName);
-                        values.Add(You.Partner.LastName);
-                        values.Add(You.Partner.Age.ToString());
-                        values.Add(You.Partner.genderToInt().ToString());
-                        values.Add(You.Partner.Health.ToString());
-                        values.Add(You.Partner.Intelligence.ToString());
-                        values.Add(You.Partner.Appearance.ToString());
-                        values.Add(You.Partner.Happiness.ToString());
-                        values.Add(You.Partner.Relationship.ToString());
-                    }
-                    values.Add(You.CurrentJobLevel.ToString());
-                    values.Add(You.YourSicknesses.Count().ToString());
-                    foreach (Sickness s in You.YourSicknesses)
-                    {
-                        values.Add(Sicknesses.IndexOf(s).ToString());
-                    }
-                    values.Add(You.Degrees.Count().ToString());
-                    foreach (University u in You.Degrees)
-                    {
-                        values.Add(Universities.IndexOf(u).ToString());
-                    }
-                    values.Add(You.PromotionMeter.ToString());
-                    values.Add(You.YearsInUni.ToString());
+                    values.Add(p.FirstName);
+                    values.Add(p.LastName);
+                    values.Add(p.Age.ToString());
+                    values.Add(p.genderToInt().ToString());
+                    values.Add(p.Health.ToString());
+                    values.Add(p.Intelligence.ToString());
+                    values.Add(p.Appearance.ToString());
+                    values.Add(p.Happiness.ToString());
+                    values.Add(p.Relationship.ToString());
                 }
             }
             values.Add(childParentPairs.Count().ToString());
@@ -1389,7 +1398,7 @@ namespace LifeSim.Model
             }
 
             int currIndex = 0;
-            int wordCount = 0;
+            int tmpIndex = 0;
 
             for (int i = 0; i < Int32.Parse(values[0]); i++) // végigmegyünk a listán, és minden szükséges adattagot feltöltünk
             {
@@ -1397,9 +1406,10 @@ namespace LifeSim.Model
                 {
                     You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]),
                         Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
+                    People.Add(You);
                     currIndex = 14;
-                    wordCount = 14;
-                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    tmpIndex = Int32.Parse(values[currIndex]);
+                    for (int j = 0; j < tmpIndex ; j++)
                     {
                         Person pers = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
                             Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
@@ -1407,7 +1417,6 @@ namespace LifeSim.Model
                         You.Children.Add(pers);
                         People.Add(pers);
                     }
-                    wordCount += 9 * You.Children.Count() + 1;
                     if (Int32.Parse(values[++currIndex]) == 0)
                     {
                         You.Partner = null;
@@ -1417,28 +1426,22 @@ namespace LifeSim.Model
                         You.Partner = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
                             Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
                             Int32.Parse(values[++currIndex]));
-                        wordCount += 9;
                     }
                     You.CurrentJobLevel = Int32.Parse(values[++currIndex]);
-                    wordCount += 2;
                     currIndex++;
-                    Debug.Write(wordCount);
-                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    tmpIndex = Int32.Parse(values[currIndex]);
+                    for (int j = 0; j < tmpIndex; j++)
                     {
                         You.YourSicknesses.Add(Sicknesses[Int32.Parse(values[++currIndex])]);
                     }
-                    wordCount += You.YourSicknesses.Count() + 1;
                     currIndex++;
-                    for (int j = 0; j < Int32.Parse(values[wordCount]); j++)
+                    tmpIndex = Int32.Parse(values[currIndex]);
+                    for (int j = 0; j < tmpIndex; j++)
                     {
                         You.Degrees.Add(Universities[Int32.Parse(values[++currIndex])]);
                     }
-                    wordCount += You.Degrees.Count() + 1;
                     You.PromotionMeter = Int32.Parse(values[++currIndex]);
-                    wordCount++;
                     You.YearsInUni = Int32.Parse(values[++currIndex]);
-                    wordCount++;
-                    People.Add(You);
                 }
                 else
                 {
@@ -1450,17 +1453,26 @@ namespace LifeSim.Model
                     {
                         People.Add(pers);
                     }
-                    wordCount += 9;
                 }
             }
             ++currIndex;
-            for (int i = 0; i < Int32.Parse(values[wordCount]); i++)
+            tmpIndex = Int32.Parse(values[currIndex]);
+            for (int i = 0; i < tmpIndex; i++)
             {
-                childParentPairs.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
+                if (You.Partner.FirstName == values[currIndex + 1] && You.Partner.LastName == values[currIndex + 2])
+                {
+                    childParentPairs.Add(You.Partner, new List<Person>());
+                    currIndex += 10;
+                }
+                else
+                {
+                    childParentPairs.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
                     Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
                     Int32.Parse(values[++currIndex])), new List<Person>());
-                ++currIndex;
-                for (int j = 0; j < Int32.Parse(values[wordCount + 10]); j++)
+                    ++currIndex;
+                }
+                int tmpIndexChild = Int32.Parse(values[currIndex]);
+                for (int j = 0; j < tmpIndexChild; j++)
                 {
                     childParentPairs.Last().Value.Add(new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]),
                         (Gender)Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
@@ -1979,9 +1991,9 @@ namespace LifeSim.Model
         /// </summary>
         /// <param name="p">A személy, akivel összeveszünk.</param>
         /// <param name="persind">A személy sorszáma a nézetben.</param>
-        private void OnQuarrelWithAcquaintanceEvent(Person p, int persind)
+        private void OnQuarrelWithAcquaintanceEvent(Person p)
         {
-            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p, persind));
+            QuarrelWithAcquaintanceEvent?.Invoke(this, new LifeSimEventArgs(p));
         }
 
         /// <summary>

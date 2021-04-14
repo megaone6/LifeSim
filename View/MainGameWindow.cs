@@ -2,6 +2,7 @@
 using LifeSim.Persistence;
 using LifeSim.Properties;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -89,16 +90,6 @@ namespace LifeSim.View
             refreshControls();
 
             // képek betöltése
-            healthLabel.Image = Resources.healthy;
-            if (model.You.Intelligence >= 50)
-                intelligenceLabel.Image = Resources.smart;
-            else
-                intelligenceLabel.Image = Resources.dumb;
-            if (model.You.Appearance >= 50)
-                appearanceLabel.Image = Resources.beautiful;
-            else
-                appearanceLabel.Image = Resources.ugly;
-            happinessLabel.Image = Resources.happy;
             jobPanelButton.Image = Resources.job;
             homePanelButton.Image = Resources.home;
             leisurePanelButton.Image = Resources.leisure;
@@ -107,12 +98,14 @@ namespace LifeSim.View
             acquaintancePanelButton.Image = Resources.acquaintances;
             lotteryButton.Image = Resources.lottery;
             visitDoctorButton.Image = Resources.doctor;
+            breakUpButton.Image = Resources.breakup;
+            tryForChildButton.Image = Resources.child;
 
             // munka Combo Box feltöltése
             foreach (Job job in model.Jobs)
-            {
-                jobComboBox.Items.Add(job.JobLevels.Keys.ElementAt(0));
-            }
+                {
+                    jobComboBox.Items.Add(job.JobLevels.Keys.ElementAt(0));
+                }
             jobComboBox.SelectedIndex = 0;
 
             // lakás Combo Box feltöltése
@@ -283,6 +276,11 @@ namespace LifeSim.View
                 healthLabel.Invoke(new MethodInvoker(delegate { healthLabel.Text = health; }));
             else
                 healthLabel.Text = health;
+
+            if (model.You.Health >= 50)
+                healthLabel.Image = Resources.healthy;
+            else
+                healthLabel.Image = Resources.unhealthy;
         }
 
         /// <summary>
@@ -295,6 +293,11 @@ namespace LifeSim.View
                 intelligenceLabel.Invoke(new MethodInvoker(delegate { intelligenceLabel.Text = intelligence; }));
             else
                 intelligenceLabel.Text = intelligence;
+
+            if (model.You.Intelligence >= 50)
+                intelligenceLabel.Image = Resources.smart;
+            else
+                intelligenceLabel.Image = Resources.dumb;
         }
 
         /// <summary>
@@ -307,6 +310,11 @@ namespace LifeSim.View
                 happinessLabel.Invoke(new MethodInvoker(delegate { happinessLabel.Text = happiness; }));
             else
                 happinessLabel.Text = happiness;
+
+            if (model.You.Health >= 50)
+                happinessLabel.Image = Resources.happy;
+            else
+                happinessLabel.Image = Resources.sad;
         }
 
         /// <summary>
@@ -319,6 +327,11 @@ namespace LifeSim.View
                 appearanceLabel.Invoke(new MethodInvoker(delegate { appearanceLabel.Text = appearance; }));
             else
                 appearanceLabel.Text = appearance;
+
+            if (model.You.Health >= 50)
+                appearanceLabel.Image = Resources.beautiful;
+            else
+                appearanceLabel.Image = Resources.ugly;
         }
 
         /// <summary>
@@ -559,7 +572,6 @@ namespace LifeSim.View
                 Environment.NewLine + Environment.NewLine);
 
             // frissítjük az adott ismerőshöz tartozó kapcsolatpontot a ListBoxban
-            acquaintanceListBox.Items[e.PersonIndex] = e.Person.FirstName + " " + e.Person.LastName + " - " + e.Person.Relationship.ToString();
             acquaintanceListBox.Update();
         }
 
@@ -1251,6 +1263,34 @@ namespace LifeSim.View
             }
             homeLabel.Text = model.You.Home.Type;
             universityLabel.Text = model.You.University.Type;
+
+            // képek betöltése
+            if (model.You.Health >= 50)
+                healthLabel.Image = Resources.healthy;
+            else
+                healthLabel.Image = Resources.unhealthy;
+            if (model.You.Intelligence >= 50)
+                intelligenceLabel.Image = Resources.smart;
+            else
+                intelligenceLabel.Image = Resources.dumb;
+            if (model.You.Appearance >= 50)
+                appearanceLabel.Image = Resources.beautiful;
+            else
+                appearanceLabel.Image = Resources.ugly;
+            if (model.You.Happiness >= 50)
+                happinessLabel.Image = Resources.happy;
+            else
+                happinessLabel.Image = Resources.sad;
+            if (model.You.Gender == Gender.Male)
+            {
+                genderLabel.Image = Resources.male;
+                genderLabel.Size = new Size(55, 18);
+            }
+            else
+            {
+                genderLabel.Image = Resources.female;
+                genderLabel.Size = new Size(45, 15);
+            }
 
             // labelek frissítése
             nameLabel.Text = "Neved: " + model.You.FirstName + " " + model.You.LastName;
