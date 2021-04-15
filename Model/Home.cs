@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace LifeSim.Model
 {
@@ -23,16 +24,23 @@ namespace LifeSim.Model
         public int YearlyExpenses { get; set; }
 
         /// <summary>
+        /// A lakáshoz tartozó kép.
+        /// </summary>
+        public Bitmap Image { get; set; }
+
+        /// <summary>
         /// Home osztály példányosítása.
         /// </summary>
-        /// <param name="isWon">Típus</param>
-        /// <param name="gameStepCount">Ár</param>
-        /// <param name="gameTime">Éves költségek</param>
-        public Home(String Type, int Price, int YearlyExpenses)
+        /// <param name="Type">Típus</param>
+        /// <param name="Price">Ár</param>
+        /// <param name="YearlyExpenses">Éves költségek</param>
+        /// <param name="Image">Lakás képe</param>
+        public Home(String Type, int Price, int YearlyExpenses, Bitmap Image)
         {
             this.Type = Type;
             this.Price = Price;
             this.YearlyExpenses = YearlyExpenses;
+            this.Image = Image;
         }
     }
 }

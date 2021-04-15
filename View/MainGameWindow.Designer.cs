@@ -43,17 +43,20 @@ namespace LifeSim.View
             this.happinessLabel = new System.Windows.Forms.Label();
             this.moneyLabel = new System.Windows.Forms.Label();
             this.jobPanel = new System.Windows.Forms.Panel();
-            this.quitJobButton = new System.Windows.Forms.Button();
             this.tryJobButton = new System.Windows.Forms.Button();
             this.jobComboBox = new System.Windows.Forms.ComboBox();
+            this.jobImageLabel = new System.Windows.Forms.Label();
+            this.quitJobButton = new System.Windows.Forms.Button();
             this.jobLabel = new System.Windows.Forms.Label();
             this.jobPanelButton = new System.Windows.Forms.Button();
             this.mainPanelButton = new System.Windows.Forms.Button();
             this.homePanelButton = new System.Windows.Forms.Button();
             this.homePanel = new System.Windows.Forms.Panel();
-            this.homeLabel = new System.Windows.Forms.Label();
             this.buyHomeButton = new System.Windows.Forms.Button();
             this.homeComboBox = new System.Windows.Forms.ComboBox();
+            this.homeImageLabel = new System.Windows.Forms.Label();
+            this.sellHomeButton = new System.Windows.Forms.Button();
+            this.homeLabel = new System.Windows.Forms.Label();
             this.leisurePanelButton = new System.Windows.Forms.Button();
             this.leisurePanel = new System.Windows.Forms.Panel();
             this.vacationButton = new System.Windows.Forms.Button();
@@ -218,27 +221,15 @@ namespace LifeSim.View
             // jobPanel
             // 
             this.jobPanel.BackColor = System.Drawing.Color.Transparent;
-            this.jobPanel.Controls.Add(this.quitJobButton);
             this.jobPanel.Controls.Add(this.tryJobButton);
             this.jobPanel.Controls.Add(this.jobComboBox);
+            this.jobPanel.Controls.Add(this.jobImageLabel);
+            this.jobPanel.Controls.Add(this.quitJobButton);
             this.jobPanel.Controls.Add(this.jobLabel);
             this.jobPanel.Location = new System.Drawing.Point(12, 35);
             this.jobPanel.Name = "jobPanel";
             this.jobPanel.Size = new System.Drawing.Size(776, 320);
             this.jobPanel.TabIndex = 8;
-            // 
-            // quitJobButton
-            // 
-            this.quitJobButton.FlatAppearance.BorderSize = 0;
-            this.quitJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.quitJobButton.Location = new System.Drawing.Point(15, 62);
-            this.quitJobButton.Name = "quitJobButton";
-            this.quitJobButton.Size = new System.Drawing.Size(75, 23);
-            this.quitJobButton.TabIndex = 9;
-            this.quitJobButton.Text = "Felmondás";
-            this.quitJobButton.UseVisualStyleBackColor = true;
-            this.quitJobButton.Visible = false;
-            this.quitJobButton.Click += new System.EventHandler(this.quitJobButton_Click);
             // 
             // tryJobButton
             // 
@@ -262,6 +253,26 @@ namespace LifeSim.View
             this.jobComboBox.Name = "jobComboBox";
             this.jobComboBox.Size = new System.Drawing.Size(121, 23);
             this.jobComboBox.TabIndex = 1;
+            // 
+            // jobImageLabel
+            // 
+            this.jobImageLabel.Location = new System.Drawing.Point(246, 12);
+            this.jobImageLabel.Name = "jobImageLabel";
+            this.jobImageLabel.Size = new System.Drawing.Size(300, 300);
+            this.jobImageLabel.TabIndex = 10;
+            // 
+            // quitJobButton
+            // 
+            this.quitJobButton.FlatAppearance.BorderSize = 0;
+            this.quitJobButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.quitJobButton.Location = new System.Drawing.Point(15, 62);
+            this.quitJobButton.Name = "quitJobButton";
+            this.quitJobButton.Size = new System.Drawing.Size(75, 23);
+            this.quitJobButton.TabIndex = 9;
+            this.quitJobButton.Text = "Felmondás";
+            this.quitJobButton.UseVisualStyleBackColor = true;
+            this.quitJobButton.Visible = false;
+            this.quitJobButton.Click += new System.EventHandler(this.quitJobButton_Click);
             // 
             // jobLabel
             // 
@@ -325,21 +336,15 @@ namespace LifeSim.View
             // homePanel
             // 
             this.homePanel.BackColor = System.Drawing.Color.Transparent;
-            this.homePanel.Controls.Add(this.homeLabel);
             this.homePanel.Controls.Add(this.buyHomeButton);
             this.homePanel.Controls.Add(this.homeComboBox);
+            this.homePanel.Controls.Add(this.homeImageLabel);
+            this.homePanel.Controls.Add(this.sellHomeButton);
+            this.homePanel.Controls.Add(this.homeLabel);
             this.homePanel.Location = new System.Drawing.Point(12, 35);
             this.homePanel.Name = "homePanel";
             this.homePanel.Size = new System.Drawing.Size(776, 320);
             this.homePanel.TabIndex = 11;
-            // 
-            // homeLabel
-            // 
-            this.homeLabel.AutoSize = true;
-            this.homeLabel.Location = new System.Drawing.Point(15, 16);
-            this.homeLabel.Name = "homeLabel";
-            this.homeLabel.Size = new System.Drawing.Size(0, 15);
-            this.homeLabel.TabIndex = 2;
             // 
             // buyHomeButton
             // 
@@ -363,6 +368,35 @@ namespace LifeSim.View
             this.homeComboBox.Name = "homeComboBox";
             this.homeComboBox.Size = new System.Drawing.Size(121, 23);
             this.homeComboBox.TabIndex = 0;
+            // 
+            // homeImageLabel
+            // 
+            this.homeImageLabel.Location = new System.Drawing.Point(237, 12);
+            this.homeImageLabel.Name = "homeImageLabel";
+            this.homeImageLabel.Size = new System.Drawing.Size(300, 300);
+            this.homeImageLabel.TabIndex = 4;
+            // 
+            // sellHomeButton
+            // 
+            this.sellHomeButton.AutoSize = true;
+            this.sellHomeButton.FlatAppearance.BorderSize = 0;
+            this.sellHomeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sellHomeButton.Location = new System.Drawing.Point(15, 49);
+            this.sellHomeButton.Name = "sellHomeButton";
+            this.sellHomeButton.Size = new System.Drawing.Size(90, 27);
+            this.sellHomeButton.TabIndex = 3;
+            this.sellHomeButton.Text = "Lakás eladása";
+            this.sellHomeButton.UseVisualStyleBackColor = true;
+            this.sellHomeButton.Visible = false;
+            this.sellHomeButton.Click += new System.EventHandler(this.sellHomeButton_Click);
+            // 
+            // homeLabel
+            // 
+            this.homeLabel.AutoSize = true;
+            this.homeLabel.Location = new System.Drawing.Point(15, 16);
+            this.homeLabel.Name = "homeLabel";
+            this.homeLabel.Size = new System.Drawing.Size(0, 15);
+            this.homeLabel.TabIndex = 2;
             // 
             // leisurePanelButton
             // 
@@ -757,18 +791,18 @@ namespace LifeSim.View
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.jobPanel);
+            this.Controls.Add(this.homePanel);
             this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.visitDoctorButton);
             this.Controls.Add(this.lotteryButton);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.acquaintancePanelButton);
-            this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
             this.Controls.Add(this.universityPanelButton);
             this.Controls.Add(this.leisurePanelButton);
-            this.Controls.Add(this.homePanel);
             this.Controls.Add(this.homePanelButton);
             this.Controls.Add(this.mainPanelButton);
             this.Controls.Add(this.jobPanelButton);
@@ -858,5 +892,8 @@ namespace LifeSim.View
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem achievementMenuItem;
+        private System.Windows.Forms.Button sellHomeButton;
+        private System.Windows.Forms.Label homeImageLabel;
+        private System.Windows.Forms.Label jobImageLabel;
     }
 }

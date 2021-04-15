@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LifeSim.Persistence;
+using LifeSim.Properties;
 
 namespace LifeSim.Model
 {
@@ -349,22 +350,23 @@ namespace LifeSim.Model
                 new University("Repülőmérnöki", 4, 375000)
             };
             Jobs = new List<Job>() { 
-                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2),
-                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2),
-                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0),
+                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2,
+                Resources.programmer),
+                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2, Resources.police),
+                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0, Resources.dentist),
                 new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 },
-                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3),
+                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3, Resources.soldier),
                 new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 },
-                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4),
+                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4, Resources.officer),
                 new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 },
-                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3),
+                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3, Resources.engineer),
                 new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 },
-                    { "Vezető pilóta", 11640000 } }, Universities[4], 3) 
+                    { "Vezető pilóta", 11640000 } }, Universities[4], 3, Resources.pilot) 
             };
             Homes = new List<Home>() {
-                new Home("Albérlet", 165000, 1980000),
-                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000),
-                new Home("50 négyzetméteres, szép lakás", 25500000, 580000) 
+                new Home("Albérlet", 165000, 865000, Resources.flat),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 3480000, Resources.middlehome),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 6095000, Resources.nicehome) 
             };
             Sicknesses = new List<Sickness>() {
                 new Sickness("Megfázás", 5),
@@ -373,8 +375,8 @@ namespace LifeSim.Model
                 new Sickness("COVID-19", 20, 2) 
             };
             yourName = "";
-            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
-            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0, null);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
             Achievements = new Dictionary<string, string> {
@@ -413,22 +415,23 @@ namespace LifeSim.Model
                 new University("Repülőmérnöki", 4, 375000)
             };
             Jobs = new List<Job>() {
-                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2),
-                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2),
-                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0),
+                new Job(new Dictionary<String, int> { { "Junior programozó", 3240000 }, { "Medior programozó", 6600000 }, { "Senior programozó", 9600000 } }, Universities[0], 2,
+                Resources.programmer),
+                new Job(new Dictionary<String, int> { { "Járőr", 2040000 }, { "Zászlós", 2811960 }, { "Rendőrtiszt", 4397520 } }, null, 2, Resources.police),
+                new Job(new Dictionary<String, int> { { "Fogorvos", 3780000 } }, Universities[1], 0, Resources.dentist),
                 new Job(new Dictionary<String, int> { { "Közlegény", 2040000 }, { "Tizedes", 2160000 },
-                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3),
+                    { "Őrmester", 2580000 }, { "Zászlós", 3000000 } }, null, 3, Resources.soldier),
                 new Job(new Dictionary<String, int> { { "Hadnagy", 2820000 },
-                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4),
+                    { "Százados", 3360000 }, { "Őrnagy", 3660000 }, { "Ezredes", 4800000 }, { "Dandártábornok", 5880000 } }, Universities[2], 4, Resources.officer),
                 new Job(new Dictionary<String, int> { { "Kezdő villamosmérnök", 2880000 }, { "Senior villamosmérnök", 5280000 }, { "Csoportvezető villamosmérnök", 10020000 },
-                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3),
+                    { "Felsővezető villamosmérnök", 15960000 } }, Universities[3], 3, Resources.engineer),
                 new Job(new Dictionary<String, int> { { "Pilóta gyakornok", 2820000 }, { "Másodpilóta", 6180000 }, { "Pilóta", 8640000 },
-                    { "Vezető pilóta", 11640000 } }, Universities[4], 3)
+                    { "Vezető pilóta", 11640000 } }, Universities[4], 3, Resources.pilot)
             };
             Homes = new List<Home>() {
-                new Home("Albérlet", 165000, 1980000),
-                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000),
-                new Home("50 négyzetméteres, szép lakás", 25500000, 580000)
+                new Home("Albérlet", 165000, 1980000, Resources.flat),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000, Resources.middlehome),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 580000, Resources.nicehome)
             };
             Sicknesses = new List<Sickness>() {
                 new Sickness("Megfázás", 5),
@@ -438,8 +441,8 @@ namespace LifeSim.Model
             };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
-            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0);
-            DefaultHome = new Home("Szülői lakás", 0, 0);
+            DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0, null);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             this.persistence = persistence;
             Achievements = new Dictionary<string, string> {
@@ -544,7 +547,7 @@ namespace LifeSim.Model
                 else if (p.Appearance < 0)
                     p.Appearance = 0;
 
-                p.Health += calculateHealth(p);
+                //p.Health += calculateHealth(p);
 
                 if (p.Health > 100)
                     p.Health = 100;
@@ -673,7 +676,7 @@ namespace LifeSim.Model
                     OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(8));
                 }
                 int pension = Convert.ToInt32(Math.Round(You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) * 0.67));
-                You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0);
+                You.Job = new Job(new Dictionary<String, int> { { "Nyugdíjas", pension } }, null, 0, Resources.retired);
                 You.CurrentJobLevel = 0;
                 OnRetirementEvent();
             }
@@ -798,6 +801,19 @@ namespace LifeSim.Model
         {
             You.Home = home;
             OnHomeChangedEvent();
+            OnMoneyRefreshEvent();
+        }
+
+        /// <summary>
+        /// A lakás eladására szolgáló függvény.
+        /// </summary>
+        public void sellHome()
+        {
+            if (You.Home != Homes[0])
+                You.Money += (int)(You.Home.Price * 0.75);
+            You.Home = DefaultHome;
+            OnHomeChangedEvent();
+            OnMoneyRefreshEvent();
         }
 
         /// <summary>
@@ -1262,7 +1278,13 @@ namespace LifeSim.Model
             values.Add(You.Happiness.ToString());
             values.Add(You.Relationship.ToString());
             values.Add(You.Money.ToString());
-            values.Add(Jobs.IndexOf(You.Job).ToString());
+            if (You.Job.JobLevels.ElementAt(0).Key == "Nyugdíjas")
+            {
+                values.Add((-2).ToString());
+                values.Add(You.Job.JobLevels.ElementAt(0).Value.ToString());
+            }
+            else
+                values.Add(Jobs.IndexOf(You.Job).ToString());
             values.Add(Homes.IndexOf(You.Home).ToString());
             values.Add(Universities.IndexOf(You.University).ToString());
             values.Add(You.Children.Count().ToString());
@@ -1364,6 +1386,7 @@ namespace LifeSim.Model
             People.Clear();
             You.Children.Clear();
             childParentPairs.Clear();
+            int hasPension;
             List<String> values = persistence.LoadGame(path);
             Job job;
             Home home;
@@ -1373,28 +1396,35 @@ namespace LifeSim.Model
             if (Int32.Parse(values[11]) == -1)
             {
                 job = DefaultJob;
+                hasPension = 0;
+            }
+            else if (Int32.Parse(values[11]) == -2)
+            {
+                job = new Job(new Dictionary<String, int> { { "Nyugdíjas", Int32.Parse(values[12]) } }, null, 0, Resources.retired);
+                hasPension = 1;
             }
             else
             {
                 job = Jobs[Int32.Parse(values[11])];
+                hasPension = 0;
             }
 
-            if (Int32.Parse(values[12]) == -1)
+            if (Int32.Parse(values[12 + hasPension]) == -1)
             {
                 home = DefaultHome;
             }
             else
             {
-                home = Homes[Int32.Parse(values[12])];
+                home = Homes[Int32.Parse(values[12 + hasPension])];
             }
 
-            if (Int32.Parse(values[13]) == -1)
+            if (Int32.Parse(values[13 + hasPension]) == -1)
             {
                 uni = DefaultUniversity;
             }
             else
             {
-                uni = Universities[Int32.Parse(values[13])];
+                uni = Universities[Int32.Parse(values[13 + hasPension])];
             }
 
             int currIndex = 0;
@@ -1407,7 +1437,7 @@ namespace LifeSim.Model
                     You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]),
                         Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
                     People.Add(You);
-                    currIndex = 14;
+                    currIndex = 14 + hasPension;
                     tmpIndex = Int32.Parse(values[currIndex]);
                     for (int j = 0; j < tmpIndex ; j++)
                     {

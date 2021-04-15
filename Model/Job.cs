@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace LifeSim.Model
 {
@@ -24,16 +25,23 @@ namespace LifeSim.Model
         public int MaxJobLevel { get; set; }
 
         /// <summary>
+        /// Munkához tartozó kép.
+        /// </summary>
+        public Bitmap Image { get; set; }
+
+        /// <summary>
         /// Job osztály példányosítása.
         /// </summary>
         /// <param name="JobLevels">Munka szintjei.</param>
         /// <param name="DegreeNeeded">Szükséges végzettség.</param>
         /// <param name="MaxJobLevel">Maximum szint.</param>
-        public Job(Dictionary<String,int> JobLevels, University DegreeNeeded, int MaxJobLevel)
+        /// <param name="Image">Munka képe.</param>
+        public Job(Dictionary<String,int> JobLevels, University DegreeNeeded, int MaxJobLevel, Bitmap Image)
         {
             this.JobLevels = JobLevels;
             this.DegreeNeeded = DegreeNeeded;
             this.MaxJobLevel = MaxJobLevel;
+            this.Image = Image;
         }
     }
 }

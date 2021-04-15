@@ -485,6 +485,7 @@ namespace LifeSim.View
             eventsRichTextBox.AppendText("Nyugdíjba vonultál." + Environment.NewLine + Environment.NewLine);
 
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel); // frissítjük a jobLabel szövegét
+            quitJobButton.Visible = false;
         }
 
         /// <summary>
@@ -856,6 +857,7 @@ namespace LifeSim.View
 
             // frissítjük a Modelben a munkánkat, és a munkajelentkezéssel kapcsolatos Controlokat kikapcsoljuk, a felmondás gombot pedig bekapcsoljuk
             model.jobRefresh(job);
+            jobImageLabel.Image = job.Image;
             jobComboBox.Visible = false;
             tryJobButton.Visible = false;
             quitJobButton.Visible = true;
@@ -888,14 +890,48 @@ namespace LifeSim.View
 
             if (model.You.Money < home.Price) // ha nincs elég pénzünk a lakásra, akkor ezt jelezzük
             {
-                MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még egy kicsit rá!");
+                MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még rá " + (home.Price - model.You.Money).ToString() + " forintot!");
                 return;
             }
 
-            // frissítjük a Modelben a lakást, és a lakásvétellel kapcsolatos funkciókat kikapcsoljuk
-            model.homeRefresh(home);
-            homeComboBox.Visible = false;
-            buyHomeButton.Visible = false;
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy meg akarod venni ezt a lakást? " + home.Price.ToString() + " forintodba fog kerülni.",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                // frissítjük a Modelben a lakást, a lakás képét és a lakásvétellel kapcsolatos funkciókat kikapcsoljuk
+                model.homeRefresh(home);
+                homeImageLabel.Image = home.Image;
+                homeComboBox.Visible = false;
+                buyHomeButton.Visible = false;
+                sellHomeButton.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Lakáseladás gomb eseménykezelője.
+        /// </summary>
+        private void sellHomeButton_Click(object sender, EventArgs e)
+        {
+            int sellPrice;
+
+            if (model.You.Home == model.Homes[0])
+                sellPrice = 0;
+
+            else
+                sellPrice = (int)(model.You.Home.Price * 0.75);
+
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy el akarod adni a lakásodat? " + sellPrice.ToString() + " forintért tudod eladni.",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                model.sellHome();
+                sellHomeButton.Visible = false;
+                homeComboBox.Visible = true;
+                buyHomeButton.Visible = true;
+                homeImageLabel.Image = model.You.Home.Image;
+            }
         }
 
         /// <summary>
@@ -1049,7 +1085,10 @@ namespace LifeSim.View
                                       MessageBoxButtons.YesNo);
 
             if (dr == DialogResult.Yes) // ha igen, akkor meghívjuk a Modelben ennek a függvényét
+            {
                 model.quitJob();
+                jobImageLabel.Image = model.You.Job.Image;
+            }
         }
 
         /// <summary>
@@ -1263,6 +1302,10 @@ namespace LifeSim.View
             }
             homeLabel.Text = model.You.Home.Type;
             universityLabel.Text = model.You.University.Type;
+            if (model.You.Job.JobLevels.ElementAt(0).Key == "Nyugdíjas")
+            {
+                quitJobButton.Visible = false;
+            }
 
             // képek betöltése
             if (model.You.Health >= 50)
@@ -1307,6 +1350,8 @@ namespace LifeSim.View
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel);
             homeLabel.Text = model.You.Home.Type;
             universityLabel.Text = model.You.University.Type;
+            homeImageLabel.Image = model.You.Home.Image;
+            jobImageLabel.Image = model.You.Job.Image;
 
             // partnertől függően a hozzá tartozó labelek és gombok frissítése, be- és kikapcsolása
             if (model.You.Partner is null)
@@ -1344,5 +1389,7 @@ namespace LifeSim.View
         }
 
         #endregion
+
+        
     }
 }
