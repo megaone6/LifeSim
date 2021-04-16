@@ -52,7 +52,6 @@ namespace LifeSim.Model
         private String yourName; // a játékos neve
         private bool maleOrFemale; // férfi, vagy nő
         private bool smartUni; // kell-e fizetned az egyetemért
-        private bool childOnWay; // vársz-e gyereket
         private int universityCosts; // egyetem költségei
         private int timeToPayBack; // visszafizetési idő
         private Dictionary<Person, List<Person>> childParentPairs; // szülő-gyerek párosítások
@@ -520,7 +519,6 @@ namespace LifeSim.Model
             People.Add(You);
             People.Add(Parents[0]);
             People.Add(Parents[1]);
-            childOnWay = false;
             universityCosts = 0;
             timeToPayBack = 0;
         }
@@ -547,7 +545,7 @@ namespace LifeSim.Model
                 else if (p.Appearance < 0)
                     p.Appearance = 0;
 
-                //p.Health += calculateHealth(p);
+                p.Health += calculateHealth(p);
 
                 if (p.Health > 100)
                     p.Health = 100;
@@ -647,9 +645,9 @@ namespace LifeSim.Model
                 }
             }
 
-            if (childOnWay) // ha éppen gyermeket vártunk, akkor hozzáadjuk a gyermeket a gyermekeink, és az emberek listájához
+            if (You.ChildOnWay) // ha éppen gyermeket vártunk, akkor hozzáadjuk a gyermeket a gyermekeink, és az emberek listájához
             {
-                childOnWay = false;
+                You.ChildOnWay = false;
                 You.Children.Add(childParentPairs.Values.Last().Last());
                 People.Add(You.Children[You.Children.Count - 1]);
                 if (People.Count == 11 && !CompletedAchievements.Contains(9)) // ha ismerőseink száma (rajtunk kívül) eléri a 10-et, és nincs meg a 10. achievement, akkor megkapjuk
@@ -984,7 +982,7 @@ namespace LifeSim.Model
                         appearance = 100;
                     if (intelligence > 100)
                         intelligence = 100;
-                    childOnWay = true;
+                    You.ChildOnWay = true;
                     childParentPairs[You.Partner].Add(new Person(firstName, name, 0, gender, 100, intelligence, appearance, 100, rnd.Next(75, 101)));
                     OnChildSuccessEvent();
                     break;
@@ -1015,7 +1013,6 @@ namespace LifeSim.Model
             jobRefresh(DefaultJob);
             homeRefresh(DefaultHome);
             uniRefresh(DefaultUniversity);
-            childOnWay = false;
         }
 
         /// <summary>
@@ -1287,6 +1284,7 @@ namespace LifeSim.Model
                 values.Add(Jobs.IndexOf(You.Job).ToString());
             values.Add(Homes.IndexOf(You.Home).ToString());
             values.Add(Universities.IndexOf(You.University).ToString());
+            values.Add(You.ChildOnWay.ToString());
             values.Add(You.Children.Count().ToString());
             foreach (Person c in You.Children)
             {
@@ -1435,9 +1433,9 @@ namespace LifeSim.Model
                 if (i == 0)
                 {
                     You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]),
-                        Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni);
+                        Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni, Boolean.Parse(values[14]));
                     People.Add(You);
-                    currIndex = 14 + hasPension;
+                    currIndex = 15 + hasPension;
                     tmpIndex = Int32.Parse(values[currIndex]);
                     for (int j = 0; j < tmpIndex ; j++)
                     {

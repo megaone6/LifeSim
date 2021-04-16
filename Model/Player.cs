@@ -64,6 +64,11 @@ namespace LifeSim.Model
         public int YearsInUni { get; set; }
 
         /// <summary>
+        /// Várunk-e gyermeket.
+        /// </summary>
+        public bool ChildOnWay { get; set; }
+
+        /// <summary>
         /// Player osztály példányosítása.
         /// </summary>
         /// <param name="FirstName">Vezetéknév.</param>
@@ -101,6 +106,32 @@ namespace LifeSim.Model
             Degrees = new List<University>();
             PromotionMeter = 0;
             YearsInUni = 0;
+            ChildOnWay = false;
+        }
+
+        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, int Money, Job Job, Home Home, University University, bool ChildOnWay) : base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
+        {
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Age = Age;
+            this.Gender = Gender;
+            this.Health = Health;
+            this.Intelligence = Intelligence;
+            this.Appearance = Appearance;
+            this.Happiness = Happiness;
+            this.Relationship = Relationship;
+            this.Money = Money;
+            this.Job = Job;
+            this.Home = Home;
+            this.University = University;
+            Children = new List<Person>();
+            Partner = null;
+            CurrentJobLevel = 0;
+            YourSicknesses = new List<Sickness>();
+            Degrees = new List<University>();
+            PromotionMeter = 0;
+            YearsInUni = 0;
+            this.ChildOnWay = ChildOnWay;
         }
     }
 }
