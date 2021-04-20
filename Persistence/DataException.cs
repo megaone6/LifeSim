@@ -10,6 +10,6 @@ namespace LifeSim.Persistence
         /// <summary>
         /// LifeSim adatelérés kivétel példányosítása.
         /// </summary>
-        public DataException(String message) : base(message) { }
+        public DataException() { }
     }
 }

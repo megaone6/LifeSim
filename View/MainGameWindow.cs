@@ -131,7 +131,7 @@ namespace LifeSim.View
                 model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence + Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName + " " +
                 model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " + model.Parents[1].Intelligence
                 + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " + model.You.Appearance.ToString() + ", intelligencia: " +
-                model.You.Intelligence.ToString());
+                model.You.Intelligence.ToString(), "Megszülettél!");
         }
 
         /// <summary>
@@ -165,11 +165,11 @@ namespace LifeSim.View
                             model.Parents[0].Appearance + ", intelligencia: " + model.Parents[0].Intelligence+ Environment.NewLine + "Édesanyád: " + model.Parents[1].FirstName +
                             " " + model.Parents[1].LastName + ", kora: " + model.Parents[1].Age + ", kinézete: " + model.Parents[1].Appearance + ", intelligencia: " +
                             model.Parents[1].Intelligence + Environment.NewLine + "Te: " + model.You.FirstName + " " + model.You.LastName + ", kinézet: " +
-                            model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString());
+                            model.You.Appearance.ToString() + ", intelligencia: " + model.You.Intelligence.ToString(), "Megszülettél!");
                     }
                     else // különben átvesszük az irányítást legidősebb gyermekünk felett
                     {
-                        MessageBox.Show("Átvetted az irányítást gyermeked felett.");
+                        MessageBox.Show("Átvetted az irányítást gyermeked felett.", "Reinkarnáció");
                         model.takeControlOfChild();
                     }
 
@@ -219,7 +219,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_SmartUniChangedEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Gratulálok! Bekerültél államilag finanszírozott képzésre!");
+            MessageBox.Show("Gratulálok! Bekerültél államilag finanszírozott képzésre!", "Hurrá!");
             eventsRichTextBox.AppendText("Gratulálok! Bekerültél államilag finanszírozott képzésre!" + Environment.NewLine + Environment.NewLine);
             String uni = model.You.University.Type; // lekérjük az egyertem típusát
             if (universityLabel.InvokeRequired) // megváltoztatjuk a universityLabel szövegét
@@ -234,7 +234,7 @@ namespace LifeSim.View
         private void Model_DumbUniChangedEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Sajnos csak önköltséges képzésre sikerült bejutnod. A képzés befejezése után el kell kezdened fizetni a költségeket, ami " + e.UniversityCost +
-                " forint/félév!");
+                " forint/félév!", "Hurrá! (majdnem)");
             eventsRichTextBox.AppendText("Sajnos csak önköltséges képzésre sikerült bejutnod. A képzés befejezése után el kell kezdened fizetni a költségeket, ami " +
                 e.UniversityCost + " forint/félév!" + Environment.NewLine + Environment.NewLine);
             String uni = model.You.University.Type; // lekérjük az egyertem típusát
@@ -249,7 +249,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_SmartGraduateEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!");
+            MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!", "Egyetemi képzés elvégezve!");
             eventsRichTextBox.AppendText("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést!" + Environment.NewLine + Environment.NewLine);
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
         }
@@ -260,7 +260,7 @@ namespace LifeSim.View
         private void Model_DumbGraduateEvent(object sender, LifeSimEventArgs e)
         {
             MessageBox.Show("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést! Sajnos viszont el kell kezdened törleszteni a Diákhitel 2-t. Ez " +
-                e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni.");
+                e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni.", "Egyetemi képzés elvégezve!");
             eventsRichTextBox.AppendText("Gratulálok, elvégezted a(z) " + model.You.University.Type + " képzést! Sajnos viszont el kell kezdened törleszteni a Diákhitel 2-t. Ez " +
                 e.YearsToPayBack + " évig évente " + e.UniversityCost + " forintodba fog kerülni." + Environment.NewLine + Environment.NewLine);
             universityLabel.Text = "Jelenleg nem veszel részt egyetemi képzésen";
@@ -351,7 +351,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_RelationshipFailEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nem volt meg köztetek a kémia.");
+            MessageBox.Show("Sajnos nem volt meg köztetek a kémia.", "Sikertelen kapcsolat");
             tryRelationshipButton.Enabled = false; // kikapcsoljuk a gombot, hogy ne tudjunk összejönni azzal, aki elutasított
         }
 
@@ -360,7 +360,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_RelationshipSuccessEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!");
+            MessageBox.Show("Gratulálok! Mostantól " + model.You.Partner.FirstName + " " + model.You.Partner.LastName + " a párod!", "Sikeres kapcsolat");
 
             // frissítjük a currentLoveLabel szövegét a jelenlegi partnerünk adataival
             currentLoveLabel.Text = "Párod: " + Environment.NewLine
@@ -389,7 +389,7 @@ namespace LifeSim.View
         {
             if (e.Death == false) // ha a különválás nem a partner halála miatt történt, akkor szakításként tartjuk nyilván
             {
-                MessageBox.Show("Szakítottál a pároddal!");
+                MessageBox.Show("Szakítottál a pároddal!", "Különválás");
                 eventsRichTextBox.AppendText("Szakítottál a pároddal!" + Environment.NewLine + Environment.NewLine);
             }
 
@@ -406,7 +406,7 @@ namespace LifeSim.View
         private void Model_ChildFailEvent(object sender, EventArgs e)
         {
             // jelezzük, hogy sikertelen volt a gyermekvállalás
-            MessageBox.Show("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra.");
+            MessageBox.Show("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra.", "Sikertelen gyermekvállalás");
             eventsRichTextBox.AppendText("Sajnos most nem jött össze a gyermekvállalás! Próbálkozz újra." + Environment.NewLine + Environment.NewLine);
         }
 
@@ -419,13 +419,13 @@ namespace LifeSim.View
 
             if (model.You.Gender == Gender.Male) // ha férfiak vagyunk, akkor a párunk lesz várandós
             {
-                MessageBox.Show("Gratulálok! Párod várandós.");
+                MessageBox.Show("Gratulálok! Párod várandós.", "Sikeres gyermekvállalás");
                 eventsRichTextBox.AppendText("Gratulálok! Párod várandós." + Environment.NewLine + Environment.NewLine);
             }
 
             else // ha nők, akkor mi leszünk azok
             {
-                MessageBox.Show("Gratulálok! Várandós vagy.");
+                MessageBox.Show("Gratulálok! Várandós vagy.", "Sikeres gyermekvállalás");
                 eventsRichTextBox.AppendText("Gratulálok! Várandós vagy." + Environment.NewLine + Environment.NewLine);
             }
         }
@@ -440,7 +440,7 @@ namespace LifeSim.View
             String childName = model.You.Children[model.You.Children.Count - 1].FirstName + " " + model.You.Children[model.You.Children.Count - 1].LastName; // lekérjük a gyermek nevét
 
             // jelezzük, hogy gyermek született
-            MessageBox.Show("Gratulálok, gyermeked született! Neve: " + childName);
+            MessageBox.Show("Gratulálok, gyermeked született! Neve: " + childName, "Gyermek született!");
             eventsRichTextBox.AppendText("Gratulálok, gyermeked született! Neve: " + childName + Environment.NewLine + Environment.NewLine);
 
             acquaintanceListBox.Items.Add(childName + " - " + model.You.Children[model.You.Children.Count - 1].Relationship.ToString()); // hozzáadjuk az ismerősök ListBoxhoz
@@ -457,7 +457,7 @@ namespace LifeSim.View
             tryJobButton.Visible = true;
 
             // jelezzük, hogy kiléptünk a munkahelyről
-            MessageBox.Show("Kiléptél a munkahelyedről.");
+            MessageBox.Show("Kiléptél a munkahelyedről.", "Felmondás");
             eventsRichTextBox.AppendText("Kiléptél a munkahelyedről." + Environment.NewLine + Environment.NewLine);
 
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel); // frissítjük a jobLabel szövegét
@@ -469,7 +469,7 @@ namespace LifeSim.View
         private void Model_PromotionEvent(object sender, EventArgs e)
         {
             // jelezzük az előléptetést
-            MessageBox.Show("Gratulálok, előléptettek! Fizetésed magasabb lett.");
+            MessageBox.Show("Gratulálok, előléptettek! Fizetésed magasabb lett.", "Előléptetés");
             eventsRichTextBox.AppendText("Gratulálok, előléptettek! Fizetésed magasabb lett." + Environment.NewLine + Environment.NewLine);
 
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel); // frissítjük a jobLabel szövegét, hogy jelezze új pozíciónkat
@@ -481,7 +481,7 @@ namespace LifeSim.View
         private void Model_RetirementEvent(object sender, EventArgs e)
         {
             // jelezzük a nyugdíjba vonulást
-            MessageBox.Show("Nyugdíjba vonultál.");
+            MessageBox.Show("Nyugdíjba vonultál.", "Nyugdíj");
             eventsRichTextBox.AppendText("Nyugdíjba vonultál." + Environment.NewLine + Environment.NewLine);
 
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel); // frissítjük a jobLabel szövegét
@@ -493,7 +493,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_VacationFailedEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nincs elég pénzed elmenni nyaralni. Ehhez minden családtagod után (magadat is beleértve) 300000 forintot kéne fizetned.");
+            MessageBox.Show("Sajnos nincs elég pénzed elmenni nyaralni. Ehhez minden családtagod után (magadat is beleértve) 300000 forintot kéne fizetned.", "Nincs elég pénz");
         }
 
         /// <summary>
@@ -502,7 +502,7 @@ namespace LifeSim.View
         private void Model_VacationSuccessEvent(object sender, EventArgs e)
         {
             // jelezzük a sikeres vakációt
-            MessageBox.Show("Elmentél nyaralni. Boldogságod megnőtt.");
+            MessageBox.Show("Elmentél nyaralni. Boldogságod megnőtt.", "Boldogság megnőtt");
             eventsRichTextBox.AppendText("Elmentél nyaralni. Boldogságod megnőtt." + Environment.NewLine + Environment.NewLine);
             
             vacationButton.Enabled = false; // kapcsoljuk ki a vakáció gombot az adott évre
@@ -514,7 +514,7 @@ namespace LifeSim.View
         private void Model_WorkOutSuccessEvent(object sender, EventArgs e)
         {
             // jelezzük a sikeres edzést
-            MessageBox.Show("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt.");
+            MessageBox.Show("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt.", "Egészség, kinézet és boldogság megnőtt");
             eventsRichTextBox.AppendText("Elmentél edzeni. Egészséged, kinézeted és boldogásgod megnőtt." + Environment.NewLine + Environment.NewLine);
 
             workOutButton.Enabled = false; // kapcsoljuk ki az edzés gombot az adott évre
@@ -525,7 +525,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_WorkOutFailedEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nem volt pénzed kondibérletre.");
+            MessageBox.Show("Sajnos nem volt pénzed kondibérletre.", "Nincs elég pénz");
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace LifeSim.View
         private void Model_ReadSuccessEvent(object sender, EventArgs e)
         {
             // jelezzük a sikeres olvasást
-            MessageBox.Show("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt.");
+            MessageBox.Show("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt.", "Intelligencia és boldogság megnőtt");
             eventsRichTextBox.AppendText("Vettél egy pár könyvet, és elolvastad őket. Intelligenciád és boldogságod megnőtt." + Environment.NewLine + Environment.NewLine);
 
             readButton.Enabled = false; // kapcsoljuk ki az olvasás gombot az adott évre
@@ -545,7 +545,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_ReadFailedEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nem volt pénzed új könyvekre.");
+            MessageBox.Show("Sajnos nem volt pénzed új könyvekre.", "Nincs elég pénz");
         }
 
         /// <summary>
@@ -554,7 +554,8 @@ namespace LifeSim.View
         private void Model_ProgramWithAcquaintanceEvent(object sender, LifeSimEventArgs e)
         {
             // jelezzük a program sikerességét, és az új kapcsolatpontot
-            MessageBox.Show("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString());
+            MessageBox.Show("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " + e.Person.Relationship.ToString(),
+                "Közös program");
             eventsRichTextBox.AppendText("Elmentél egy közös programra " + e.Person.FirstName + " " + e.Person.LastName + " ismerősöddel. Új kapcsolatpont: " +
                 e.Person.Relationship.ToString() + Environment.NewLine + Environment.NewLine);
 
@@ -581,7 +582,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_NoMoneyForLotteryEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nincs elég pénzed lottójegyre. 5000 forintra van szükséged.");
+            MessageBox.Show("Sajnos nincs elég pénzed lottójegyre. 5000 forintra van szükséged.", "Nincs elég pénz");
         }
 
         /// <summary>
@@ -590,7 +591,7 @@ namespace LifeSim.View
         private void Model_LotteryWinEvent(object sender, EventArgs e)
         {
             // jegyezzük fel, hogy nyertünk a lottón
-            MessageBox.Show("Gratulálok, nyertél a lottón!");
+            MessageBox.Show("Gratulálok, nyertél a lottón!", "Nyertél!");
             eventsRichTextBox.AppendText("Gratulálok, nyertél a lottón!" + Environment.NewLine + Environment.NewLine);
         }
 
@@ -599,7 +600,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_LotteryLoseEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos nem nyertél a lottón.");
+            MessageBox.Show("Sajnos nem nyertél a lottón.", "Nem nyertél!");
         }
 
         /// <summary>
@@ -608,7 +609,7 @@ namespace LifeSim.View
         private void Model_MilitaryMissionEvent(object sender, EventArgs e)
         {
             // jelezzük, hogy behívtak misszióra
-            MessageBox.Show("Bevetésre hívtak egy háború sújtotta övezetbe. Keresd meg az aknákat az aknamezőn, és hatástalanítsd őket!");
+            MessageBox.Show("Bevetésre hívtak egy háború sújtotta övezetbe. Keresd meg az aknákat az aknamezőn, és hatástalanítsd őket!", "Bevetés");
             eventsRichTextBox.AppendText("Bevetésre hívtak egy háború sújtotta övezetbe." + Environment.NewLine + Environment.NewLine);
 
             foreach (Control child in this.Controls) // kikapcsoljuk az összes gombot a Form-on
@@ -628,7 +629,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_MakeFriendFailedEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos senki nem akart most barátkozni veled.");
+            MessageBox.Show("Sajnos senki nem akart most barátkozni veled.", "Sikertelen barátkozás");
             makeFriendButton.Enabled = false; // kikapcsoljuk a barátkozás gombot az adott évre
         }
 
@@ -638,7 +639,7 @@ namespace LifeSim.View
         private void Model_MakeFriendSuccessEvent(object sender, LifeSimEventArgs e)
         {
             // jelezzük a barátkozás sikerességét
-            MessageBox.Show("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!");
+            MessageBox.Show("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!", "Sikeres barátkozás");
             eventsRichTextBox.AppendText("Sikeresen összebarátkoztál vele: " + e.Person.FirstName + " " + e.Person.LastName + "!" + Environment.NewLine + Environment.NewLine);
 
             makeFriendButton.Enabled = false; // kikapcsoljuk a barátkozás gombot az adott évre
@@ -663,7 +664,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_PlaneCrashEvent(object sender, EventArgs e)
         {
-            MessageBox.Show("Sajnos a gép, amin utaztál repülőgép-szerencsétlenség áldozata lett.");
+            MessageBox.Show("Sajnos a gép, amin utaztál repülőgép-szerencsétlenség áldozata lett.", "Pech");
             mainPanel.BringToFront();
         }
 
@@ -681,7 +682,6 @@ namespace LifeSim.View
             else // különben titok marad, amíg meg nem látogatunk egy orvost
             {
                 eventsRichTextBox.AppendText("Nem érzed túl jól magad. Jobban teszed, ha minél előbb meglátogatsz egy orvost!" + Environment.NewLine + Environment.NewLine);
-
             }
         }
 
@@ -714,7 +714,7 @@ namespace LifeSim.View
         /// </summary>
         private void Model_AchievementUnlockedEvent(object sender, LifeSimEventArgs e)
         {
-            MessageBox.Show("Gratulálok! Elérted a következő teljesítményt: " + e.AchievementName + "!");
+            MessageBox.Show("Gratulálok! Elérted a következő teljesítményt: " + e.AchievementName + "!", "Teljesítmény elérve");
         }
 
         #endregion
@@ -851,7 +851,7 @@ namespace LifeSim.View
 
             if ((!model.You.Degrees.Contains(job.DegreeNeeded)) && !(job.DegreeNeeded is null)) // ha nincs meg a szükséges diploma a munkához, akkor ezt írjuk ki
             {
-                MessageBox.Show("Nincs meg a szükséges képzésed ehhez a munkához!");
+                MessageBox.Show("Nincs meg a szükséges képzésed ehhez a munkához!", "Egyetemi képzés hiányzik");
                 return;
             }
 
@@ -890,7 +890,7 @@ namespace LifeSim.View
 
             if (model.You.Money < home.Price) // ha nincs elég pénzünk a lakásra, akkor ezt jelezzük
             {
-                MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még rá " + (home.Price - model.You.Money).ToString() + " forintot!");
+                MessageBox.Show("Nincs elég pénzed erre a lakásra. Gyűjts még rá " + (home.Price - model.You.Money).ToString() + " forintot!", "Nincs elég pénz");
                 return;
             }
 
@@ -1129,7 +1129,7 @@ namespace LifeSim.View
         {
             if (acquaintanceListBox.Text == "") // ha nincs kiválasztva ismerős, ezt jelezzük
             {
-                MessageBox.Show("Válassz ki valakit az ismerőseid közül!");
+                MessageBox.Show("Válassz ki valakit az ismerőseid közül!", "Válassz!");
                 return;
             }
             model.programWithAcquaintance(acquaintanceListBox.SelectedIndex + 1);
@@ -1191,6 +1191,7 @@ namespace LifeSim.View
                 catch (DataException) // ha nem sikerül, akkor kivételt dobunk
                 {
                     MessageBox.Show("Hiba történt a betöltés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             refreshControls(); // frissítjük a Controlokat az új adatokkal
@@ -1225,6 +1226,7 @@ namespace LifeSim.View
         private void refreshControls()
         {
             ageButton.Enabled = true;
+            visitDoctorButton.Enabled = true;
             // kortól függően gombok be- és kikapcsolása
             if (model.You.Age < 3)
                 acquaintancePanelButton.Enabled = false;
@@ -1251,7 +1253,6 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = false;
                 homePanelButton.Enabled = false;
                 universityPanelButton.Enabled = false;
-                acquaintancePanelButton.Enabled = false;
                 lotteryButton.Enabled = false;
                 tryForChildButton.Enabled = false;
                 vacationButton.Enabled = false;

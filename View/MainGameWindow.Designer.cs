@@ -59,6 +59,9 @@ namespace LifeSim.View
             this.homeLabel = new System.Windows.Forms.Label();
             this.leisurePanelButton = new System.Windows.Forms.Button();
             this.leisurePanel = new System.Windows.Forms.Panel();
+            this.vacationLabel = new System.Windows.Forms.Label();
+            this.readLabel = new System.Windows.Forms.Label();
+            this.workOutLabel = new System.Windows.Forms.Label();
             this.vacationButton = new System.Windows.Forms.Button();
             this.readButton = new System.Windows.Forms.Button();
             this.workOutButton = new System.Windows.Forms.Button();
@@ -419,6 +422,9 @@ namespace LifeSim.View
             // leisurePanel
             // 
             this.leisurePanel.BackColor = System.Drawing.Color.Transparent;
+            this.leisurePanel.Controls.Add(this.vacationLabel);
+            this.leisurePanel.Controls.Add(this.readLabel);
+            this.leisurePanel.Controls.Add(this.workOutLabel);
             this.leisurePanel.Controls.Add(this.vacationButton);
             this.leisurePanel.Controls.Add(this.readButton);
             this.leisurePanel.Controls.Add(this.workOutButton);
@@ -426,6 +432,34 @@ namespace LifeSim.View
             this.leisurePanel.Name = "leisurePanel";
             this.leisurePanel.Size = new System.Drawing.Size(776, 320);
             this.leisurePanel.TabIndex = 13;
+            // 
+            // vacationLabel
+            // 
+            this.vacationLabel.Location = new System.Drawing.Point(184, 219);
+            this.vacationLabel.Name = "vacationLabel";
+            this.vacationLabel.Size = new System.Drawing.Size(556, 36);
+            this.vacationLabel.TabIndex = 19;
+            this.vacationLabel.Text = "Nyaralás: Elmész külföldre nyaralni a családoddal. Nagy mértékben növeli a boldog" +
+    "ságodat, de sok pénzbe kerül. (300000 * családtagok száma)";
+            // 
+            // readLabel
+            // 
+            this.readLabel.Location = new System.Drawing.Point(184, 116);
+            this.readLabel.Name = "readLabel";
+            this.readLabel.Size = new System.Drawing.Size(556, 31);
+            this.readLabel.TabIndex = 18;
+            this.readLabel.Text = "Olvasás: Elmész a legközelebbi könyvesboltba, veszel egy pár könyvet és elolvasod" +
+    " őket. Növeli az intelligenciádat és a boldogságodat.";
+            // 
+            // workOutLabel
+            // 
+            this.workOutLabel.AutoSize = true;
+            this.workOutLabel.Location = new System.Drawing.Point(184, 38);
+            this.workOutLabel.Name = "workOutLabel";
+            this.workOutLabel.Size = new System.Drawing.Size(563, 15);
+            this.workOutLabel.TabIndex = 17;
+            this.workOutLabel.Text = "Edzés: Elmész edzeni a legközelebbi konditerembe. Növeli az egészségedet, kinézet" +
+    "edet és boldogságodat.";
             // 
             // vacationButton
             // 
@@ -791,13 +825,13 @@ namespace LifeSim.View
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.homePanel);
             this.Controls.Add(this.acquaintancePanel);
             this.Controls.Add(this.lovePanel);
             this.Controls.Add(this.visitDoctorButton);
             this.Controls.Add(this.lotteryButton);
-            this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.acquaintancePanelButton);
             this.Controls.Add(this.lovePanelButton);
             this.Controls.Add(this.universityPanel);
@@ -823,6 +857,7 @@ namespace LifeSim.View
             this.homePanel.ResumeLayout(false);
             this.homePanel.PerformLayout();
             this.leisurePanel.ResumeLayout(false);
+            this.leisurePanel.PerformLayout();
             this.universityPanel.ResumeLayout(false);
             this.universityPanel.PerformLayout();
             this.lovePanel.ResumeLayout(false);
@@ -895,5 +930,8 @@ namespace LifeSim.View
         private System.Windows.Forms.Button sellHomeButton;
         private System.Windows.Forms.Label homeImageLabel;
         private System.Windows.Forms.Label jobImageLabel;
+        private System.Windows.Forms.Label readLabel;
+        private System.Windows.Forms.Label workOutLabel;
+        private System.Windows.Forms.Label vacationLabel;
     }
 }

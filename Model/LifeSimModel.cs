@@ -584,6 +584,9 @@ namespace LifeSim.Model
                             CompletedAchievements.Add(3);
                             OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(3));
                         }
+                        People.Remove(You); // törlődik az emberek listájából
+                        OnDeathEvent(You); // kiváltódik a halálhoz tartozó esemény
+                        return;
                     }
                     else if (p == You.Partner) // ha a partnerünk hal meg, akkor már nem ő lesz a partnerünk
                     {
@@ -592,7 +595,6 @@ namespace LifeSim.Model
                     p.Health = 0;
                     People.Remove(p); // törlődik az emberek listájából
                     OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
-                    return;
                 }
             }
 
@@ -612,6 +614,7 @@ namespace LifeSim.Model
 
             if (You.University != DefaultUniversity) // ha éppen egyetemre járunk (nem az alap egyetemre), akkor az ott töltött éveink növekednek
             {
+                Debug.WriteLine(You.YearsInUni);
                 You.YearsInUni++;
                 if (You.YearsInUni == You.University.YearsToFinish) // ha elérjük az elvégzéshez szükséges évszámot, akkor megkapjuk a diplomát
                 {
@@ -630,6 +633,7 @@ namespace LifeSim.Model
                     You.Degrees.Add(You.University);
                     You.University = DefaultUniversity;
                 }
+                Debug.WriteLine(You.YearsInUni);
             }
 
             if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel) // ha van munkánk, és még nem értük el a végső szintjét
@@ -1263,6 +1267,8 @@ namespace LifeSim.Model
             if (persistence == null)
                 return;
 
+            int count = 0;
+
             List<String> values = new List<String>();
             values.Add(People.Count.ToString()); // eltároljuk, hogy hány ember szerepel jelenlegi játékunkban
             values.Add(You.FirstName);
@@ -1275,17 +1281,23 @@ namespace LifeSim.Model
             values.Add(You.Happiness.ToString());
             values.Add(You.Relationship.ToString());
             values.Add(You.Money.ToString());
+            count += 11;
             if (You.Job.JobLevels.ElementAt(0).Key == "Nyugdíjas")
             {
                 values.Add((-2).ToString());
                 values.Add(You.Job.JobLevels.ElementAt(0).Value.ToString());
+                count += 2;
             }
             else
+            {
                 values.Add(Jobs.IndexOf(You.Job).ToString());
+                count++;
+            }
             values.Add(Homes.IndexOf(You.Home).ToString());
             values.Add(Universities.IndexOf(You.University).ToString());
             values.Add(You.ChildOnWay.ToString());
             values.Add(You.Children.Count().ToString());
+            count += 4;
             foreach (Person c in You.Children)
             {
                 values.Add(c.FirstName);
@@ -1297,10 +1309,12 @@ namespace LifeSim.Model
                 values.Add(c.Appearance.ToString());
                 values.Add(c.Happiness.ToString());
                 values.Add(c.Relationship.ToString());
+                count += 9;
             }
             if (You.Partner is null)
             {
                 values.Add((0).ToString());
+                count++;
             }
             else
             {
@@ -1314,20 +1328,26 @@ namespace LifeSim.Model
                 values.Add(You.Partner.Appearance.ToString());
                 values.Add(You.Partner.Happiness.ToString());
                 values.Add(You.Partner.Relationship.ToString());
+                count += 10;
             }
             values.Add(You.CurrentJobLevel.ToString());
             values.Add(You.YourSicknesses.Count().ToString());
+            count += 2;
             foreach (Sickness s in You.YourSicknesses)
             {
                 values.Add(Sicknesses.IndexOf(s).ToString());
+                count++;
             }
             values.Add(You.Degrees.Count().ToString());
+            count++;
             foreach (University u in You.Degrees)
             {
                 values.Add(Universities.IndexOf(u).ToString());
+                count++;
             }
             values.Add(You.PromotionMeter.ToString());
             values.Add(You.YearsInUni.ToString());
+            count += 2;
             foreach (Person p in People) // eltároljuk minden tulajdonságukat
             {
                 if (p != You)
@@ -1341,9 +1361,11 @@ namespace LifeSim.Model
                     values.Add(p.Appearance.ToString());
                     values.Add(p.Happiness.ToString());
                     values.Add(p.Relationship.ToString());
+                    count += 9;
                 }
             }
             values.Add(childParentPairs.Count().ToString());
+            count++;
             foreach (KeyValuePair<Person, List<Person>> rel in childParentPairs) // végül pedig a gyermek-szülő párokat is tároljuk
             {
                 values.Add(rel.Key.FirstName);
@@ -1356,6 +1378,7 @@ namespace LifeSim.Model
                 values.Add(rel.Key.Happiness.ToString());
                 values.Add(rel.Key.Relationship.ToString());
                 values.Add(rel.Value.Count().ToString());
+                count += 10;
                 foreach (Person c in rel.Value)
                 {
                     values.Add(c.FirstName);
@@ -1367,8 +1390,10 @@ namespace LifeSim.Model
                     values.Add(c.Appearance.ToString());
                     values.Add(c.Happiness.ToString());
                     values.Add(c.Relationship.ToString());
+                    count += 9;
                 }
             }
+            values.Insert(0, count.ToString());
             persistence.SaveGame(path, values);
         }
 
@@ -1381,11 +1406,11 @@ namespace LifeSim.Model
             if (persistence == null)
                 return;
 
+            List<String> values = persistence.LoadGame(path);
             People.Clear();
             You.Children.Clear();
             childParentPairs.Clear();
             int hasPension;
-            List<String> values = persistence.LoadGame(path);
             Job job;
             Home home;
             University uni;

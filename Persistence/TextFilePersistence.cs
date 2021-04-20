@@ -24,15 +24,19 @@ namespace LifeSim.Persistence
             {
                 using (StreamReader reader = new StreamReader(path)) // megnyitja a fájlt
                 {
-                    String[] tmp = reader.ReadToEnd().Split(); // a fájlból szóközönként elválasztva beolvas minden adatot egy String tömbbe
-                    List<String> values = new List<String>(tmp); // ezt belerakja egy listába
+                    List<String> values = new List<String>();
+                    int count = Int32.Parse(reader.ReadLine());
+                    for (int i = 0; i < count; i++)
+                    {
+                        values.Add(reader.ReadLine());
+                    }
 
                     return values;
                 }
             }
             catch // ha valamiért nem sikerül a fájl megnyitása, akkor kivételt dob
             {
-                throw new DataException("Hiba történt a betöltés közben.");
+                throw new DataException();
             }
         }
 
@@ -53,12 +57,15 @@ namespace LifeSim.Persistence
             {
                 using (StreamWriter writer = new StreamWriter(path)) // megnyitja a fájlt
                 {
-                    writer.Write(values.Aggregate((value1, value2) => value1 + " " + value2)); // beleírja a fájlba az összes adatot szóközzel elválasztva
+                    foreach (String word in values)
+                    {
+                        writer.WriteLine(word);
+                    }
                 }
             }
             catch // ha valamiért nem sikerül a fájl megnyitása, akkor kivételt dob
             {
-                throw new DataException("Hiba történt a mentés során.");
+                throw new DataException();
             }
         }
 
@@ -91,7 +98,7 @@ namespace LifeSim.Persistence
             }
             catch // ha valamiért nem sikerül a fájlba írás, akkor kivételt dob
             {
-                throw new DataException("Hiba történt a fájlba írás során.");
+                throw new DataException();
             }
         }
 
@@ -115,7 +122,7 @@ namespace LifeSim.Persistence
             }
             catch
             {
-                throw new DataException("Hiba történt a betöltés közben.");
+                throw new DataException();
             }
         }
     }
