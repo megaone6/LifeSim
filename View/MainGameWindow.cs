@@ -1190,8 +1190,7 @@ namespace LifeSim.View
                 }
                 catch (DataException) // ha nem sikerül, akkor kivételt dobunk
                 {
-                    MessageBox.Show("Hiba történt a betöltés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("Hiba történt a betöltés során. Valószínűleg a betöltendő fájl tartalma hibás.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             refreshControls(); // frissítjük a Controlokat az új adatokkal
