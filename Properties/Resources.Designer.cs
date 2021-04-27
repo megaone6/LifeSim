@@ -93,9 +93,29 @@ namespace LifeSim.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap car {
+            get {
+                object obj = ResourceManager.GetObject("car", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap child {
             get {
                 object obj = ResourceManager.GetObject("child", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap clio {
+            get {
+                object obj = ResourceManager.GetObject("clio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,6 +233,16 @@ namespace LifeSim.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap lada {
+            get {
+                object obj = ResourceManager.GetObject("lada", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap leisure {
             get {
                 object obj = ResourceManager.GetObject("leisure", resourceCulture);
@@ -273,9 +303,29 @@ namespace LifeSim.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap nissan {
+            get {
+                object obj = ResourceManager.GetObject("nissan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap officer {
             get {
                 object obj = ResourceManager.GetObject("officer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap opel {
+            get {
+                object obj = ResourceManager.GetObject("opel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

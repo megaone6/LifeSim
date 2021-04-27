@@ -49,6 +49,7 @@ namespace LifeSim.View
             model.DeathEvent += new EventHandler<LifeSimEventArgs>(Model_DeathEvent);
             model.JobChangedEvent += new EventHandler<EventArgs>(Model_JobChangedEvent);
             model.HomeChangedEvent += new EventHandler<EventArgs>(Model_HomeChangedEvent);
+            model.VehicleChangedEvent += new EventHandler<EventArgs>(Model_VehicleChangedEvent);
             model.SmartUniChangedEvent += new EventHandler<EventArgs>(Model_SmartUniChangedEvent);
             model.DumbUniChangedEvent += new EventHandler<LifeSimEventArgs>(Model_DumbUniChangedEvent);
             model.SmartGraduateEvent += new EventHandler<EventArgs>(Model_SmartGraduateEvent);
@@ -86,6 +87,7 @@ namespace LifeSim.View
             model.CaughtSicknessEvent += new EventHandler<LifeSimEventArgs>(Model_CaughtSicknessEvent);
             model.DoctorsVisitEvent += new EventHandler<LifeSimEventArgs>(Model_DoctorsVisitEvent);
             model.AchievementUnlockedEvent += new EventHandler<LifeSimEventArgs>(Model_AchievementUnlockedEvent);
+            model.ExamCompleteEvent += new EventHandler<EventArgs>(Model_ExamCompleteEvent);
 
             refreshControls();
 
@@ -100,6 +102,7 @@ namespace LifeSim.View
             visitDoctorButton.Image = Resources.doctor;
             breakUpButton.Image = Resources.breakup;
             tryForChildButton.Image = Resources.child;
+            carPanelButton.Image = Resources.car;
 
             // munka Combo Box feltöltése
             foreach (Job job in model.Jobs)
@@ -121,6 +124,13 @@ namespace LifeSim.View
                 universityComboBox.Items.Add(uni.Type);
             }
             universityComboBox.SelectedIndex = 0;
+
+            // jármű Combo Box feltöltése
+            foreach (Car vehicle in model.Vehicles)
+            {
+                vehicleComboBox.Items.Add(vehicle.Type);
+            }
+            vehicleComboBox.SelectedIndex = 0;
 
             // ismerősök hozzáadása a hozzájuk tartozó List Boxhoz (először csak a szüleink)
             acquaintanceListBox.Items.Add(model.People[1].FirstName + " " + model.People[1].LastName + " - " + model.People[1].Relationship.ToString());
@@ -212,6 +222,19 @@ namespace LifeSim.View
                 jobLabel.Invoke(new MethodInvoker(delegate { homeLabel.Text = home; }));
             else
                 homeLabel.Text = home;
+        }
+
+        /// <summary>
+        /// Járműváltozás eseménykezelője.
+        /// </summary>
+        private void Model_VehicleChangedEvent(object sender, EventArgs e)
+        {
+            String vehicle = model.You.Vehicle.Type; //lekérjük az új járművünk típusát
+            eventsRichTextBox.AppendText("Megvetted a következő járművet: " + vehicle + Environment.NewLine + Environment.NewLine);
+            if (vehicleLabel.InvokeRequired) // megváltoztatjuk a vehicleLabel szövegét
+                vehicleLabel.Invoke(new MethodInvoker(delegate { vehicleLabel.Text = vehicle; }));
+            else
+                vehicleLabel.Text = vehicle;
         }
 
         /// <summary>
@@ -717,6 +740,28 @@ namespace LifeSim.View
             MessageBox.Show("Gratulálok! Elérted a következő teljesítményt: " + e.AchievementName + "!", "Teljesítmény elérve");
         }
 
+        /// <summary>
+        /// Achievement feloldásának eseménykezelője.
+        /// </summary>
+        private void Model_ExamCompleteEvent(object sender, EventArgs e)
+        {
+            foreach (Control child in this.Controls) // visszakapcsoljuk a szükséges gombokat
+            {
+                if (child.GetType() == typeof(Button) && child.Text != "Autó")
+                    child.Enabled = true;
+            }
+            if (model.You.HasLicense)
+            {
+                buyCarButton.Visible = true;
+                vehicleComboBox.Visible = true;
+                takeLicenseExamButton.Visible = false;
+            }
+            else
+            {
+                takeLicenseExamButton.Enabled = false;
+            }
+        }
+
         #endregion
 
         #region Control event handlers
@@ -776,11 +821,14 @@ namespace LifeSim.View
                 universityLabel.Text = model.You.University.Type;
                 acquaintancePanelButton.Enabled = true;
                 lotteryButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
             if (model.You.Age >= 18)
             {
                 tryForChildButton.Enabled = true;
                 vacationButton.Enabled = true;
+                if (!model.You.HasLicense)
+                    takeLicenseExamButton.Enabled = true;
             }
             makeFriendButton.Enabled = true;
 
@@ -817,6 +865,7 @@ namespace LifeSim.View
             universityPanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
             acquaintancePanelButton.Enabled = true;
+            carPanelButton.Enabled = true;
         }
 
         /// <summary>
@@ -839,6 +888,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
         }
 
@@ -879,6 +929,7 @@ namespace LifeSim.View
             universityPanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
             acquaintancePanelButton.Enabled = true;
+            carPanelButton.Enabled = true;
         }
 
         /// <summary>
@@ -935,6 +986,53 @@ namespace LifeSim.View
         }
 
         /// <summary>
+        /// Autóvásárláshoz tartozó gomb eseménykezelője.
+        /// </summary>
+        private void buyCarButton_Click(object sender, EventArgs e)
+        {
+            Car vehicle = model.Vehicles[vehicleComboBox.SelectedIndex]; // beolvassuk a Modelből a kiválasztott járművet
+
+            if (model.You.Money < vehicle.Price) // ha nincs elég pénzünk a járműre, akkor ezt jelezzük
+            {
+                MessageBox.Show("Nincs elég pénzed erre a járműre. Gyűjts még rá " + (vehicle.Price - model.You.Money).ToString() + " forintot!", "Nincs elég pénz");
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy meg akarod venni ezt a járművet? " + vehicle.Price.ToString() + " forintodba fog kerülni.",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                // frissítjük a Modelben a járművet, a jármű képét és a járművétellel kapcsolatos funkciókat kikapcsoljuk
+                model.vehicleRefresh(vehicle);
+                vehicleImageLabel.Image = vehicle.Image;
+                vehicleComboBox.Visible = false;
+                buyCarButton.Visible = false;
+                sellCarButton.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Járműeladás gomb eseménykezelője.
+        /// </summary>
+        private void sellCarButton_Click(object sender, EventArgs e)
+        {
+            int sellPrice = (int)(model.You.Vehicle.Price * 0.75);
+
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy el akarod adni a jűrművedet? " + sellPrice.ToString() + " forintért tudod eladni.",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                model.sellVehicle();
+                sellCarButton.Visible = false;
+                vehicleComboBox.Visible = true;
+                buyCarButton.Visible = true;
+                vehicleImageLabel.Image = model.You.Vehicle.Image;
+            }
+        }
+
+        /// <summary>
         /// Szabadidő panelhez tartozó gomb eseménykezelője.
         /// </summary>
         private void leisurePanelButton_Click(object sender, EventArgs e)
@@ -953,6 +1051,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
         }
 
@@ -988,6 +1087,7 @@ namespace LifeSim.View
             leisurePanelButton.Enabled = true;
             lovePanelButton.Enabled = true;
             acquaintancePanelButton.Enabled = true;
+            carPanelButton.Enabled = true;
         }
 
         /// <summary>
@@ -1021,6 +1121,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
         }
 
@@ -1119,6 +1220,7 @@ namespace LifeSim.View
                 jobPanelButton.Enabled = true;
                 homePanelButton.Enabled = true;
                 universityPanelButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
         }
 
@@ -1157,6 +1259,53 @@ namespace LifeSim.View
         private void visitDoctorButton_Click(object sender, EventArgs e)
         {
             model.visitDoctor();
+        }
+
+        /// <summary>
+        /// Autó panelhez tartozó gomb eseménykezelője.
+        /// </summary>
+        private void carPanelButton_Click(object sender, EventArgs e)
+        {
+            carPanel.BringToFront();
+            // ki- és bekapcsoljuk a szükséges gombokat
+            ageButton.Enabled = false;
+            carPanelButton.Enabled = false;
+            acquaintancePanelButton.Enabled = true;
+            mainPanelButton.Enabled = true;
+            leisurePanelButton.Enabled = true;
+            lovePanelButton.Enabled = true;
+            jobPanelButton.Enabled = true;
+            homePanelButton.Enabled = true;
+            universityPanelButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// Jogosítvány letételéhez tartozó gomb eseménykezelője.
+        /// </summary>
+        private void takeLicenseExamButton_Click(object sender, EventArgs e)
+        {
+            if (model.You.Money < 250000) // ha nincs elég pénzünk a jogsira, akkor ezt jelezzük
+            {
+                MessageBox.Show("Nincs elég pénzed jogosítványra. Gyűjts még rá " + (250000 - model.You.Money).ToString() + " forintot!", "Nincs elég pénz");
+                return;
+            }
+
+            // megkérdezzük a játékost, hogy le akarja-e tenni a vizsgát
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy szeretnél jogosítványt? 250000 forintodba fog kerülni akár sikerül, akár nem!",
+                                      "Figyelmeztetés!",
+                                      MessageBoxButtons.YesNo);
+
+            foreach (Control child in this.Controls) // kikapcsoljuk az összes gombot a Form-on
+            {
+                if (child.GetType() == typeof(Button))
+                    child.Enabled = false;
+            }
+
+            if (dr == DialogResult.Yes) // ha igen, akkor létrehozzuk és megjelenítjük a kvíz ablakot
+            {
+                LicenseQuestionsWindow lq = new LicenseQuestionsWindow(model);
+                lq.Show();
+            }
         }
 
         /// <summary>
@@ -1255,6 +1404,7 @@ namespace LifeSim.View
                 lotteryButton.Enabled = false;
                 tryForChildButton.Enabled = false;
                 vacationButton.Enabled = false;
+                carPanelButton.Enabled = false;
             }
             else
             {
@@ -1267,6 +1417,7 @@ namespace LifeSim.View
                 lotteryButton.Enabled = true;
                 tryForChildButton.Enabled = true;
                 vacationButton.Enabled = true;
+                carPanelButton.Enabled = true;
             }
             if (model.You.Job != model.DefaultJob)
             {
@@ -1299,6 +1450,28 @@ namespace LifeSim.View
             {
                 applyToUniButton.Visible = true;
                 universityComboBox.Visible = true;
+            }
+            if (model.You.Vehicle != model.DefaultVehicle)
+            {
+                buyCarButton.Visible = false;
+                vehicleComboBox.Visible = false;
+                takeLicenseExamButton.Visible = false;
+                sellCarButton.Visible = true;
+            }
+            else if (model.You.HasLicense)
+            {
+                buyCarButton.Visible = true;
+                vehicleComboBox.Visible = true;
+                takeLicenseExamButton.Visible = false;
+                sellCarButton.Visible = false;
+            }
+            else
+            {
+                buyCarButton.Visible = false;
+                vehicleComboBox.Visible = false;
+                takeLicenseExamButton.Visible = true;
+                takeLicenseExamButton.Enabled = true;
+                sellCarButton.Visible = false;
             }
             homeLabel.Text = model.You.Home.Type;
             universityLabel.Text = model.You.University.Type;
@@ -1352,6 +1525,9 @@ namespace LifeSim.View
             universityLabel.Text = model.You.University.Type;
             homeImageLabel.Image = model.You.Home.Image;
             jobImageLabel.Image = model.You.Job.Image;
+            vehicleLabel.Text = model.You.Vehicle.Type;
+            vehicleImageLabel.Image = model.You.Vehicle.Image;
+            
 
             // partnertől függően a hozzá tartozó labelek és gombok frissítése, be- és kikapcsolása
             if (model.You.Partner is null)
@@ -1386,10 +1562,12 @@ namespace LifeSim.View
             eventsRichTextBox.AppendText(tmpText);
             eventsRichTextBox.Select(textLength, tmpText.Length);
             eventsRichTextBox.SelectionFont = new Font(eventsRichTextBox.Font, FontStyle.Bold);
+
+            mainPanel.BringToFront();
         }
+
 
         #endregion
 
-        
     }
 }

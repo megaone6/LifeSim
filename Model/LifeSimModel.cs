@@ -102,6 +102,11 @@ namespace LifeSim.Model
         public List<Sickness> Sicknesses { get; private set; }
 
         /// <summary>
+        /// Autók listája.
+        /// </summary>
+        public List<Car> Vehicles { get; private set; }
+
+        /// <summary>
         /// Alapértelmezett munka.
         /// </summary>
         public Job DefaultJob { get; private set; }
@@ -115,6 +120,11 @@ namespace LifeSim.Model
         /// Alapértelmezett otthon.
         /// </summary>
         public Home DefaultHome { get; private set; }
+
+        /// <summary>
+        /// Alapértelmezett jármű.
+        /// </summary>
+        public Car DefaultVehicle { get; private set; }
 
         /// <summary>
         /// Achievementek szótára.
@@ -144,6 +154,11 @@ namespace LifeSim.Model
         /// Lakás változásának seseménye.
         /// </summary>
         public event EventHandler<EventArgs> HomeChangedEvent;
+
+        /// <summary>
+        /// Jármű változásának seseménye.
+        /// </summary>
+        public event EventHandler<EventArgs> VehicleChangedEvent;
 
         /// <summary>
         /// Egyetem változásának eseménye. (adott intelligencia felett)
@@ -330,6 +345,11 @@ namespace LifeSim.Model
         /// </summary>
         public event EventHandler<LifeSimEventArgs> AchievementUnlockedEvent;
 
+        /// <summary>
+        /// Jogosítvány vizsga befejezésének eseménye.
+        /// </summary>
+        public event EventHandler<EventArgs> ExamCompleteEvent;
+
         #endregion
 
         #region Constructor
@@ -363,9 +383,9 @@ namespace LifeSim.Model
                     { "Vezető pilóta", 11640000 } }, Universities[4], 3, Resources.pilot) 
             };
             Homes = new List<Home>() {
-                new Home("Albérlet", 165000, 865000, Resources.flat),
-                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 3480000, Resources.middlehome),
-                new Home("50 négyzetméteres, szép lakás", 25500000, 6095000, Resources.nicehome) 
+                new Home("Albérlet", 165000, 865000, Resources.flat, 5),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 3480000, Resources.middlehome, 10),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 6095000, Resources.nicehome, 15)
             };
             Sicknesses = new List<Sickness>() {
                 new Sickness("Megfázás", 5),
@@ -373,10 +393,17 @@ namespace LifeSim.Model
                 new Sickness("Magas vérnyomás", 6, 7),
                 new Sickness("COVID-19", 20, 2) 
             };
+            Vehicles = new List<Car>() {
+                new Car("Lada Samara 1989", 150000, 60000, Resources.lada, 3),
+                new Car("Renault Clio 1.4 16V Dynamique 2002", 600000, 130000, Resources.clio, 5),
+                new Car("Opel Astra G 1.4 16V Classic II 2004", 1500000, 230000, Resources.opel, 7),
+                new Car("Nissan 370 Z 3.7 V6 Nismo", 9000000, 400000, Resources.nissan, 13)
+            };
             yourName = "";
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0, null);
-            DefaultHome = new Home("Szülői lakás", 0, 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0, null, 2);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
+            DefaultVehicle = new Car("Nem rendelkezel járművel", 0, 0, null, 1);
             this.persistence = persistence;
             Achievements = new Dictionary<string, string> {
                 { "Genesis", "Kezdd el az első életedet!" },
@@ -428,9 +455,9 @@ namespace LifeSim.Model
                     { "Vezető pilóta", 11640000 } }, Universities[4], 3, Resources.pilot)
             };
             Homes = new List<Home>() {
-                new Home("Albérlet", 165000, 1980000, Resources.flat),
-                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000, Resources.middlehome),
-                new Home("50 négyzetméteres, szép lakás", 25500000, 580000, Resources.nicehome)
+                new Home("Albérlet", 165000, 1980000, Resources.flat, 5),
+                new Home("30 négyzetméteres, egyszerű lakás", 12450000, 470000, Resources.middlehome, 10),
+                new Home("50 négyzetméteres, szép lakás", 25500000, 580000, Resources.nicehome, 15)
             };
             Sicknesses = new List<Sickness>() {
                 new Sickness("Megfázás", 5),
@@ -438,11 +465,16 @@ namespace LifeSim.Model
                 new Sickness("Magas vérnyomás", 6, 7),
                 new Sickness("COVID-19", 20, 2)
             };
+            Vehicles = new List<Car>() {
+                new Car("Lada Samara 1989", 150000, 60000, Resources.lada, 3),
+                new Car("Renault Clio 1.4 16V Dynamique 2002", 600000, 130000, Resources.clio, 5),
+            };
             this.yourName = yourName;
             this.maleOrFemale = maleOrFemale;
             DefaultJob = new Job(new Dictionary<String, int> { { "Munkanélküli", 0 } }, null, 0, null);
-            DefaultHome = new Home("Szülői lakás", 0, 0, null);
+            DefaultHome = new Home("Szülői lakás", 0, 0, null, 2);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
+            DefaultVehicle = new Car("Nem rendelkezel járművel", 0, 0, null, 1);
             this.persistence = persistence;
             Achievements = new Dictionary<string, string> {
                 { "Genesis", "Kezdd el az első életedet!" },
@@ -514,7 +546,7 @@ namespace LifeSim.Model
             if (intelligence > 100)
                 intelligence = 100;
 
-            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, 0, DefaultJob, DefaultHome, DefaultUniversity);
+            You = new Player(familyName, name, 0, gender, 100, intelligence, appearance, 100, 0, 0, DefaultJob, DefaultHome, DefaultUniversity, DefaultVehicle);
             // játékos és szülők hozzáadása az emberek listájához
             People.Add(You);
             People.Add(Parents[0]);
@@ -600,9 +632,10 @@ namespace LifeSim.Model
 
             // Innentől csak a játékossal kapcsolatos változások szerepelnek
 
-            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - universityCosts; // a pénzünkhöz hozzáadódik a fizetésünk, és levonódik
-                                                                                                                              // a lakás fenntartásának költsége, valamint az
-                                                                                                                              // egyetem költségei
+            You.Money += You.Job.JobLevels.Values.ElementAt(You.CurrentJobLevel) - You.Home.YearlyExpenses - You.Vehicle.YearlyExpenses - universityCosts; // a pénzünkhöz
+                                                                                                                                //hozzáadódik a fizetésünk, és levonódik
+                                                                                                                                // a lakás fenntartásának költsége, az
+                                                                                                                                // egyetem költségei valamint a jármű fenntartása
 
             // ha vissza kell fizetnünk az egyetemi költségeket, a hátralévő évek folyamatosan csökkennek, és ha eléri a 0-t, akkor a költségek megszűnnek
             if (timeToPayBack > 0)
@@ -802,6 +835,7 @@ namespace LifeSim.Model
         public void homeRefresh(Home home)
         {
             You.Home = home;
+            You.Money -= home.Price;
             OnHomeChangedEvent();
             OnMoneyRefreshEvent();
         }
@@ -815,6 +849,29 @@ namespace LifeSim.Model
                 You.Money += (int)(You.Home.Price * 0.75);
             You.Home = DefaultHome;
             OnHomeChangedEvent();
+            OnMoneyRefreshEvent();
+        }
+
+        /// <summary>
+        /// A játékos járművét frissítő függvény.
+        /// </summary>
+        /// <param name="vehicle">A Jármű, amit a játékos megvett.</param>
+        public void vehicleRefresh(Car vehicle)
+        {
+            You.Vehicle = vehicle;
+            You.Money -= vehicle.Price;
+            OnVehicleChangedEvent();
+            OnMoneyRefreshEvent();
+        }
+
+        /// <summary>
+        /// A jármű eladására szolgáló függvény.
+        /// </summary>
+        public void sellVehicle()
+        {
+            You.Money += (int)(You.Vehicle.Price * 0.75);
+            You.Vehicle = DefaultVehicle;
+            OnVehicleChangedEvent();
             OnMoneyRefreshEvent();
         }
 
@@ -1006,7 +1063,7 @@ namespace LifeSim.Model
             }
             People.Clear(); // kiürítjük az emberek listáját
             childParentPairs.Clear(); // ahogy a szülő-gyermek párokat is
-            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity); // a játékos karakter szerepét átveszi a gyermek karakter
+            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity, DefaultVehicle); // a játékos karakter szerepét átveszi a gyermek karakter
             People.Add(You); // hozzáadjuk az új játékos karaktert az emberek listájához
             if (otherParent != null) // ha még él a másik szülő (azaz ha értéke nem null), akkor generálunk neki egy random kapcsolat értéket és hozzáadjuk az emberek listájához
             {
@@ -1234,6 +1291,21 @@ namespace LifeSim.Model
             OnMoneyRefreshEvent();
         }
 
+
+        /// <summary>
+        /// Jogosítvány megszerzéséhez tartozó függvény.
+        /// </summary>
+        public void examTaken(bool success)
+        {
+            if (success)
+            {
+                You.HasLicense = true;
+            }
+            You.Money -= 250000;
+            OnMoneyRefreshEvent();
+            OnExamCompleteEvent();
+        }
+
         /// <summary>
         /// Achievementek elmentésére szolgáló függvény.
         /// </summary>
@@ -1296,8 +1368,10 @@ namespace LifeSim.Model
             values.Add(Homes.IndexOf(You.Home).ToString());
             values.Add(Universities.IndexOf(You.University).ToString());
             values.Add(You.ChildOnWay.ToString());
+            values.Add(You.HasLicense.ToString());
+            values.Add(Vehicles.IndexOf(You.Vehicle).ToString());
             values.Add(You.Children.Count().ToString());
-            count += 4;
+            count += 6;
             foreach (Person c in You.Children)
             {
                 values.Add(c.FirstName);
@@ -1414,6 +1488,7 @@ namespace LifeSim.Model
             Job job;
             Home home;
             University uni;
+            Car vehicle;
 
             // ha a munka, az otthon, vagy az egyetem helyén -1 szerepel a fájlban, akkor az a Default értékeket jelzi
             if (Int32.Parse(values[11]) == -1)
@@ -1433,22 +1508,19 @@ namespace LifeSim.Model
             }
 
             if (Int32.Parse(values[12 + hasPension]) == -1)
-            {
                 home = DefaultHome;
-            }
             else
-            {
                 home = Homes[Int32.Parse(values[12 + hasPension])];
-            }
 
             if (Int32.Parse(values[13 + hasPension]) == -1)
-            {
                 uni = DefaultUniversity;
-            }
             else
-            {
                 uni = Universities[Int32.Parse(values[13 + hasPension])];
-            }
+
+            if (Int32.Parse(values[16 + hasPension]) == -1)
+                vehicle = DefaultVehicle;
+            else
+                vehicle = Vehicles[Int32.Parse(values[16 + hasPension])];
 
             int currIndex = 0;
             int tmpIndex = 0;
@@ -1458,9 +1530,10 @@ namespace LifeSim.Model
                 if (i == 0)
                 {
                     You = new Player(values[1], values[2], Int32.Parse(values[3]), (Gender)Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]),
-                        Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni, Boolean.Parse(values[14]));
+                        Int32.Parse(values[7]), Int32.Parse(values[8]), Int32.Parse(values[9]), Int32.Parse(values[10]), job, home, uni, Boolean.Parse(values[14 + hasPension]),
+                        Boolean.Parse(values[15 + hasPension]), vehicle);
                     People.Add(You);
-                    currIndex = 15 + hasPension;
+                    currIndex = 17 + hasPension;
                     tmpIndex = Int32.Parse(values[currIndex]);
                     for (int j = 0; j < tmpIndex ; j++)
                     {
@@ -1479,6 +1552,7 @@ namespace LifeSim.Model
                         You.Partner = new Person(values[++currIndex], values[++currIndex], Int32.Parse(values[++currIndex]), (Gender)Int32.Parse(values[++currIndex]),
                             Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]), Int32.Parse(values[++currIndex]),
                             Int32.Parse(values[++currIndex]));
+                        People.Add(You.Partner);
                     }
                     You.CurrentJobLevel = Int32.Parse(values[++currIndex]);
                     currIndex++;
@@ -1504,7 +1578,8 @@ namespace LifeSim.Model
 
                     if (!You.Children.Exists(x => x.FirstName == pers.FirstName && x.LastName == pers.LastName))
                     {
-                        People.Add(pers);
+                        if (You.Partner == null || !(You.Partner.FirstName == pers.FirstName && You.Partner.LastName == pers.LastName))
+                            People.Add(pers);
                     }
                 }
             }
@@ -1727,6 +1802,9 @@ namespace LifeSim.Model
                 max += 2;
             }
 
+            // a lakás és az autónk után is kapunk némi boldogságot
+            max += rnd.Next(You.Home.HappinessGain) + rnd.Next(You.Vehicle.HappinessGain);
+
             if (min >= max)
             {
                 min = max - 1;
@@ -1831,6 +1909,14 @@ namespace LifeSim.Model
         private void OnHomeChangedEvent()
         {
             HomeChangedEvent?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Járműváltozás eseményének kiváltása.
+        /// </summary>
+        private void OnVehicleChangedEvent()
+        {
+            VehicleChangedEvent?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
@@ -2137,6 +2223,14 @@ namespace LifeSim.Model
         private void OnAchievementUnlockedEvent(String achName)
         {
             AchievementUnlockedEvent?.Invoke(this, new LifeSimEventArgs(achName));
+        }
+
+        /// <summary>
+        /// Jogosítvány vizsga befejezéséhez tartozó esemény kiváltása.
+        /// </summary>
+        private void OnExamCompleteEvent()
+        {
+            ExamCompleteEvent?.Invoke(this, new EventArgs());
         }
 
         #endregion

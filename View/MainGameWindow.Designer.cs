@@ -92,6 +92,14 @@ namespace LifeSim.View
             this.achievementMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.carPanelButton = new System.Windows.Forms.Button();
+            this.carPanel = new System.Windows.Forms.Panel();
+            this.takeLicenseExamButton = new System.Windows.Forms.Button();
+            this.sellCarButton = new System.Windows.Forms.Button();
+            this.buyCarButton = new System.Windows.Forms.Button();
+            this.vehicleComboBox = new System.Windows.Forms.ComboBox();
+            this.vehicleImageLabel = new System.Windows.Forms.Label();
+            this.vehicleLabel = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.jobPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
@@ -100,6 +108,7 @@ namespace LifeSim.View
             this.lovePanel.SuspendLayout();
             this.acquaintancePanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.carPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -817,6 +826,102 @@ namespace LifeSim.View
             // 
             this.openFileDialog.Filter = "Játékmentések|*.sav";
             // 
+            // carPanelButton
+            // 
+            this.carPanelButton.BackColor = System.Drawing.Color.Transparent;
+            this.carPanelButton.Enabled = false;
+            this.carPanelButton.FlatAppearance.BorderSize = 0;
+            this.carPanelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.carPanelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.carPanelButton.Location = new System.Drawing.Point(691, 415);
+            this.carPanelButton.Name = "carPanelButton";
+            this.carPanelButton.Size = new System.Drawing.Size(75, 23);
+            this.carPanelButton.TabIndex = 23;
+            this.carPanelButton.Text = "Autó";
+            this.carPanelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.carPanelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.carPanelButton.UseVisualStyleBackColor = false;
+            this.carPanelButton.Click += new System.EventHandler(this.carPanelButton_Click);
+            // 
+            // carPanel
+            // 
+            this.carPanel.BackColor = System.Drawing.Color.Transparent;
+            this.carPanel.Controls.Add(this.takeLicenseExamButton);
+            this.carPanel.Controls.Add(this.sellCarButton);
+            this.carPanel.Controls.Add(this.buyCarButton);
+            this.carPanel.Controls.Add(this.vehicleComboBox);
+            this.carPanel.Controls.Add(this.vehicleImageLabel);
+            this.carPanel.Controls.Add(this.vehicleLabel);
+            this.carPanel.Location = new System.Drawing.Point(12, 35);
+            this.carPanel.Name = "carPanel";
+            this.carPanel.Size = new System.Drawing.Size(776, 320);
+            this.carPanel.TabIndex = 24;
+            // 
+            // takeLicenseExamButton
+            // 
+            this.takeLicenseExamButton.AutoSize = true;
+            this.takeLicenseExamButton.FlatAppearance.BorderSize = 0;
+            this.takeLicenseExamButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.takeLicenseExamButton.Location = new System.Drawing.Point(15, 49);
+            this.takeLicenseExamButton.Name = "takeLicenseExamButton";
+            this.takeLicenseExamButton.Size = new System.Drawing.Size(120, 25);
+            this.takeLicenseExamButton.TabIndex = 5;
+            this.takeLicenseExamButton.Text = "Jogosítvány letétele";
+            this.takeLicenseExamButton.UseVisualStyleBackColor = true;
+            this.takeLicenseExamButton.Click += new System.EventHandler(this.takeLicenseExamButton_Click);
+            // 
+            // sellCarButton
+            // 
+            this.sellCarButton.FlatAppearance.BorderSize = 0;
+            this.sellCarButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sellCarButton.Location = new System.Drawing.Point(15, 49);
+            this.sellCarButton.Name = "sellCarButton";
+            this.sellCarButton.Size = new System.Drawing.Size(90, 27);
+            this.sellCarButton.TabIndex = 4;
+            this.sellCarButton.Text = "Eladás";
+            this.sellCarButton.UseVisualStyleBackColor = true;
+            this.sellCarButton.Visible = false;
+            this.sellCarButton.Click += new System.EventHandler(this.sellCarButton_Click);
+            // 
+            // buyCarButton
+            // 
+            this.buyCarButton.FlatAppearance.BorderSize = 0;
+            this.buyCarButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buyCarButton.Location = new System.Drawing.Point(344, 193);
+            this.buyCarButton.Name = "buyCarButton";
+            this.buyCarButton.Size = new System.Drawing.Size(75, 23);
+            this.buyCarButton.TabIndex = 2;
+            this.buyCarButton.Text = "Vásárlás";
+            this.buyCarButton.UseVisualStyleBackColor = true;
+            this.buyCarButton.Visible = false;
+            this.buyCarButton.Click += new System.EventHandler(this.buyCarButton_Click);
+            // 
+            // vehicleComboBox
+            // 
+            this.vehicleComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(216)))), ((int)(((byte)(237)))));
+            this.vehicleComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.vehicleComboBox.FormattingEnabled = true;
+            this.vehicleComboBox.Location = new System.Drawing.Point(323, 159);
+            this.vehicleComboBox.Name = "vehicleComboBox";
+            this.vehicleComboBox.Size = new System.Drawing.Size(121, 23);
+            this.vehicleComboBox.TabIndex = 1;
+            this.vehicleComboBox.Visible = false;
+            // 
+            // vehicleImageLabel
+            // 
+            this.vehicleImageLabel.Location = new System.Drawing.Point(246, 12);
+            this.vehicleImageLabel.Name = "vehicleImageLabel";
+            this.vehicleImageLabel.Size = new System.Drawing.Size(300, 300);
+            this.vehicleImageLabel.TabIndex = 3;
+            // 
+            // vehicleLabel
+            // 
+            this.vehicleLabel.AutoSize = true;
+            this.vehicleLabel.Location = new System.Drawing.Point(15, 16);
+            this.vehicleLabel.Name = "vehicleLabel";
+            this.vehicleLabel.Size = new System.Drawing.Size(0, 15);
+            this.vehicleLabel.TabIndex = 0;
+            // 
             // MainGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -824,7 +929,9 @@ namespace LifeSim.View
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.carPanel);
             this.Controls.Add(this.mainPanel);
+            this.Controls.Add(this.carPanelButton);
             this.Controls.Add(this.leisurePanel);
             this.Controls.Add(this.jobPanel);
             this.Controls.Add(this.homePanel);
@@ -865,6 +972,8 @@ namespace LifeSim.View
             this.acquaintancePanel.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.carPanel.ResumeLayout(false);
+            this.carPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -933,5 +1042,13 @@ namespace LifeSim.View
         private System.Windows.Forms.Label readLabel;
         private System.Windows.Forms.Label workOutLabel;
         private System.Windows.Forms.Label vacationLabel;
+        private System.Windows.Forms.Button carPanelButton;
+        private System.Windows.Forms.Panel carPanel;
+        private System.Windows.Forms.Label vehicleLabel;
+        private System.Windows.Forms.Button buyCarButton;
+        private System.Windows.Forms.ComboBox vehicleComboBox;
+        private System.Windows.Forms.Label vehicleImageLabel;
+        private System.Windows.Forms.Button sellCarButton;
+        private System.Windows.Forms.Button takeLicenseExamButton;
     }
 }

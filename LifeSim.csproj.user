@@ -7,6 +7,9 @@
     <Compile Update="View\GameStart.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\LicenseQuestionsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\MainGameWindow.cs">
       <SubType>Form</SubType>
     </Compile>

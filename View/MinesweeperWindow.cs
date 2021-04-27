@@ -24,7 +24,7 @@ namespace LifeSim.View
         /// <summary>
         /// Játékablak példányosítása.
         /// </summary>
-        /// <param name="model">Játékmodell a példányosításhoz.</param>
+        /// <param name="lsmodel">Játékmodell a példányosításhoz.</param>
         public MinesweeperWindow(LifeSimModel lsmodel)
         {
             InitializeComponent();

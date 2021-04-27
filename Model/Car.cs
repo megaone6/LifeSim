@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 namespace LifeSim.Model
 {
     /// <summary>
-    /// Lakásokat reprezentáló osztály.
+    /// Járműveket reprezentáló osztály.
     /// </summary>
-    public class Home
+    public class Car
     {
         /// <summary>
-        /// Lakás típusa.
+        /// Jármű típusa.
         /// </summary>
         public String Type { get; set; }
 
         /// <summary>
-        /// Lakás ára.
+        /// Jármű ára.
         /// </summary>
         public int Price { get; set; }
 
         /// <summary>
-        /// Lakás éves költségei.
+        /// Jármű éves költségei.
         /// </summary>
         public int YearlyExpenses { get; set; }
 
         /// <summary>
-        /// A lakáshoz tartozó kép.
+        /// A járműhöz tartozó kép.
         /// </summary>
         public Bitmap Image { get; set; }
 
@@ -34,14 +36,14 @@ namespace LifeSim.Model
         public int HappinessGain { get; set; }
 
         /// <summary>
-        /// Home osztály példányosítása.
+        /// Car osztály példányosítása.
         /// </summary>
         /// <param name="Type">Típus</param>
         /// <param name="Price">Ár</param>
         /// <param name="YearlyExpenses">Éves költségek</param>
         /// <param name="Image">Lakás képe</param>
         /// <param name="HappinessGain">Lakás boldogság értéke</param>
-        public Home(String Type, int Price, int YearlyExpenses, Bitmap Image, int HappinessGain)
+        public Car(String Type, int Price, int YearlyExpenses, Bitmap Image, int HappinessGain)
         {
             this.Type = Type;
             this.Price = Price;

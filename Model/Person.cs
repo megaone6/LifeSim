@@ -84,9 +84,9 @@ namespace LifeSim.Model
         /// <param name="Job">Munka.</param>
         /// <param name="Home">Lakás.</param>
         /// <param name="University">Egyetem.</param>
-        public Player changeToPlayer(Job Job, Home Home, University University)
+        public Player changeToPlayer(Job Job, Home Home, University University, Car Vehicle)
         {
-            Player player = new Player(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship, 0, Job, Home, University);
+            Player player = new Player(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship, 0, Job, Home, University, Vehicle);
             player.Children = new List<Person>();
             player.Partner = null;
             player.CurrentJobLevel = 0;

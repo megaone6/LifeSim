@@ -69,6 +69,16 @@ namespace LifeSim.Model
         public bool ChildOnWay { get; set; }
 
         /// <summary>
+        /// Van-e jogosítványunk.
+        /// </summary>
+        public bool HasLicense { get; set; }
+
+        /// <summary>
+        /// Járművünket tároló tulajdonság.
+        /// </summary>
+        public Car Vehicle { get; set; }
+
+        /// <summary>
         /// Player osztály példányosítása.
         /// </summary>
         /// <param name="FirstName">Vezetéknév.</param>
@@ -84,7 +94,7 @@ namespace LifeSim.Model
         /// <param name="Job">Munka.</param>
         /// <param name="Home">Lakás.</param>
         /// <param name="University">Egyetem.</param>
-        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, int Money, Job Job, Home Home, University University): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
+        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, int Money, Job Job, Home Home, University University, Car Vehicle): base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -99,6 +109,7 @@ namespace LifeSim.Model
             this.Job = Job;
             this.Home = Home;
             this.University = University;
+            this.Vehicle = Vehicle;
             Children = new List<Person>();
             Partner = null;
             CurrentJobLevel = 0;
@@ -107,9 +118,10 @@ namespace LifeSim.Model
             PromotionMeter = 0;
             YearsInUni = 0;
             ChildOnWay = false;
+            HasLicense = false;
         }
 
-        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, int Money, Job Job, Home Home, University University, bool ChildOnWay) : base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
+        public Player(String FirstName, String LastName, int Age, Gender Gender, int Health, int Intelligence, int Appearance, int Happiness, int Relationship, int Money, Job Job, Home Home, University University, bool ChildOnWay, bool HasLicense, Car Vehicle) : base(FirstName, LastName, Age, Gender, Health, Intelligence, Appearance, Happiness, Relationship)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -124,6 +136,7 @@ namespace LifeSim.Model
             this.Job = Job;
             this.Home = Home;
             this.University = University;
+            this.Vehicle = Vehicle;
             Children = new List<Person>();
             Partner = null;
             CurrentJobLevel = 0;
@@ -131,6 +144,7 @@ namespace LifeSim.Model
             Degrees = new List<University>();
             PromotionMeter = 0;
             YearsInUni = 0;
+            this.HasLicense = HasLicense;
             this.ChildOnWay = ChildOnWay;
         }
     }
