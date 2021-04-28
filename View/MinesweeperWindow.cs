@@ -131,6 +131,9 @@ namespace LifeSim.View
 
         #region Private methods
 
+        /// <summary>
+        /// Panel újrarajzolására szolgáló függvény.
+        /// </summary>
         private void panelRefresh()
         {
             for (int i = 0; i < 64; i++) // végigmegyünk az összes gombon

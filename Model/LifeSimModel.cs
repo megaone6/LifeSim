@@ -331,6 +331,11 @@ namespace LifeSim.Model
         public event EventHandler<EventArgs> PlaneCrashEvent;
 
         /// <summary>
+        /// Karambol eseménye.
+        /// </summary>
+        public event EventHandler<EventArgs> CarCrashEvent;
+
+        /// <summary>
         /// Betegség elkapásának eseménye.
         /// </summary>
         public event EventHandler<LifeSimEventArgs> CaughtSicknessEvent;
@@ -624,6 +629,7 @@ namespace LifeSim.Model
                     {
                         breakUp(true);
                     }
+                    You.Happiness -= rnd.Next((int)(0.3 * p.Relationship));
                     p.Health = 0;
                     People.Remove(p); // törlődik az emberek listájából
                     OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
@@ -724,11 +730,21 @@ namespace LifeSim.Model
                 }
             }
 
-            if (You.Job == Jobs[6] && rnd.Next(100) == 50) //ha pilóta karrierben vagyunk, akkor 1/100 eséllyel meghalhatunk repülőgép-szerencsétlenségben
+            if (You.Job == Jobs[6] && rnd.Next(150) == 50) //ha pilóta karrierben vagyunk, akkor 1/100 eséllyel meghalhatunk repülőgép-szerencsétlenségben
             {
                  You.Health -= 100;
                  OnPlaneCrashEvent();
                  OnDeathEvent(You);
+            }
+
+            if (You.Vehicle != DefaultVehicle && rnd.Next(200) == 50)
+            {
+                You.Health -= rnd.Next(10, 60);
+                OnCarCrashEvent();
+                if (You.Health == 0)
+                {
+                    OnDeathEvent(You);
+                }
             }
             randomSickness();
         }
@@ -2199,6 +2215,14 @@ namespace LifeSim.Model
         private void OnPlaneCrashEvent()
         {
             PlaneCrashEvent?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Karambol eseményének kiváltása.
+        /// </summary>
+        private void OnCarCrashEvent()
+        {
+            CarCrashEvent?.Invoke(this, new EventArgs());
         }
 
         /// <summary>

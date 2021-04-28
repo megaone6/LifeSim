@@ -26,27 +26,49 @@ namespace LifeSim.View
 
         #endregion
 
+        #region Event handlers
+
+        /// <summary>
+        /// Jogosítvány ablak megjelenésének eseménykezelője.
+        /// </summary>
         private void LicenseQuestionsWindow_Shown(object sender, System.EventArgs e)
         {
             lqmodel = new LicenseQuestionsModel();
             questionLabel.Text = lqmodel.Question;
         }
 
+        /// <summary>
+        /// 'a' gomb lenyomásának eseménykezelője.
+        /// </summary>
         private void aButton_Click(object sender, System.EventArgs e)
         {
             checkAnswer(0);
         }
 
+        /// <summary>
+        /// 'b' gomb lenyomásának eseménykezelője.
+        /// </summary>
         private void bButton_Click(object sender, System.EventArgs e)
         {
             checkAnswer(1);
         }
 
+        /// <summary>
+        /// 'c' gomb lenyomásának eseménykezelője.
+        /// </summary>
         private void cButton_Click(object sender, System.EventArgs e)
         {
             checkAnswer(2);
         }
 
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Válasz leellenőrzésére szolgáló függvény.
+        /// </summary>
+        /// <param name="num">A válasz sorszáma.</param>
         private void checkAnswer(int num)
         {
             if (lqmodel.Answer == num)
@@ -61,5 +83,7 @@ namespace LifeSim.View
             }
             this.Close();
         }
+
+        #endregion
     }
 }

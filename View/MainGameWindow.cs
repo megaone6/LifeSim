@@ -84,6 +84,7 @@ namespace LifeSim.View
             model.MakeFriendSuccessEvent += new EventHandler<LifeSimEventArgs>(Model_MakeFriendSuccessEvent);
             model.MilitaryMissionCompleteEvent += new EventHandler<EventArgs>(Model_MilitaryMissionCompleteEvent);
             model.PlaneCrashEvent += new EventHandler<EventArgs>(Model_PlaneCrashEvent);
+            model.CarCrashEvent += new EventHandler<EventArgs>(Model_CarCrashEvent);
             model.CaughtSicknessEvent += new EventHandler<LifeSimEventArgs>(Model_CaughtSicknessEvent);
             model.DoctorsVisitEvent += new EventHandler<LifeSimEventArgs>(Model_DoctorsVisitEvent);
             model.AchievementUnlockedEvent += new EventHandler<LifeSimEventArgs>(Model_AchievementUnlockedEvent);
@@ -508,6 +509,7 @@ namespace LifeSim.View
             eventsRichTextBox.AppendText("Nyugdíjba vonultál." + Environment.NewLine + Environment.NewLine);
 
             jobLabel.Text = model.You.Job.JobLevels.Keys.ElementAt(model.You.CurrentJobLevel); // frissítjük a jobLabel szövegét
+            jobImageLabel.Image = Resources.retired;
             quitJobButton.Visible = false;
         }
 
@@ -689,6 +691,15 @@ namespace LifeSim.View
         {
             MessageBox.Show("Sajnos a gép, amin utaztál repülőgép-szerencsétlenség áldozata lett.", "Pech");
             mainPanel.BringToFront();
+        }
+
+        /// <summary>
+        /// Repülőgép-szerencsétlenség eseménykezelője.
+        /// </summary>
+        private void Model_CarCrashEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("Karambolt szenvedtél.", "Pech");
+            eventsRichTextBox.AppendText("Karambolt szenvedtél." + Environment.NewLine + Environment.NewLine);
         }
 
         /// <summary>
@@ -1019,7 +1030,7 @@ namespace LifeSim.View
         {
             int sellPrice = (int)(model.You.Vehicle.Price * 0.75);
 
-            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy el akarod adni a jűrművedet? " + sellPrice.ToString() + " forintért tudod eladni.",
+            DialogResult dr = MessageBox.Show("Biztos vagy benne, hogy el akarod adni a járművedet? " + sellPrice.ToString() + " forintért tudod eladni.",
                                       "Figyelmeztetés!",
                                       MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
@@ -1336,13 +1347,13 @@ namespace LifeSim.View
                 try // megpróbáljuk végrehajtani a betöltést
                 {
                     model.loadGame(openFileDialog.FileName);
+                    refreshControls(); // frissítjük a Controlokat az új adatokkal
                 }
                 catch (DataException) // ha nem sikerül, akkor kivételt dobunk
                 {
                     MessageBox.Show("Hiba történt a betöltés során. Valószínűleg a betöltendő fájl tartalma hibás.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            refreshControls(); // frissítjük a Controlokat az új adatokkal
         }
 
         /// <summary>
@@ -1478,6 +1489,7 @@ namespace LifeSim.View
             if (model.You.Job.JobLevels.ElementAt(0).Key == "Nyugdíjas")
             {
                 quitJobButton.Visible = false;
+                jobImageLabel.Image = Resources.retired;
             }
 
             // képek betöltése
