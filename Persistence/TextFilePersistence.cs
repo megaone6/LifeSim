@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LifeSim.Persistence
 {
@@ -15,7 +16,7 @@ namespace LifeSim.Persistence
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <returns>A fájlból beolvasott adatok egy Stringeket tartalmazó listában.</returns>
-        public List<String> LoadGame(String path)
+        public async Task<List<String>> LoadGame(String path)
         {
             if (path == null) // ha az útvonal null, akkor kivételt dob
                 throw new ArgumentNullException("path");
@@ -24,11 +25,11 @@ namespace LifeSim.Persistence
             {
                 using (StreamReader reader = new StreamReader(path)) // megnyitja a fájlt
                 {
+                    int count = Int32.Parse(await reader.ReadLineAsync());
                     List<String> values = new List<String>();
-                    int count = Int32.Parse(reader.ReadLine());
                     for (int i = 0; i < count; i++)
                     {
-                        values.Add(reader.ReadLine());
+                        values.Add(await reader.ReadLineAsync());
                     }
 
                     return values;
@@ -45,7 +46,7 @@ namespace LifeSim.Persistence
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <param name="values">A fájlba írandó adatok.</param>
-        public void SaveGame(String path, List<String> values)
+        public async Task SaveGame(String path, List<String> values)
         {
             // ha az útvonal, vagy az írandó értékek null-t tartalmaznak, akkor kivételt dob
             if (path == null)
@@ -59,7 +60,7 @@ namespace LifeSim.Persistence
                 {
                     foreach (String word in values)
                     {
-                        writer.WriteLine(word);
+                        await writer.WriteLineAsync(word);
                     }
                 }
             }
@@ -74,7 +75,7 @@ namespace LifeSim.Persistence
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <param name="value">A fájlba illesztendő adat.</param>
-        public void AppendToFile(String path, int value)
+        public async Task AppendToFile(String path, int value)
         {
             if (path == null) // ha az útvonal null, akkor kivételt dob
                 throw new ArgumentNullException("path");
@@ -85,14 +86,14 @@ namespace LifeSim.Persistence
                 {
                     using (StreamWriter writer = File.AppendText(path))
                     {
-                        writer.Write(" " + value.ToString());
+                        await writer.WriteAsync(" " + value.ToString());
                     }
                 }
                 else //különben csak az adatot írja be
                 {
                     using (StreamWriter writer = File.AppendText(path))
                     {
-                        writer.Write(value.ToString());
+                        await writer.WriteAsync(value.ToString());
                     }
                 }
             }
@@ -106,7 +107,7 @@ namespace LifeSim.Persistence
         /// Achievementek betöltése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        public List<int> LoadAchievements(String path)
+        public async Task<List<int>> LoadAchievements(String path)
         {
             if (path == null) // ha az útvonal null, akkor kivételt dob
                 throw new ArgumentNullException("path");
@@ -115,9 +116,9 @@ namespace LifeSim.Persistence
             {
                 using (StreamReader reader = new StreamReader(path)) // megnyitja a fájlt
                 {
-                    String[] values = reader.ReadToEnd().Split(); // a fájlból szóközönként elválasztva beolvas minden adatot egy String tömbbe
-
-                    return values.Select(value => int.Parse(value)).ToList(); //a beolvasott adatokat int-té parse-olja, és int-ek listájába rakja, amit vissza is térít.
+                    var valuesTmp = await reader.ReadToEndAsync(); // a fájlból beolvassuk az összes adatot
+                    String[] values = valuesTmp.Split(); // ezeket szóközönként elválasztjuk, majd az így kapott elemeket berakjuk egy String tömbbe
+                    return values.Select(value => int.Parse(value)).ToList(); // a beolvasott adatokat int-té parse-olja, és int-ek listájába rakja, amit vissza is térít.
                 }
             }
             catch

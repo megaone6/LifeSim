@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using LifeSim.Persistence;
 using LifeSim.Properties;
 
@@ -426,7 +427,7 @@ namespace LifeSim.Model
                 saveAchievements(0);
                 OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
-            CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
+            loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
         /// <summary>
@@ -497,7 +498,7 @@ namespace LifeSim.Model
                 saveAchievements(0);
                 OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
-            CompletedAchievements = loadAchievements(); // ezután betöltjük a már elért achievementeket
+            loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
         #endregion
@@ -1080,6 +1081,7 @@ namespace LifeSim.Model
             People.Clear(); // kiürítjük az emberek listáját
             childParentPairs.Clear(); // ahogy a szülő-gyermek párokat is
             You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity, DefaultVehicle); // a játékos karakter szerepét átveszi a gyermek karakter
+            You.Age += 1;
             People.Add(You); // hozzáadjuk az új játékos karaktert az emberek listájához
             if (otherParent != null) // ha még él a másik szülő (azaz ha értéke nem null), akkor generálunk neki egy random kapcsolat értéket és hozzáadjuk az emberek listájához
             {
@@ -1326,34 +1328,34 @@ namespace LifeSim.Model
         /// Achievementek elmentésére szolgáló függvény.
         /// </summary>
         /// <param name="index">Az achievement sorszáma.</param>
-        public void saveAchievements(int index)
+        public async void saveAchievements(int index)
         {
             if (persistence == null)
                 return;
 
-            persistence.AppendToFile("achievements.ach", index);
+            await persistence.AppendToFile("achievements.ach", index);
         }
 
         /// <summary>
         /// Achievementek betöltésére szolgáló függvény.
         /// </summary>
         /// <returns>Elért achievementek sorszámának listája.</returns>
-        public List<int> loadAchievements()
+        public async void loadAchievements()
         {
             if (persistence == null)
-                return null;
+                return;
 
-            return persistence.LoadAchievements("achievements.ach");
+            CompletedAchievements = await persistence.LoadAchievements("achievements.ach");
         }
 
         /// <summary>
         /// Játék mentésére szolgáló függvény.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        public void saveGame(String path)
+        public async Task saveGame(String path)
         {
             if (persistence == null)
-                return;
+                throw new InvalidOperationException("Nincs megadva adatelérés.");
 
             int count = 0;
 
@@ -1484,19 +1486,19 @@ namespace LifeSim.Model
                 }
             }
             values.Insert(0, count.ToString());
-            persistence.SaveGame(path, values);
+            await persistence.SaveGame(path, values);
         }
 
         /// <summary>
         /// Játék betöltésére szolgáló függvény.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        public void loadGame(String path)
+        public async Task loadGame(String path)
         {
             if (persistence == null)
-                return;
+                throw new InvalidOperationException("Nincs megadva adatelérés.");
 
-            List<String> values = persistence.LoadGame(path);
+            List<String> values = await persistence.LoadGame(path);
             People.Clear();
             You.Children.Clear();
             childParentPairs.Clear();

@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LifeSim.View
@@ -1322,15 +1323,19 @@ namespace LifeSim.View
         /// <summary>
         /// Mentés gomb eseménykezelője.
         /// </summary>
-        private void saveMenuItem_Click(object sender, EventArgs e)
+        private async void saveMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK) // ha kiválasztottuk, hogy hova szeretnénk menteni és megerősítettük
             {
                 try // megpróbáljuk végrehajtani a mentést
                 {
-                    model.saveGame(saveFileDialog.FileName);
+                    await model.saveGame(saveFileDialog.FileName);
                 }
                 catch (DataException) // ha nem sikerül, akkor kivételt dobunk
+                {
+                    MessageBox.Show("Hiba történt a mentés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception)
                 {
                     MessageBox.Show("Hiba történt a mentés során.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -1340,16 +1345,20 @@ namespace LifeSim.View
         /// <summary>
         /// Betöltés gomb eseménykezelője.
         /// </summary>
-        private void loadMenuItem_Click(object sender, EventArgs e)
+        private async void loadMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK) // ha kiválasztottuk, hogy honnan szeretnénk betölteni és megerősítettük
             {
                 try // megpróbáljuk végrehajtani a betöltést
                 {
-                    model.loadGame(openFileDialog.FileName);
+                    await model.loadGame(openFileDialog.FileName);
                     refreshControls(); // frissítjük a Controlokat az új adatokkal
                 }
                 catch (DataException) // ha nem sikerül, akkor kivételt dobunk
+                {
+                    MessageBox.Show("Hiba történt a betöltés során. Valószínűleg a betöltendő fájl tartalma hibás.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception)
                 {
                     MessageBox.Show("Hiba történt a betöltés során. Valószínűleg a betöltendő fájl tartalma hibás.", "Életszimulátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
