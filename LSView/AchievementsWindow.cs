@@ -1,10 +1,10 @@
-﻿using LifeSim.Model;
+﻿using LifeSim.LSModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LifeSim.View
+namespace LifeSim.LSView
 {
     /// <summary>
     /// Achievement ablak típusa.

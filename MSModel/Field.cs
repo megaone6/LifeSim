@@ -1,4 +1,4 @@
-﻿namespace LifeSim.Model
+﻿namespace LifeSim.MSModel
 {
     /// <summary>
     /// Az aknamező elemeit reprezentáló osztály.

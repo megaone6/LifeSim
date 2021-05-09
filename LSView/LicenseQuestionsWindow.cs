@@ -1,7 +1,7 @@
-﻿using LifeSim.Model;
+﻿using LifeSim.LSModel;
 using System.Windows.Forms;
 
-namespace LifeSim.View
+namespace LifeSim.LSView
 {
     public partial class LicenseQuestionsWindow : Form
     {

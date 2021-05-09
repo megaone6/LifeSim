@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="View\AchievementsWindow.cs">
+    <Compile Update="LSView\AchievementsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\GameStart.cs">
+    <Compile Update="LSView\GameStart.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\LicenseQuestionsWindow.cs">
+    <Compile Update="LSView\LicenseQuestionsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\MainGameWindow.cs">
+    <Compile Update="LSView\MainGameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\MinesweeperWindow.cs">
+    <Compile Update="MSView\MinesweeperWindow.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

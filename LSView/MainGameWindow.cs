@@ -1,14 +1,13 @@
-﻿using LifeSim.Model;
+﻿using LifeSim.LSModel;
+using LifeSim.MSView;
 using LifeSim.Persistence;
 using LifeSim.Properties;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LifeSim.View
+namespace LifeSim.LSView
 {
     /// <summary>
     /// LifeSim játékablak típusa.

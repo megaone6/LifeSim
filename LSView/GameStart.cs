@@ -1,10 +1,9 @@
-﻿using LifeSim.Model;
+﻿using LifeSim.LSModel;
 using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using LifeSim.Persistence;
 
-namespace LifeSim.View
+namespace LifeSim.LSView
 {
     /// <summary>
     /// Játékkezdő ablak típusa.

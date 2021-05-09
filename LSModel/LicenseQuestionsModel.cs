@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     public class LicenseQuestionsModel
     {

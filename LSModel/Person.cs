@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     /// <summary>
     /// Személyt reprezentáló osztály.

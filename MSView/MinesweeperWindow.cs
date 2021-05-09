@@ -1,10 +1,11 @@
-﻿using LifeSim.Model;
+﻿using LifeSim.LSModel;
+using LifeSim.MSModel;
 using LifeSim.Properties;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LifeSim.View
+namespace LifeSim.MSView
 {
     /// <summary>
     /// Minesweeper játékablak típusa.

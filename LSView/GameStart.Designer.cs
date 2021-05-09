@@ -1,4 +1,4 @@
-﻿namespace LifeSim.View
+﻿namespace LifeSim.LSView
 {
     partial class GameStart
     {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using LifeSim.Persistence;
 using LifeSim.Properties;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     /// <summary>
     /// Nemek felsorolási típusa.

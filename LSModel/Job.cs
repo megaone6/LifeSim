@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     /// <summary>
     /// Munkákat reprezentáló osztály.

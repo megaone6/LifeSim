@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     /// <summary>
     /// Egyetemet reprezentáló osztály.

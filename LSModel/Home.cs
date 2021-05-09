@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace LifeSim.Model
+namespace LifeSim.LSModel
 {
     /// <summary>
     /// Lakásokat reprezentáló osztály.

@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using LifeSim.View;
+using LifeSim.LSView;
 
 namespace LifeSim
 {
