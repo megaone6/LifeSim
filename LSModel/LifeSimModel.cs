@@ -56,7 +56,7 @@ namespace LifeSim.LSModel
         private int universityCosts; // egyetem költségei
         private int timeToPayBack; // visszafizetési idő
         private Dictionary<Person, List<Person>> childParentPairs; // szülő-gyerek párosítások
-        private TextFilePersistence persistence; // adatelérés
+        private IPersistence dataAccess; // adatelérés
 
         #endregion
 
@@ -364,7 +364,7 @@ namespace LifeSim.LSModel
         /// LifeSim játék példányosítása véletlenszerű játékossal.
         /// </summary>
         /// <param name="persistence">Adatelérés.</param>
-        public LifeSimModel(TextFilePersistence persistence)
+        public LifeSimModel(IPersistence dataAccess)
         {
             rnd = new Random();
             Universities = new List<University>() {
@@ -410,7 +410,7 @@ namespace LifeSim.LSModel
             DefaultHome = new Home("Szülői lakás", 0, 0, null, 2);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             DefaultVehicle = new Car("Nem rendelkezel járművel", 0, 0, null, 1);
-            this.persistence = persistence;
+            this.dataAccess = dataAccess;
             Achievements = new Dictionary<string, string> {
                 { "Genesis", "Kezdd el az első életedet!" },
                 { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" },
@@ -436,7 +436,7 @@ namespace LifeSim.LSModel
         /// <param name="yourName">A játékos által megadott név.</param>
         /// <param name="maleOrFemale">A játékos által megadott nem.</param>
         /// <param name="persistence">Adatelérés.</param>
-        public LifeSimModel(String yourName, bool maleOrFemale, TextFilePersistence persistence)
+        public LifeSimModel(String yourName, bool maleOrFemale, IPersistence dataAccess)
         {
             rnd = new Random();
             Universities = new List<University>() {
@@ -481,7 +481,7 @@ namespace LifeSim.LSModel
             DefaultHome = new Home("Szülői lakás", 0, 0, null, 2);
             DefaultUniversity = new University("Jelenleg nem végzel egyetemi képzést", 0, 0);
             DefaultVehicle = new Car("Nem rendelkezel járművel", 0, 0, null, 1);
-            this.persistence = persistence;
+            this.dataAccess = dataAccess;
             Achievements = new Dictionary<string, string> {
                 { "Genesis", "Kezdd el az első életedet!" },
                 { "Gyenge immunrendszer", "Szenvedj egyszerre minimum két betegségben! (megfázáson kívül)" },
@@ -1330,10 +1330,10 @@ namespace LifeSim.LSModel
         /// <param name="index">Az achievement sorszáma.</param>
         public async void saveAchievements(int index)
         {
-            if (persistence == null)
+            if (dataAccess == null)
                 return;
 
-            await persistence.AppendToFile("achievements.ach", index);
+            await dataAccess.AppendToFile("achievements.ach", index);
         }
 
         /// <summary>
@@ -1342,10 +1342,10 @@ namespace LifeSim.LSModel
         /// <returns>Elért achievementek sorszámának listája.</returns>
         public async void loadAchievements()
         {
-            if (persistence == null)
+            if (dataAccess == null)
                 return;
 
-            CompletedAchievements = await persistence.LoadAchievements("achievements.ach");
+            CompletedAchievements = await dataAccess.LoadAchievements("achievements.ach");
         }
 
         /// <summary>
@@ -1354,7 +1354,7 @@ namespace LifeSim.LSModel
         /// <param name="path">Elérési útvonal.</param>
         public async Task saveGame(String path)
         {
-            if (persistence == null)
+            if (dataAccess == null)
                 throw new InvalidOperationException("Nincs megadva adatelérés.");
 
             int count = 0;
@@ -1486,7 +1486,7 @@ namespace LifeSim.LSModel
                 }
             }
             values.Insert(0, count.ToString());
-            await persistence.SaveGame(path, values);
+            await dataAccess.SaveGame(path, values);
         }
 
         /// <summary>
@@ -1495,10 +1495,10 @@ namespace LifeSim.LSModel
         /// <param name="path">Elérési útvonal.</param>
         public async Task loadGame(String path)
         {
-            if (persistence == null)
+            if (dataAccess == null)
                 throw new InvalidOperationException("Nincs megadva adatelérés.");
 
-            List<String> values = await persistence.LoadGame(path);
+            List<String> values = await dataAccess.LoadGame(path);
             People.Clear();
             You.Children.Clear();
             childParentPairs.Clear();

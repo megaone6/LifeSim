@@ -112,7 +112,7 @@ namespace LifeSim.MSView
                 else // különben ugyanúgy elkezdi felfedni a mezőt, de itt már el lehet rontani
                 {
                     msmodel.recon(number);
-                    if (!msmodel.gameOver)
+                    if (!msmodel.GameOver)
                         panelRefresh();
                 }
             }
@@ -122,7 +122,7 @@ namespace LifeSim.MSView
                 if (!newGame) // ha már elkezdtük a játékot, akkor meghívjuk a mező bejelölése eseményt a modellben
                 {
                     msmodel.mark(number);
-                    if (!msmodel.gameOver)
+                    if (!msmodel.GameOver)
                         panelRefresh();
                 }
             }

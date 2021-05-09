@@ -9,7 +9,7 @@ namespace LifeSim.Persistence
     /// <summary>
     /// LifeSim perzisztenciája szöveges fájlokkal.
     /// </summary>
-    public class TextFilePersistence
+    public class TextFilePersistence: IPersistence
     {
         /// <summary>
         /// Fájl betöltése.

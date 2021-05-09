@@ -13,7 +13,7 @@ namespace LifeSim.LSView
         #region Fields
 
         private LifeSimModel model; // játékmodell
-        private TextFilePersistence dataAccess; // adatelérés
+        private IPersistence dataAccess; // adatelérés
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace LifeSim.LSView
         {
             InitializeComponent();
 
-            dataAccess = new TextFilePersistence(); //adatelérés létrehozása
+            dataAccess = new TextFilePersistence(); //adatelérés példányosítása
         }
 
         #endregion

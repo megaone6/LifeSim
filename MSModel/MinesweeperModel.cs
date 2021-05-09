@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LifeSim.MSModel
@@ -30,7 +29,7 @@ namespace LifeSim.MSModel
         /// <summary>
         /// Vége van-e a játéknak.
         /// </summary>
-        public bool gameOver { get; private set; }
+        public bool GameOver { get; private set; }
 
         #endregion
 
@@ -60,7 +59,7 @@ namespace LifeSim.MSModel
             checkedFields = new List<(int,int)>();
             markedFields = new List<(int, int)>();
             marks = 15;
-            gameOver = false;
+            GameOver = false;
         }
 
         #endregion
@@ -94,7 +93,6 @@ namespace LifeSim.MSModel
                     if (mines.Contains((i,j))) // ha az adott mezőn akna van, akkor azzal generálja le
                     {
                         MineField[i,j] = new Field(false, true, 0, false);
-                        Debug.WriteLine(i + " " + j);
                     }
                     else if (i == fieldNum) // a mezőt, amire kattintottunk felfedi
                     {
@@ -122,7 +120,7 @@ namespace LifeSim.MSModel
                 return;
             if (MineField[numberX, numberY].Mine) // ha a kattintott mezőn akna van, akkor vesztettünk
             {
-                gameOver = true;
+                GameOver = true;
                 OnGameOverEvent();
             }
             revealFields(numberX, numberY); // felfedi azokat a kattintott mezővel szomszédos mezőket, amiket kell
@@ -134,28 +132,24 @@ namespace LifeSim.MSModel
         /// <param name="fieldNum">A mező száma, ahova kattintottunk.</param>
         public void mark(int fieldNum)
         {
-            Debug.WriteLine("Before: " + marks);
             int numberX = fieldNum / 8;
             int numberY = fieldNum % 8;
             if (MineField[numberX, numberY].Marked) // ha a mezőt már megjelöltük, akkor megszüntetjük a jelölést, és vissza is kapjuk
             {
                 MineField[numberX, numberY].Marked = false;
                 marks++;
-                Debug.WriteLine("After: " + marks);
                 return;
             }
             if (MineField[numberX, numberY].Revealed || marks == 0) // ha a mezőt már felfedtük, vagy már nincs több jelölésünk, akkor visszatérünk
             {
-                Debug.WriteLine("After: " + marks);
                 return;
             }
             MineField[numberX, numberY].Marked = true; // különben megjelöljük a mezőt
             markedFields.Add((numberX, numberY)); // bekerül a megjelölt mezők listájába
             marks--; // csökken a hátralévő jelöléseink száma
-            Debug.WriteLine("After: " + marks);
             if (marks == 0 && mines.All(markedFields.Contains)) // ha már nincs több jelölésünk és minden megjelölt mezőn akna van, akkor megnyertük a játékot
             {
-                gameOver = true;
+                GameOver = true;
                 OnGameWonEvent();
             }
         }
