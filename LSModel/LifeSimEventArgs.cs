@@ -5,7 +5,7 @@ namespace LifeSim.LSModel
     /// <summary>
     /// LifeSim eseményargumentum típusa.
     /// </summary>
-    public class LifeSimEventArgs
+    public class LifeSimEventArgs : EventArgs
     {
         /// <summary>
         /// Személy lekérdezése.

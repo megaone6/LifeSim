@@ -1,4 +1,5 @@
 ﻿using LifeSim.LSModel;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace LifeSim.LSView
     {
         #region Fields
 
-        LifeSimModel lsmodel; // LifeSim játékmodell
-        private Dictionary<string, string> achievements;
+        private LifeSimModel lsmodel; // LifeSim játékmodell
+        private Dictionary<String, String> achievements;
         private List<int> completedAchievements;
 
         #endregion
@@ -38,7 +39,7 @@ namespace LifeSim.LSView
         /// <summary>
         /// Achievement ablak megjelenésének eseménykezelője.
         /// </summary>
-        private void AchievementsWindow_Shown(object sender, System.EventArgs e)
+        private void AchievementsWindow_Shown(object sender, EventArgs e)
         {
             achievements = lsmodel.Achievements;
             completedAchievements = lsmodel.CompletedAchievements;

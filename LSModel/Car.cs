@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace LifeSim.LSModel
 {
@@ -31,7 +29,7 @@ namespace LifeSim.LSModel
         public Bitmap Image { get; set; }
 
         /// <summary>
-        /// A lakáshoz tartozó boldogság érték.
+        /// Az autóhoz tartozó boldogság érték.
         /// </summary>
         public int HappinessGain { get; set; }
 
@@ -41,8 +39,8 @@ namespace LifeSim.LSModel
         /// <param name="Type">Típus</param>
         /// <param name="Price">Ár</param>
         /// <param name="YearlyExpenses">Éves költségek</param>
-        /// <param name="Image">Lakás képe</param>
-        /// <param name="HappinessGain">Lakás boldogság értéke</param>
+        /// <param name="Image">Autó képe</param>
+        /// <param name="HappinessGain">Autó boldogság értéke</param>
         public Car(String Type, int Price, int YearlyExpenses, Bitmap Image, int HappinessGain)
         {
             this.Type = Type;

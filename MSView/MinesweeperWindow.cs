@@ -14,9 +14,9 @@ namespace LifeSim.MSView
     {
         #region Fields
 
-        bool newGame; // elkezdtük-e már a játékot
-        MinesweeperModel msmodel; // Minesweeper játékmodell
-        LifeSimModel lsmodel; // LifeSim játékmodell
+        private bool newGame; // elkezdtük-e már a játékot
+        private MinesweeperModel msmodel; // Minesweeper játékmodell
+        private LifeSimModel lsmodel; // LifeSim játékmodell
 
         #endregion
 

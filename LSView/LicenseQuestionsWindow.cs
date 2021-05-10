@@ -1,4 +1,5 @@
 ﻿using LifeSim.LSModel;
+using System;
 using System.Windows.Forms;
 
 namespace LifeSim.LSView
@@ -31,7 +32,7 @@ namespace LifeSim.LSView
         /// <summary>
         /// Jogosítvány ablak megjelenésének eseménykezelője.
         /// </summary>
-        private void LicenseQuestionsWindow_Shown(object sender, System.EventArgs e)
+        private void LicenseQuestionsWindow_Shown(object sender, EventArgs e)
         {
             lqmodel = new LicenseQuestionsModel();
             questionLabel.Text = lqmodel.Question;

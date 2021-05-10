@@ -65,17 +65,17 @@ namespace LifeSim.LSModel
         /// <summary>
         /// Játékos karakter.
         /// </summary>
-        public Player You { get; set; }
+        public Player You { get; private set; }
 
         /// <summary>
         /// Játékos karakter + NPC-k listája.
         /// </summary>
-        public List<Person> People { get; set; }
+        public List<Person> People { get; private set; }
 
         /// <summary>
         /// Potenciális partner.
         /// </summary>
-        public Tuple<Person, int> PotentialPartner { get; set; }
+        public Tuple<Person, int> PotentialPartner { get; private set; }
 
         /// <summary>
         /// Szülők listája.
@@ -654,7 +654,6 @@ namespace LifeSim.LSModel
 
             if (You.University != DefaultUniversity) // ha éppen egyetemre járunk (nem az alap egyetemre), akkor az ott töltött éveink növekednek
             {
-                Debug.WriteLine(You.YearsInUni);
                 You.YearsInUni++;
                 if (You.YearsInUni == You.University.YearsToFinish) // ha elérjük az elvégzéshez szükséges évszámot, akkor megkapjuk a diplomát
                 {
@@ -673,7 +672,6 @@ namespace LifeSim.LSModel
                     You.Degrees.Add(You.University);
                     You.University = DefaultUniversity;
                 }
-                Debug.WriteLine(You.YearsInUni);
             }
 
             if (You.Job != DefaultJob && You.CurrentJobLevel != You.Job.MaxJobLevel) // ha van munkánk, és még nem értük el a végső szintjét

@@ -41,7 +41,7 @@ namespace LifeSim.LSView
         /// <summary>
         /// Játékablak betöltésének eseménykezelője.
         /// </summary>
-        private void MainGameWindow_Load(Object sender, EventArgs e)
+        private void MainGameWindow_Load(object sender, EventArgs e)
         {
             model.newGame(); // új játék indítása
 
@@ -107,9 +107,9 @@ namespace LifeSim.LSView
 
             // munka Combo Box feltöltése
             foreach (Job job in model.Jobs)
-                {
-                    jobComboBox.Items.Add(job.JobLevels.Keys.ElementAt(0));
-                }
+            {
+                jobComboBox.Items.Add(job.JobLevels.Keys.ElementAt(0));
+            }
             jobComboBox.SelectedIndex = 0;
 
             // lakás Combo Box feltöltése
