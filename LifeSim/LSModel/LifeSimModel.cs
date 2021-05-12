@@ -363,7 +363,7 @@ namespace LifeSim.LSModel
         /// <summary>
         /// LifeSim játék példányosítása véletlenszerű játékossal.
         /// </summary>
-        /// <param name="persistence">Adatelérés.</param>
+        /// <param name="dataAccess">Adatelérés.</param>
         public LifeSimModel(IPersistence dataAccess)
         {
             rnd = new Random();
@@ -427,6 +427,7 @@ namespace LifeSim.LSModel
                 saveAchievements(0);
                 OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
+            CompletedAchievements = new List<int>();
             loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
@@ -435,7 +436,7 @@ namespace LifeSim.LSModel
         /// </summary>
         /// <param name="yourName">A játékos által megadott név.</param>
         /// <param name="maleOrFemale">A játékos által megadott nem.</param>
-        /// <param name="persistence">Adatelérés.</param>
+        /// <param name="dataAccess">Adatelérés.</param>
         public LifeSimModel(String yourName, bool maleOrFemale, IPersistence dataAccess)
         {
             rnd = new Random();
@@ -498,6 +499,7 @@ namespace LifeSim.LSModel
                 saveAchievements(0);
                 OnAchievementUnlockedEvent(Achievements.Keys.ElementAt(0));
             }
+            CompletedAchievements = new List<int>();
             loadAchievements(); // ezután betöltjük a már elért achievementeket
         }
 
@@ -588,13 +590,6 @@ namespace LifeSim.LSModel
                 if (p.Health > 100)
                     p.Health = 100;
 
-                p.Happiness += calculateHappiness(p);
-
-                if (p.Happiness > 100)
-                    p.Happiness = 100;
-                else if (p.Happiness < 0)
-                    p.Happiness = 0;
-
                 if (p != You && You.Age > 3) // ha az adott személy nem a játékos, és a játékos már elmúlt 3 éves, akkor a kapcsolatok romolhatnak, és akár veszekedés is történhet
                 {
                     p.Relationship -= rnd.Next(1, 4);
@@ -635,6 +630,13 @@ namespace LifeSim.LSModel
                     People.Remove(p); // törlődik az emberek listájából
                     OnDeathEvent(p); // kiváltódik a halálhoz tartozó esemény
                 }
+
+                p.Happiness += calculateHappiness(p);
+
+                if (p.Happiness > 100)
+                    p.Happiness = 100;
+                else if (p.Happiness < 0)
+                    p.Happiness = 0;
             }
 
             // Innentől csak a játékossal kapcsolatos változások szerepelnek
