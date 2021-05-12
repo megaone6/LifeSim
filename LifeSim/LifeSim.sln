@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeSim", "LifeSim.csproj", "{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifeSim", "LifeSim.csproj", "{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeSimUnitTest", "..\LifeSimUnitTest\LifeSimUnitTest.csproj", "{2EBE16AB-1CC7-4F4D-8027-CD71494B2DE0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4} = {10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10A2D7C6-41C7-49F5-ADAF-FD52EF3927E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBE16AB-1CC7-4F4D-8027-CD71494B2DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBE16AB-1CC7-4F4D-8027-CD71494B2DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBE16AB-1CC7-4F4D-8027-CD71494B2DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBE16AB-1CC7-4F4D-8027-CD71494B2DE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
