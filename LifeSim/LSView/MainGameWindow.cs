@@ -440,6 +440,7 @@ namespace LifeSim.LSView
         private void Model_ChildSuccessEvent(object sender, EventArgs e)
         {
             tryForChildButton.Enabled = false; // kikapcsoljuk a gyermekvállalás gombot az adott évre
+            breakUpButton.Enabled = false; // kikapcsoljuk a szakítás gombot az adott évre
 
             if (model.You.Gender == Gender.Male) // ha férfiak vagyunk, akkor a párunk lesz várandós
             {
@@ -460,6 +461,7 @@ namespace LifeSim.LSView
         private void Model_ChildBornEvent(object sender, EventArgs e)
         {
             tryForChildButton.Enabled = true; // bekapcsoljuk a gyermekvállalás gombot
+            breakUpButton.Enabled = true; // bekapcsoljuk a szakítás gombot
 
             String childName = model.You.Children[model.You.Children.Count - 1].FirstName + " " + model.You.Children[model.You.Children.Count - 1].LastName; // lekérjük a gyermek nevét
 

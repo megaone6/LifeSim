@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -1072,16 +1071,26 @@ namespace LifeSim.LSModel
         /// </summary>
         public void takeControlOfChild()
         {
+            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity, DefaultVehicle); // a játékos karakter szerepét átveszi a gyermek karakter
+            You.Age += 1;
             Person otherParent = null;
+            String otherParentFName;
+            String otherParentLName;
             foreach (KeyValuePair<Person, List<Person>> p in childParentPairs) // megkeresi, hogy él-e még a gyermek másik szülője
             {
-                if (People.Exists(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName))
-                    otherParent = People.Single(x => x.FirstName == p.Key.FirstName && x.LastName == p.Key.LastName);
+                if (p.Value.Count != 0)
+                {
+                    if (You.FirstName == p.Value[0].FirstName && You.LastName == p.Value[0].LastName)
+                    {
+                        otherParentFName = p.Key.FirstName;
+                        otherParentLName = p.Key.LastName;
+                        if (People.Exists(x => x.FirstName == otherParentFName && x.LastName == otherParentLName))
+                            otherParent = People.Single(x => x.FirstName == otherParentFName && x.LastName == otherParentLName);
+                    }
+                }
             }
             People.Clear(); // kiürítjük az emberek listáját
             childParentPairs.Clear(); // ahogy a szülő-gyermek párokat is
-            You = You.Children[0].changeToPlayer(DefaultJob, DefaultHome, DefaultUniversity, DefaultVehicle); // a játékos karakter szerepét átveszi a gyermek karakter
-            You.Age += 1;
             People.Add(You); // hozzáadjuk az új játékos karaktert az emberek listájához
             if (otherParent != null) // ha még él a másik szülő (azaz ha értéke nem null), akkor generálunk neki egy random kapcsolat értéket és hozzáadjuk az emberek listájához
             {
