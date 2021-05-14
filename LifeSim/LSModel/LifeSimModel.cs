@@ -534,10 +534,10 @@ namespace LifeSim.LSModel
                 else
                     gender = Gender.Female;
             }
-            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(60,101), rnd.Next(101),
-                                                        rnd.Next(101), rnd.Next(50,101), rnd.Next(75,101)),
+            Parents = new List<Person>() { new Person(familyName, maleNames[rnd.Next(maleNames.Count)], rnd.Next(18,50), Gender.Male, rnd.Next(80,101), rnd.Next(101),
+                                                        rnd.Next(101), rnd.Next(75,101), rnd.Next(75,101)),
                                             new Person(familyNames[rnd.Next(familyNames.Count)], femaleNames[rnd.Next(femaleNames.Count)], rnd.Next(18,50), Gender.Female,
-                                                        rnd.Next(45,101), rnd.Next(101), rnd.Next(101), rnd.Next(25,101), rnd.Next(75,101))}; // szülők legenerálása
+                                                        rnd.Next(80,101), rnd.Next(101), rnd.Next(101), rnd.Next(75,101), rnd.Next(75,101))}; // szülők legenerálása
 
             int appearance = calculateStartingStat(Parents[0].Appearance, Parents[1].Appearance); // szülők kinézete alapján a játékos kinézetének kiszámolása
             int intelligence = calculateStartingStat(Parents[0].Intelligence, Parents[1].Intelligence); // szülők intelligenciája alapján a játékos intelligenciájának kiszámolása
@@ -1847,7 +1847,7 @@ namespace LifeSim.LSModel
         {
             // ha elkapunk egy betegséget, akkor csökken az egészségünk (a maradandóaknál egészen addig, amíg az orvos nem gyógyítja őket, ezért egy listában tároljuk őket)
             // ha a játékos karakter egészsége eléri a 0-t, akkor természetesen meghal
-            if (rnd.Next(10) == 4) // megfázás (1/10 esély, nem maradandó)
+            if (rnd.Next(15) == 4) // megfázás (1/15 esély, nem maradandó)
             {
                 You.Health -= Sicknesses[0].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[0]);
@@ -1857,7 +1857,7 @@ namespace LifeSim.LSModel
                 return;
             }
 
-            if (rnd.Next(200) == 60 && !You.YourSicknesses.Contains(Sicknesses[1])) // rák (1/200 esély, maradandó)
+            if (rnd.Next(400) == 60 && !You.YourSicknesses.Contains(Sicknesses[1])) // rák (1/400 esély, maradandó)
             {
                 You.Health -= Sicknesses[1].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[1]);
@@ -1874,7 +1874,7 @@ namespace LifeSim.LSModel
                 return;
             }
 
-            if (rnd.Next(60) == 10 && !You.YourSicknesses.Contains(Sicknesses[2])) // magas vérnyomás (1/60 esély, maradandó)
+            if (rnd.Next(100) == 10 && !You.YourSicknesses.Contains(Sicknesses[2])) // magas vérnyomás (1/100 esély, maradandó)
             {
                 You.Health -= Sicknesses[2].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[2]);
@@ -1891,7 +1891,7 @@ namespace LifeSim.LSModel
                 return;
             }
 
-            if (rnd.Next(58) == 12 && !You.YourSicknesses.Contains(Sicknesses[3])) // COVID-19 (1/58 esély, maradandó)
+            if (rnd.Next(90) == 12 && !You.YourSicknesses.Contains(Sicknesses[3])) // COVID-19 (1/90 esély, maradandó)
             {
                 You.Health -= Sicknesses[3].ApproximateEffectOnHealth + rnd.Next(-4, 5);
                 OnCaughtSicknessEvent(Sicknesses[3]);

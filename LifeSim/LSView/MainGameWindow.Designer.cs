@@ -954,6 +954,7 @@ namespace LifeSim.LSView
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainGameWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Életszimulátor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGameWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainGameWindow_Load);

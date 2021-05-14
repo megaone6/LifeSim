@@ -14,6 +14,7 @@ namespace LifeSim.LSView
 
         private LifeSimModel model; // játékmodell
         private IPersistence dataAccess; // adatelérés
+        private bool exit; // kilépés vagy folytatás
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace LifeSim.LSView
             InitializeComponent();
 
             dataAccess = new TextFilePersistence(); //adatelérés példányosítása
+            exit = true;
         }
 
         #endregion
@@ -38,6 +40,7 @@ namespace LifeSim.LSView
         /// </summary>
         private void randomButton_Click(object sender, EventArgs e)
         {
+            exit = false;
             model = new LifeSimModel(dataAccess); // modellnek értékadás a perzisztenciával
 
             // játékablak létrehozása a modellel, játékablak láthatóvá tétele
@@ -93,6 +96,8 @@ namespace LifeSim.LSView
                 return;
             }
 
+            exit = false;
+
             // játékablak létrehozása a modellel, játékablak láthatóvá tétele
             var window = new MainGameWindow(model);
             window.Show();
@@ -101,5 +106,11 @@ namespace LifeSim.LSView
         }
 
         #endregion
+
+        private void GameStart_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (exit)
+                Application.Exit();
+        }
     }
 }

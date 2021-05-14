@@ -92,9 +92,10 @@
             this.Controls.Add(this.bButton);
             this.Controls.Add(this.aButton);
             this.Controls.Add(this.questionLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.Name = "LicenseQuestionsWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Jogosítvány";
             this.Shown += new System.EventHandler(this.LicenseQuestionsWindow_Shown);
             this.ResumeLayout(false);
